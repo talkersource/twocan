@@ -1,0 +1,23 @@
+Expand-Type: expand_special
+Telnet-Client: false
+Allow-Find: true
+Header: $Merge(2( Rules ) 1($Line_fill(-)))
+Footer: $Line_fill(-=)$Line_fill(-)
+Always-Header: false
+Always-Footer: false
+Override-Last: true
+
+# In their own file because you are likely to want to change them,
+#  well more likely than the other files anyway.
+# ------------------------------------------------------------------------
+Body: end
+
+ The rules are simple.
+
+ 1. Don't do unto others what you would not have them do to you.
+ 2. The super users decision is final.
+
+end
+Keywords: "rules"
+Primary-Name: rules
+# ------------------------------------------------------------------------

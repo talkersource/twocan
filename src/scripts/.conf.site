@@ -1,0 +1,2 @@
+xtra_compiler_opts="-ggdb3 -O2 -pipe"
+# xtra_make_opts="-j 2"

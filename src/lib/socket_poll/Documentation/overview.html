@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>Socket_poll documentation -- overview</title>
+  </head>
+
+  <body bgcolor="#FFFFFF">
+    <h1>Socket_poll documentation -- overview</h1>
+
+<!-- this is basically copy and paste from the .txt file... */ ... errr -->
+
+<table width="90%"><tr><td bgcolor="#DDDDFF">
+	  <h2>Intro</h2>
+	</td></tr></table>
+
+<table width="80%"><tr><td><p>
+
+ All functions are documented in <a href="functions.html">functions.html</a>, all constants are
+in <a href="constants.html">constants.html</a> and the namespace rules are in <a href="namespace.html">namespace.html</a> (fancy that).
+
+</p></td></tr><tr><td><p>
+
+Basically you should be able to get an overview of a function by looking at
+the functions.html file, and be able to get a deeper understanding by looking
+in the constants.html file (Ie. all constants should be passed to a function
+listed, so the more detailed information is listed with the constants -- not
+the functions).
+
+</p></td></tr>
+
+</table>
+
+<table width="90%"><tr><td bgcolor="#DDDDFF">
+	  <h2>A very simple overview</h2>
+	</td></tr></table>
+
+<table width="80%"><tr><td><p>
+
+ A very simple overview is that you create a Socket_poll_typedef_offset by
+passing an fd to socket_poll_add(). You can then use it via.
+SOCKET_POLL_INDICATOR() as a normal (struct pollfd *) and by calling
+socket_poll_update_all(), instead of poll().
+
+<!-- </p></td></tr><tr><td><p>
+
+ Also note that you might want to have a look at the examples/ directory
+ex1.c is the most simple usage, ex2.c is more complicated etc. -->
+
+
+</p></td></tr>
+
+</table>
+
+    <hr>
+    <address><a href="mailto:james@and.org">James Antill</a></address>
+<!-- Created: Tue Apr 11 09:38:11 EDT 2000 -->
+<!-- hhmts start -->
+Last modified: Tue May  2 18:38:08 EDT 2000
+<!-- hhmts end -->
+  </body>
+</html>

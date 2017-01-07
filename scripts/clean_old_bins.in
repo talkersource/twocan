@@ -1,0 +1,72 @@
+#! @PERL_PATH@ -w
+
+# This is is a seperate program, run whenever you want.
+
+if ($#ARGV != 0 && $#ARGV != 1)
+  {
+    die " Format: clean_old_bins <number> [\"angel\"|\"dns_child\"|\"dns_server\"|\"intercom\"|\"forward_server\"|\"talker\"]\n";
+  }
+
+my $backups_max = $ARGV[0];
+
+# Start of code...
+
+sub clean_bin_type 
+  {
+    local ($name) = @_;
+    local (@files) = glob "bin/old/$name.date:*:pid:*";
+
+    local ($count) = $#files;
+    
+    while ($count >= $backups_max)
+      {
+	unlink("$files[$count - $backups_max]");
+	--$count;
+      }
+  }
+
+if (! -d "bin/old")
+  {
+    die " You are not in the root directory of the talker.\n"
+  }
+
+if (($#ARGV == 0) || ($ARGV[1] =~ /^all$/))
+  {
+    clean_bin_type "angel"; 
+    clean_bin_type "dns_child";
+    clean_bin_type "dns_server";
+    clean_bin_type "intercom";
+    clean_bin_type "forward_server";
+    clean_bin_type "talker";
+  }
+elsif ($ARGV[1] =~ /^angel$/)
+  {
+    clean_bin_type "angel";
+  }
+elsif ($ARGV[1] =~ /^dns_child$/)
+  {
+    clean_bin_type "dns_child";
+  }
+elsif ($ARGV[1] =~ /^dns_server$/)
+  {
+    clean_bin_type "forward_server";
+  }
+elsif ($ARGV[1] =~ /^intercom$/)
+  {
+    clean_bin_type "intercom";
+  }
+elsif ($ARGV[1] =~ /^forward_server$/)
+  {
+    clean_bin_type "forward_server";
+  }
+elsif ($ARGV[1] =~ /^talker$/)
+  {
+    clean_bin_type "talker";
+  }
+else
+  {
+    die " Invalid option.\n";
+  }
+
+
+exit 0;

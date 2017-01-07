@@ -1,0 +1,4 @@
+#! /bin/sh
+
+aclocal && automake && autoconf
+cd Documentation; ./txt2html.pl

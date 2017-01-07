@@ -1,0 +1,48 @@
+
+Draughts Boards
+---------------
+
+Suggestions for draughts boards that can be coded.
+
+Basic board has no colours and looks like this:
+
+     a b c d e f g h
+     _ _ _ _ _ _ _ _
+ 8  |_|w|_|w|_|w|_|w|  8
+ 7  |w|_|w|_|w|_|w|_|  7
+ 6  |_|w|_|w|_|w|_|w|  6
+ 5  |_|_|_|_|_|_|_|_|  5
+ 4  |_|_|_|_|_|_|_|_|  4
+ 3  |b|_|b|_|b|_|b|_|  3
+ 2  |_|b|_|b|_|b|_|b|  2
+ 1  |b|_|b|_|b|_|b|_|  1
+
+     a b c d e f g h
+
+Queens (can) get represented by capital letters, W, B.
+
+Other boards...
+
+      a   b   c   d   e   f   g   h
+
+    +---+---+---+---+---+---+---+---+
+ 8  |   | w |   | w |   | w |   | w |  8
+    +---+---+---+---+---+---+---+---+  
+ 7  | w |   | w |   | w |   | w |   |  7
+    +---+---+---+---+---+---+---+---+
+ 6  |   | w |   | w |   | w |   | w |  6
+    +---+---+---+---+---+---+---+---+ 
+ 5  |   |   |   |   |   |   |   |   |  5
+    +---+---+---+---+---+---+---+---+ 
+ 4  |   |   |   |   |   |   |   |   |  4
+    +---+---+---+---+---+---+---+---+
+ 3  | b |   | b |   | b |   | b |   |  3
+    +---+---+---+---+---+---+---+---+
+ 2  |   | b |   | b |   | b |   | b |  2
+    +---+---+---+---+---+---+---+---+
+ 1  | b |   | b |   | b |   | b |   |  1
+    +---+---+---+---+---+---+---+---+
+
+      a   b   c   d   e   f   g   h
+
+Queens (can) get represented by capital letters, W, B.

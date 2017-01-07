@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ -x $1 ]; then
+  if [ -d $2 ]; then
+    nm $1 | sort -n > $2/Symbol.map
+    echo " Wrote $2/Symbol.map"
+  else
+    nm $1 | sort -n > Symbol.map
+    echo " Wrote $2/Symbol.map"
+  fi
+else
+  echo " Format: `basename $0` executable [output dir]"
+fi

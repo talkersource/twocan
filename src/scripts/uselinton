@@ -1,0 +1,4 @@
+#!/bin/bash
+
+lclint +gnuextensions -Iinclude/ -Iextern/ $@
+

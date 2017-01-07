@@ -1,0 +1,150 @@
+
+Index and description of files in the src directory
+===================================================
+
+C files 
+-------
+admin.c			Admin only commands and related functions.
+alias.c                 Alias commands.
+angel.c                 Code for talking to the angel server.
+assert_loop.c           Local assert replacment.
+auth_player.c           Things that make it so people/sites can't logon.
+autoexec.c              Running commands automatically on logon.
+backups.c               Run backups of your player files.
+blank.c                 Code for blanking strings.
+boot.c                  Initial bootup code.
+buffers.c		Code for adding and removing system 'buffers' used
+			by mail, news, pager and so on.
+check.c                 Things players can check.
+check_receive.c         Actually contains check_state function.
+child_com.c             Sub system for IPC.
+chlim.c                 Chlim command (change limits).
+cmd_line.c		All the update and stats functions executable from
+			the command line. Includes other command line parsing.
+cmds_list.c             Sub system for creating user commands.
+colourise.c             Colourise your "channels".
+commands.c		User commands that fit no where else.
+communication.c		User communication commands that talk to ppl in ONE 
+			room only - not including socials.
+construct_name.c        Generic function for doing short who functionality.
+converse.c              The converse mode functions.
+crazy_channel.c		The CrazyLands channel and related wall functions.
+crazynews.c             Weekly builitins ... on or off and creating them.
+disk.c                  The file system layer, for most server data files.
+display_time.c		Time related functions.
+dl_load.c               Dynamically patch the server while running.
+draughts.c		Contains entire draughts game and interface commands.
+editor.c		The line editor fucntions.
+email.c                 Talk to sendmail.
+familiars.c             Un-completed -- nothing.
+fix.c			File contains alternative prototypes for portable 
+			compiling.
+friend_communication.c  Contains commands that can be used to communicate
+			with friends.
+games.c			Contains all the user games interface commands such
+			as the games sheets etc. Not specific games commands.
+get_parameter.c         Parse out arguments sub system. 
+glue_intercom.c		All the intercom functions.
+help.c			Help system.
+idle.c                  Functions for idling players.
+jotd.c                  Joke of the day functions.
+karma.c                 Karma functions.
+last_command.c          Show last command names that a player has run.
+last_logon.c            Show the last people to be logged on (but aren't now).
+lists.c			Anything to do with managing lists.
+load_player.c		Anything to do with loading players.
+log.c                   Log sub system.
+logoff.c		Stuff for loging a player off.
+logon.c			Stuff for loging a player on, passwds etc.
+mail.c			The mail system.
+marraige.c		Anything to do with marrying and divorcing two ppl.
+mask_coms.c             Commands for users masking other users communications.
+match.c                 Match_clever function.
+mode.c                  Functions for changing what mode the players are in.
+motd.c                  Functions for the motd.
+msgs.c                  Sub system for loading msg files.
+multi_base.c		The base multi 'tagging' system functions.
+multi_communication.c	Commands that only affect ppl in a list (such as tell)
+			or have the power to be used on ppl in other rooms, 
+			such as wake.
+news.c			The news system.
+nickname.c              For players having nicknames for other players.
+nuke.c                  Removing a player frim the talker.
+output_compress.c       Sending compressed data to compatible clients.
+pager.c			The pager system.
+passwd.c                Passwd releated functions, apart from loggging on.
+player_event.c          The main player event loop.
+player_find.c           Functions for finding players.
+player_linked_list.c	Constructs a linked list of players, in various ways.
+player_tree.c		The AVL tree functions for the saved players in mem.
+priv_test.c             Wrapper functions for testing players privs.
+privs.c                 Giving and removeing priv functions.
+process_input.c         Processing players input.
+process_output.c	Processes output stuff, wands, colors, wrapping etc.
+prompt.c                Setting prompts and sending them to players.
+room.c			Deals with user commands for manipulating rooms.
+safemalloc.c		Counts the number of malloc's and free's when MALLOC
+			or FREE #define is used.
+save_player.c		Anything to do with saving player files.
+schedule.c              A scheduler for players so they don't eat up CPU.
+screenlock.c            Lock your screen while you goto the loo.
+session.c		Session commands - changing, commenting etc.
+show.c                  Toggling show flags for coms.
+shutdown.c              Shutting the talker down, and crashing.
+signal.c                Setting up signals.
+socials.c		Socials! Includes parsers etc.
+socket.c		Socket code, read/writev/poll.
+spod_channel.c		The spod channel functions and commands.
+spodlist.c		Commands and functions for the spodlist.
+sps.c                   The Scissors Paper Stone game.
+stats_files.c           System for creating very elaborate stats about
+                        logon usage.
+sumotd.c                The super user motd.
+super_channel.c		The super channel and lsu su_wall etc...
+sys_rlim.c              Use the rlimit function.
+system.c		The system stats file functions.
+terminal.c		Controlling terminals.
+timer.c                 Set timers to do things in the future.
+timer_player.c          Functions that do things to players for an ammount
+                        of time, using the timer functions.
+tip.c                   Give people a tip when they logon, because they
+                        don't read help files.
+toggle.c                Misc toggle functions.
+tools.c			Various cute function utilities.
+trace.c			Functions for logging and tracing function calls.
+ttt.c                   The tic tac toe game.
+who.c                   The "who" type commands.
+word_number.c           Functions to convert int's into words.
+word_time.c             Functions to convert time_t's into words.
+wotw.c                  Word of the Week commands.
+
+Other files
+-----------
+Makefile.orig		Src for the Makefile used by unixmake.
+Makefile.in		Src for the Makefile used by autoconf.
+README			Description of where to find further docy.
+Symbol.map		Symbol of the current executable, made automaticaly
+			by unixmake (if present).
+createmap (executable)  Used by unixmake to make the symbol map of the binary.
+unixmake  (executable)  Creates a Makefile with site specific information and
+			options.
+conf.*                  Files used and created by autoconf (don't touch).
+.configure.default	The default conf file... this is loaded before the
+			site specific ones.
+.conf.null		A config with nothing in it, so you get the defaults.
+.conf.*			Coder or site specific config files to be read in by
+			unixmake to skip the options section.
+
+Directories (see INDEX.<dir_name>)
+-----------
+angelserver/		Contains the angel src and notes.
+dnsserver/		Contains the async dns server.
+extern/			Contains the extern-*.h files for each C file.
+include/		Contains all the *.h header files.
+pcre/			Conatins a release of the pcre package.
+Documentation/          Contains all the README's and text only src specific
+			documentation and notes.
+tmp/			Code that isn't being compiled, etc. (Please use sub
+		        directories as appropriate). Anything just in tmp 
+			can and will be removed, just a dumping ground.
+

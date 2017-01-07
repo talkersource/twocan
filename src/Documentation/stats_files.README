@@ -1,0 +1,109 @@
+
+Stats Files
+===========
+
+These files provide logging of the following events (with information,
+including names of characters logging on or off) to enable statistics
+collection:
+
+ o Opening the program to newbies.
+ o Closing the program to newbies.
+ o Talker booting.
+ o Talker crashing.
+ o Talker shutting down.
+ o Daily backups start and finish stamps.
+ o Resi connection.
+ o Resi disconnection.
+ o Superuser going off duty/lsu.
+ o Superuser going on duty/lsu.
+ o Stats file - new one requested by a super user.
+
+The format of each line of the file is:
+
+ <~>HHMMSS,DDMMYYYY[,<extra_info>[,extra_info[,...]>]]
+
+...where ~ is the code for one of the above events, HHMMSS is the time
+(in hours, mins and seconds), DDMMYYYY is the date (in days, months
+and 4 digit year) and the extra info is information about the event
+which is needed for statistics.
+
+Note: the <> brackets indicate a string which is variable and []
+      brackets a string which is optional.
+
+Code Types
+----------
+
+Here are the control characters:
+
+ & - opens to newbies
+ @ - closes to newbies
+ ^ - talker booting
+ ! - talker crashing
+ _ - talker shuttingdown
+ = - daily backup start (usually at bottom of a file)/finish (usually
+     at the top of a file)
+ > - resi logging on
+ < - resi logging off
+ } - on duty / lsu
+ { - off duty / lsu
+ # - Stats file stopped or started (obvious by position of tag).
+
+Super User Duty
+---------------
+
+For a super user going on or off duty, the extra info will be:
+
+ ,<name_of_su>,<number_of_sus_left_on_(and_visible)>,<forced_or_not>
+
+...for off duty / lsu and...
+
+ ,<name_of_su>,<number_of_sus_NOW_on_(and_visible)>,<forced_or_not>
+
+Forced_or_not is 1 if they were forced off duty.
+
+Resident Connection / Disconnection
+-----------------------------------
+
+For a resident logging on or off, the extra info will be:
+
+ ,<name>,<level>,<info>,<login_time>,<total_idle_time>
+
+...where name is the residents name (or newbies name), level is a
+number indicating privs or newbies status (see below), info is a
+number indicating the kind of connection or disconnection (see below),
+login_time is the total login time of the user to date in seconds (not
+zero padded) and total_idle_time is the total idle time of the user at
+this time in seconds (not zero padded).
+
+For resident level, one of the following numbers are used:
+
+ 0 - newbie
+ 1 - resi
+ 2 - BSU
+ 3 - SU
+ 4 - SSU
+ 5 - LA
+ 6 - Admin
+
+For connection type, one of the following numbers are used:
+
+ 0 - Login (already indicated by connect, this just means normal
+     login)
+ 1 - Logout (already indicated by disconnect, this just means normal
+     logout) 
+ 2 - Reconnection is taking place (indicates a login)
+ 3 - Idleout is taking place (indicates a logout)
+ 4 - drag / splat / nuke / forced kick off is taking place (indicates
+     a logout)
+
+Other Event Types
+-----------------
+
+All other event types are basically time stamps and have no extra
+info logged.
+
+File Names
+----------
+
+All files are logged in logs/stats_files/YYYY-MM-DD_HH-MM-SS.stats as and
+when opened. All the files are .gz'ed at backup time.

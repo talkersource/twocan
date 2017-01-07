@@ -1,0 +1,70 @@
+
+# End of auto generated bit...
+DNS = $(SRCDIR)/dnsserver
+
+CC       = $(AC_CC)
+
+PATHS	     = -DGZIP_PATH=\"$(AC_GZIP_PATH)\" \
+               -DBZIP2_PATH=\"$(AC_BZIP2_PATH)\" \
+	       -DSENDMAIL_PATH=\"$(AC_SENDMAIL_PATH)\"
+
+CONFIGS  = -DROOT=\"$(ROOTDIR)/\" -DVERSION=\"$(VERSIONID)\" $(TOTAL-DEFINES) \
+           $(PATHS) -D_GNU_SOURCE
+CFLAGS   =  $(WARNS) -I$(DNS_DIR) -I- -I$(SRCDIR)/pcre \
+              $(SOCKET_POLL_CFLAGS) \
+              $(TIMER_Q_CFLAGS) \
+              $(CONFIGS) $(XTRA_GCC_OPTS)
+LDFLAGS  = $(LIBS) $(AC_LIBS) $(SOCKET_POLL_LDFLAGS)
+
+OFILES= \
+ $(DNS_DIR)/assert_loop.o \
+ $(DNS_DIR)/child_com.o \
+ $(DNS_DIR)/display_time.o \
+ $(DNS_DIR)/fix.o \
+ $(DNS_DIR)/log.o \
+ $(DNS_DIR)/tools.o \
+ $(DNS_DIR)/trace.o \
+ $(DNS_DIR)/safemalloc.o
+
+all: dns_server dns_child
+
+dns_child: $(OFILES) $(DNS_DIR)/dns_child.o
+		@$(CC) $(CFLAGS) $(LDFLAGS) -o $(DNS_DIR)/dns_child \
+		  $(DNS_DIR)/dns_child.o $(OFILES) $(LDFLAGS)
+		@echo ""
+		@echo "Linking dns_child"
+		@echo ""
+
+dns_server: $(OFILES) $(DNS_DIR)/dns.o
+		@$(CC) $(CFLAGS) $(LDFLAGS) -o $(DNS_DIR)/dns_server \
+		  $(DNS_DIR)/dns.o $(OFILES) $(LDFLAGS)
+		@echo ""
+		@echo "Linking dns_server"
+		@echo ""
+
+$(DNS_DIR)/%.o: $(DNS_DIR)/%.c
+		@$(CC) $(CFLAGS) -c $< -o $@
+		@echo " Compiling $*..."
+
+install: all
+		-@mv -f $(DSBIN_INSTALL) $(DSBIN_OLD_INSTALL).$(DATE)
+		@mv $(DSBIN) $(DSBIN_INSTALL)
+		@chmod $(EXECMOD) $(DSBIN_INSTALL)
+
+		-@mv -f $(DCBIN_INSTALL) $(DCBIN_OLD_INSTALL).$(DATE)
+		@mv $(DCBIN) $(DCBIN_INSTALL)
+		@chmod $(EXECMOD) $(DCBIN_INSTALL)
+
+tags:
+		@etags $(DNS_DIR)/*.c $(DNS_DIR)/*.h
+
+clean:
+		rm -f $(DNS_DIR)/*.o $(DNS_DIR)/dns_server \
+		  $(DNS_DIR)/dns_child TAGS \
+		  $(DNS_DIR)/*.bb $(DNS_DIR)/*.bbg $(DNS_DIR)/*.da
+
+distclean: clean
+		rm -f Makefile
+
+showcomp:
+		@echo $(CC) $(CFLAGS) $(DEFS) OBJS: $(OFILES)

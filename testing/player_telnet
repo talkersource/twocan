@@ -1,0 +1,41 @@
+#!/bin/perl -w
+
+my $server = "localhost";
+my $port = "6868";
+
+if (!open TELOUT, "|telnet $server $port")
+{
+ die " Couldn't open output pipe.\n";
+}
+select(TELOUT); $| = 1;
+
+if (!open TELIN, "./newbie_logon $ARGV[0] M|")
+{
+ die " Couldn't open input pipe.\n";
+}
+# select(TELIN); $| = 1;
+
+while (<TELIN>)
+{
+ print TELOUT $_;
+}
+close (TELIN);
+
+sleep (2);
+
+if (!open TELIN, "run_regresion_test|")
+{
+ die " Couldn't open second input pipe.\n";
+}
+# select(TELIN); $| = 1;
+
+while (<TELIN>)
+{
+ print TELOUT $_;
+}
+close (TELIN);
+
+close (TELOUT);
+
+exit;
+

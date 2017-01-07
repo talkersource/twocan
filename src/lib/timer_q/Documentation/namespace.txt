@@ -1,0 +1,42 @@
+
+ The library itself claims /^timer_q[a-z0-9_]*$/i as a namespace.
+ Saying that all types are under...
+
+   Timer_q_[a-z0-9]*
+
+...all other global symbols (Ie. functions/variables) are under...
+
+   timer_q_[a-z0-9]*
+
+...and all CPP symbols/constants are under...
+
+   TIMER_Q_[A-Z0-9]*
+
+...this is mainly to make it easier to see what you are dealing with.
+
+ Also...
+
+   timer_q_timeval_[a-z][0-9]*
+
+...is used for all the functions to do with manipulating timeval structures.
+
+ As far as trying to claim bits of the namespace back for yourself all the
+typedefs that aren't under the /^Timer_q_typedef_[a-z0-9_]*$/
+namespace can be switched off by #define'ing TIMER_Q_COMPILE_TYPEDEF to 0 --
+they will all be uninons or structs and so will be available under those
+namespaces. Ie.
+
+#define TIMER_Q_COMPILE_TYPEDEF 0
+#include <timer_q.h>
+
+struct Timer_q_base *global_base = NULL;
+
+ This is of esp. note to library authors because all header files _MUST_ use
+the struct/union namespace (or people won't be able to use your library if
+they #define TIMER_Q_COMPILE_TYPEDEF.
+
+ All of the namespace where a double _ appears is not supposed to be used
+directly by _you_ the user of the library. If these interfaces change and
+it isn't visible via. the normal interfaces then the binary/source interface
+numbers will _NOT_ be changed on the library.
+

@@ -1,0 +1,11 @@
+Index and description of files in the Documentation directory
+=============================================================
+
+INDEX			Index of files in the src/ directory.
+INDEX.*         	Index for each of the sub directories of src/ where 
+			* is the directory name.
+README.tell_players	Notes about and notes about the use of the tell_player
+			functions.
+README.file_names	Notes about the file naming conventions.
+README.warnings		Notes on coding style due to warning additions.
+

@@ -1,0 +1,83 @@
+ All this info is got from ther termcap GNU info files.
+you pretty much need to read it as well, curses is just a complete
+monster from what I can see. If what I've done works for most people
+I'll be happy.
+
+gn (flg) = their terminal is actually sane, but the user muffed it up. So we
+            probably want an error message. 
+
+pc (str) = padding character (don't ask, I haven't the heart to tell you).
+
+hs (flg) = has status line, could be cute.
+ts (str) = move to status line
+fs (str) = move from status line
+ds (str) = disable status, can be missing
+ws (num) = width of status, if non-existant == term width
+es (flg) = special codes (hilight/underline/movment etc.) work in status line
+
+up (str) = move up a line
+UP (str) = move up a specified number of lines, not really used
+sr (str) = scroll the screen down one line
+ce (str) = clear to end of line
+cl (str) = clear screen
+
+# If this isn't set then writing the in last column of the last line
+#  is undefined whether it scrolls or not. Seeming that's what we'll be doing
+#  (writing to the last line) if it's on don't go into char mode.
+# -- Hmmm I could just fix this ? -- wrapping on the prompt ?
+am (flg) = writing a char in the last column will wrap the line
+xn (flg) = cursor wraps in a strange way.
+
+# Hilighting is _really_ complicated...
+sg (num) = width of hilight "cookie"
+ug (num) = width of underline "cookie"
+ms (flg) = can move while in hilight mode
+xs (flg) = have to clear line to reset hilighting
+
+# So instead of implementing a full spec so, I'm going to say this...
+# so, se, sg/ug and ms have to be present, sg/ug have to be 0 and 
+# ms has to be true
+# while xs has to be false. If that isn't the case I'll just give up 
+#  and not bother.
+mb (str) = blinking/flashing on
+md (str) = double hilight
+mh (str) = dim
+mk (str) = invis
+mr (str) = reverse video
+me (str) = turn off all of above
+
+# It looks like you _can_ just always use me to turn standout/underline off
+#  althought the doco says it's nicer to output se/ue if just so/us is on.
+so (str) = enter standout (this isn't hilight)
+se (str) = leave standout (this isn't hilight)
+us (str) = enter underline
+ue (str) = leave underline
+
+bl (str) = audible bell
+vb (str) = visual bell
+
+Sf (str) = foreground colour, not guaranteed to be there even it's supported.
+Sb (str) = background colour, not guaranteed to be there even if's supported.
+
+ks (str) = make function keys transmit function codes
+ke (str) = make function keys work locally
+k1 (str) = F1
+k2 (str) = F2
+ ...
+k9 (str) = F9
+k0 (str) = F10
+kn (str) = the number of function keys
+kb (str) = backspace
+kD (str) = delete character
+kL (str) = delete line
+kF (str) = scroll forward
+kR (str) = scroll backwards
+kN (str) = next page
+kP (str) = prev page
+
+kl (str) = left arrow
+kr (str) = right arrow
+ku (str) = up arrow
+kd (str) = down arrow
+
+kh (str) = home

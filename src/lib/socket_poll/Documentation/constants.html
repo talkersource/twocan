@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+<head>
+<title>Socket_poll documentation -- constants</title>
+  </head><body bgcolor="#FFFFFF"><table width="100%"><tr><td bgcolor="#DDFFDD"><h1>Socket_poll documentation -- constants</h1>
+</td></tr></table><table width="90%"><tr><td bgcolor="#DDDDFF"><h2>Constants you pass to the socket_poll_cntl_opt() function</h2>
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> SOCKET_POLL_CNTL_OPT_GET_MAP_TYPE
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: value holder<br>Type<strong>[1]</strong>: struct Socket_poll_cntl_ret_int *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will get the value for the option _MAP_TYPE.
+</p><p>  Currently this can either be SOCKET_POLL_TYPE_MAP_COMPRESSED or
+ SOCKET_POLL_TYPE_MAP_DIRECT.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  The value of this option is initially undefined, so if you _need_ a certain
+ type then you should call set with _MAP_TYPE.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> SOCKET_POLL_CNTL_OPT_SET_MAP_TYPE
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: value<br>Type<strong>[1]</strong>: int
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will set the value for the option flag _MAP_TYPE.
+</p><p>  Currently this can either be SOCKET_POLL_TYPE_MAP_COMPRESSED or
+ SOCKET_POLL_TYPE_MAP_DIRECT.
+
+</p><p>  This is the flag which chooses whether the offsets returned from
+ socket_poll_add() are directly related to the fd you pass in (Ie. they are
+ fd + 1) or whether they are completely unrelated.
+</p><p>  Each choice has it's pros and cons.
+</p><p>  Directly mapped offsets are less CPU intensive on _add() and _del(), but can
+ be more memory intensive and if they are are likely to be more CPU intensive
+ on a call to _update_all().
+</p><p>  Compressed mapped offsets work the other way, there is a CPU hit on _add()
+ and _del() but they will use less memory.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  If you want to do socket_poll_add() on an fd many times, then it's worth
+ noting that if you use direct mapping then you can only do it 255 times (why
+ you'd want to do it anywhere near this ammount is beyond me) after which it
+ will always fail. However if you wish to do it 255 times or less then direct
+ mapping will always return the same offset and so use many times less memory.
+</p><p>  Ie. If you do 4 socket_poll_add()'s per fd then compressed mapping will use
+ 4 offsets and direct mapping will use 1.
+</p><p>  However in the case of multiple fd's the reurn value from
+ socket_poll_update_all() will be 1, not 4, in the above example.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> SOCKET_POLL_CNTL_OPT_GET_MAP_COMPRESSED_GROW
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: value holder<br>Type<strong>[1]</strong>: struct Socket_poll_cntl_ret_size_t *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will get the value of the _MAP_COMPRESSED_GROW number.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> SOCKET_POLL_CNTL_OPT_SET_MAP_COMPRESSED_GROW
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: value<br>Type<strong>[1]</strong>: size_t
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will set the value of the _MAP_COMPRESSED_GROW number.
+</p><p>  This number controls how much of a block to grow the mapping by when using
+ compressed mapping (and you socket_poll needs to allocate at least one offset
+ entry).
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> SOCKET_POLL_CNTL_OPT_GET_MAP_SIZE
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: value holder<br>Type<strong>[1]</strong>: struct Socket_poll_cntl_ret_size_t *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will get the value of the current size of the indicators array.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> SOCKET_POLL_CNTL_OPT_SET_MAP_SIZE
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: value<br>Type<strong>[1]</strong>: size_t
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will set the value of the indicators array (and hence realloc
+ the array).
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> SOCKET_POLL_CNTL_OPT_GET_MAP_END_SIZE
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: value holder<br>Type<strong>[1]</strong>: struct Socket_poll_cntl_ret_size_t *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will get the value of the current size of the unused block of
+ memory at the end of the indicators array.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> SOCKET_POLL_CNTL_OPT_SET_MAP_END_SIZE
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: value<br>Type<strong>[1]</strong>: size_t
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will set the value of the indicators array (and hence realloc
+ the array) by taking the input and adding the size of the used part to it.
+</p><p>  So passing the value 0 will realloc() the array to have no unused space at
+ the end.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This function, combined with _CNTL_OPT_GET_MAP_ARRAY, is useful for
+ "wrapping" an implementation of poll().
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> SOCKET_POLL_CNTL_OPT_GET_MAP_END_ARRAY
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: value holder<br>Type<strong>[1]</strong>: struct Socket_poll_cntl_ret_void_ptr *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will get a pointer to the end of the indicators array, 
+ equivilant to SOCKET_POLL_INDICATORS(max) (where max is the offset directly
+ after the last offset that has been given out).
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This function is probably only useful so that you can "wrap" poll()
+ implementations.
+
+</td></tr></table>
+</body></html>

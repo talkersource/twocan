@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# $1 == name
+# $2 == gender
+
+echo $1
+echo
+echo Y
+echo $2
+echo
+echo y
+echo continue
+echo
+
+./run_regresion_test
+

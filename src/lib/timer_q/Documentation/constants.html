@@ -1,0 +1,279 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+<head>
+<title>Timer_q documentation -- constants</title>
+  </head><body bgcolor="#FFFFFF"><table width="100%"><tr><td bgcolor="#DDFFDD"><h1>Timer_q documentation -- constants</h1>
+</td></tr></table><table width="90%"><tr><td bgcolor="#DDDDFF"><h2>Constants passed to the timer_q call backs</h2>
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_TYPE_CALL_RUN_NORM
+
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This is the value passed to a (Timer_q_node) call back when it is called
+ from timer_q_run_norm().
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_TYPE_CALL_DEL
+
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This is the value passed to a (Timer_q_node) call back when it is called
+ from timer_q_del_node(), timer_q_del_data() or timer_q_quick_del_node().
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_TYPE_CALL_RUN_ALL
+
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This is the value passed to a (Timer_q_node) call back when it is called
+ from timer_q_run_all().
+
+
+</td></tr></table><table width="90%"><tr><td bgcolor="#DDDDFF"><h2>Constants you pass to the timer_q_add_base() function</h2>
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_FLAG_BASE_RUN_ALL
+
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  If this flag is set on a base then when you call timer_q_run_all() all the
+ (Timer_q_node)s call backs for that base will be called.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_FLAG_BASE_INSERT_FROM_END
+
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  If this flag is set on a base then when you call timer_q_add_node() the
+ (Timer_q_node) will try to be added from the end of the list.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  Regardless of this flag an insert will never traverse the list if it should
+ be added to the beginning or the end of the list.
+</p><p>  Also this flag does nothing unless you have (Timer_q_double_node)s as it is
+ not possible to traverse the list backwards.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_FLAG_BASE_MALLOC_DOUBLE
+
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  If this flag is set on a base then when you call timer_q_add_node()
+ without specifying at least one of _SINGLE, _DOUBLE or _FUNC then it will act
+ like you specified _DOUBLE.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_FLAG_BASE_MALLOC_FUNC
+
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  If this flag is set on a base then when you call timer_q_add_node()
+ without specifying at least one of _SINGLE, _DOUBLE or _FUNC then it will act
+ like you specified _FUNC.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_FLAG_BASE_MOVE_WHEN_EMPTY
+
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  If this flag is set on a base then when it becaomes empty it will be moved
+ to a non checked list and when a node is added to it again it will be moved
+ back. This means that you will get close to 0 overheard for bases that are
+ rarely used.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_FLAG_BASE_DEFAULT
+
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This is a default set of flags to pass to timer_q_add_base().
+
+
+</td></tr></table><table width="90%"><tr><td bgcolor="#DDDDFF"><h2>Constants you pass to the timer_q_add_node() function</h2>
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_FLAG_NODE_SINGLE
+
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This flag allows you to override the _MALLOC_DOUBE and _MALLOC_FUNC flags
+ in the base. If you just specify only this flag you will get a normal
+ (Timer_q_node), combining this flag with either of the next 2 is useless.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This flag, or one of the next 2, _must_ be used when calling
+ timer_q_add_static_node() this makes it clear what you have passed in as the
+ first argument of that function.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_FLAG_NODE_DOUBLE
+
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This flag allows you to override the _MALLOC_DOUBE and _MALLOC_FUNC flags
+ in the base. If you just specify this flag you will get a (Timer_q_node) with
+ a prev pointer as well allowing timer_q_del_node() to operate in O(1) and
+ allowing timer_q_add_node() to use the base option _INSERT_FROM_END.
+ This option can be combined with the next option.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This flag, or one of the previous or next, _must_ be used when calling
+ timer_q_add_static_node() this makes it clear what you have passed in as the
+ first argument of that function.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_FLAG_NODE_FUNC
+
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This flag allows you to override the _MALLOC_DOUBE and _MALLOC_FUNC flags
+ in the base. If you just specify this flag you will get a (Timer_q_node) with
+ a func pointer as well allowing you to specify a different call back for this
+ node compared with the other nodes in the same base. This option can be
+ combined with the previous option.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This flag, or one of the previous 2, _must_ be used when calling
+ timer_q_add_static_node() this makes it clear what you have passed in as the
+ first argument of that function.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_FLAG_NODE_DEFAULT
+
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This is a default set of flags to pass to timer_q_add_node().
+
+
+</td></tr></table><table width="90%"><tr><td bgcolor="#DDDDFF"><h2>Constants you pass to the timer_q_cntl_node() function</h2>
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_CNTL_NODE_GET_DATA
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: call back data holder<br>Type<strong>[1]</strong>: struct Timer_q_cntl_ret_void_ptr *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will get the current function call back data for the node.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_CNTL_NODE_SET_DATA
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: call back data<br>Type<strong>[1]</strong>: void *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will get the current function call back data for the node.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_CNTL_NODE_GET_FUNC
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: call back holder<br>Type<strong>[1]</strong>: struct Timer_q_cntl_ret_func_ptr *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will get the current function call back for the node.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This only succeedes if the (timer_q_node) passed is actually a 
+ (Timer_q_func_node) or a (Timer_q_double_func_node).
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_CNTL_NODE_SET_FUNC 
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: call back<br>Type<strong>[1]</strong>: void (*)(int, void *)
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will set the current function call back for the node.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This only succeedes if the (timer_q_node) passed is actually a 
+ (Timer_q_func_node) or a (Timer_q_double_func_node).
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_CNTL_NODE_GET_TIMEVAL
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: timestamp holder<br>Type<strong>[1]</strong>: struct Timer_q_cntl_ret_timeval_ptr *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will get the current timestamp for the node.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  The value returned cannot be altered manually, you will have to copy it
+ first.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_CNTL_NODE_SET_TIMEVAL
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: base object<br>Type<strong>[1]</strong>: Timer_q_base *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: timestamp<br>Type<strong>[2]</strong>: struct timeval *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will set the current timestamp for the node.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This cntl option is not currently implemented.
+
+
+</td></tr></table><table width="90%"><tr><td bgcolor="#DDDDFF"><h2>Constants you pass to the timer_q_cntl_base() function</h2>
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_CNTL_BASE_GET_FUNC 
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: call back holder<br>Type<strong>[1]</strong>: struct Timer_q_cntl_ret_func_ptr *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will get the default function call back for the base.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_CNTL_BASE_SET_FUNC 
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: call back<br>Type<strong>[1]</strong>: void (*)(int, void *)
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will set the default function call back for the base.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_CNTL_BASE_GET_FLAG_RUN_ALL 
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: value holder<br>Type<strong>[1]</strong>: struct Timer_q_cntl_ret_int *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will get the value of the flag _RUN_ALL on the base.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_CNTL_BASE_SET_FLAG_RUN_ALL 
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: value<br>Type<strong>[1]</strong>: int
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will set the value of the flag _RUN_ALL on the base.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_CNTL_BASE_GET_FLAG_INSERT_FROM_END
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: value holder<br>Type<strong>[1]</strong>: struct Timer_q_cntl_ret_int *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will get the value of the flag _INSERT_FROM_END on the base.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_CNTL_BASE_SET_FLAG_INSERT_FROM_END
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: value<br>Type<strong>[1]</strong>: int
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will set the value of the flag _INSERT_FROM_END on the base.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_CNTL_BASE_GET_FLAG_MALLOC_DOUBLE
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: value holder<br>Type<strong>[1]</strong>: struct Timer_q_cntl_ret_int *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will get the value of the flag _MALLOC_DOUBLE on the base.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_CNTL_BASE_SET_FLAG_MALLOC_DOUBLE
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: value<br>Type<strong>[1]</strong>: int
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will set the value of the flag _MALLOC_DOUBLE on the base.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_CNTL_BASE_GET_FLAG_MALLOC_FUNC 
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: value holder<br>Type<strong>[1]</strong>: struct Timer_q_cntl_ret_int *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will get the value of the flag _MALLOC_FUNC on the base.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_CNTL_BASE_SET_FLAG_MALLOC_FUNC 
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: value<br>Type<strong>[1]</strong>: int
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will set the value of the flag _MALLOC_FUNC on the base.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_CNTL_BASE_GET_FLAG_MOVE_WHEN_EMPTY
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: value holder<br>Type<strong>[1]</strong>: struct Timer_q_cntl_ret_int *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will get the value of the flag _MOVE_WHEN_EMPTY on the base.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Constant: </strong> TIMER_Q_CNTL_BASE_SET_FLAG_MOVE_WHEN_EMPTY
+
+</td></tr><tr><td>Parameter<strong>[1]</strong>: value<br>Type<strong>[1]</strong>: int
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This option will set the value of the flag _MOVE_WHEN_EMPTY on the base.
+
+</td></tr></table>
+</body></html>

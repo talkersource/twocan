@@ -1,0 +1,24 @@
+
+# end of quto generated bit...
+PAT_DIR=$(SRCDIR)/patch
+CC=gcc
+CONFIGS  = -DROOT=\"$(ROOTDIR)/\" -DVERSION=\"$(VERSIONID)\" $(TOTAL-DEFINES) -D_GNU_SOURCE
+EXTERN=../extern
+INCL=../include
+CFLAGS   =  $(WARNS) -I$(EXTERN) -I$(INCL) -I- $(CONFIGS) $(XTRA_GCC_OPTS)
+SOFILES := $(patsubst $(PAT_DIR)/%.c,$(PAT_DIR)/%.so,$(wildcard $(PAT_DIR)/*.c))
+
+all: $(SOFILES)
+
+$(PAT_DIR)/%.so: $(PAT_DIR)/%.o
+		$(CC) -shared -export-dynamic $< -o $@
+
+$(PAT_DIR)/%.o: $(PAT_DIR)/%.c
+                $(CC) $(CFLAGS) $(DEFS) -fPIC -c $< -o $@
+
+clean:
+		rm -f *.so
+
+distclean: clean
+		rm -f Makefile
+

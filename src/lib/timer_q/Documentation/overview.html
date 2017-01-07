@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>Timer_q documentation -- overview</title>
+  </head>
+
+  <body bgcolor="#FFFFFF">
+    <table width="100%"><tr><td bgcolor="#DDFFDD">
+    <h1>Timer_q documentation -- overview</h1>
+	</td></tr></table>
+
+<!-- this is basically copy and paste from the .txt file... */ ... errr -->
+
+<table width="90%"><tr><td bgcolor="#DDDDFF">
+	  <h2>Intro</h2>
+	</td></tr></table>
+
+<table width="80%"><tr><td><p>
+
+<!-- 
+ I wanted to use gtk-doc (or gdoc ?), but was unable to get it to run
+(I'm currently using a hacked slackware 2 :O ... and there seems to be _no_
+documentation on gtk-doc at all).
+
+</p></td></tr><tr><td><p>
+
+ So after waiting and looking for a long time I just opened up a text editor
+and started writting, so don't expect the documentation it to look nice ... 
+however it is actualy here so count your blessings etc. (Yeh I know no-one
+is actually reading this anyway so it doesn't matter, but...)
+
+ -->
+
+</p></td></tr><tr><td><p>
+
+ All functions are documented in <a href="functions.html">functions.html</a>, all constants are
+in <a href="constants.html">constants.html</a> and the namespace rules are in <a href="namespace.html">namespace.html</a> (fancy that). Also if you used the
+development version of this library you should read the 
+<a href="compatability.html">compatability.html</a> document as some of the
+symbol names changed.
+
+</p></td></tr><tr><td><p>
+
+Basically you should be able to get an overview of a function by looking at
+the functions.html file, and be able to get a deeper understanding by looking
+in the constants.html file (Ie. all constants should be passed to a function
+listed, so the more detailed information is listed with the constants -- not
+the functions).
+
+</p></td></tr>
+
+</table>
+
+<table width="90%"><tr><td bgcolor="#DDDDFF">
+	  <h2>A very simple overview</h2>
+	</td></tr></table>
+
+<table width="80%"><tr><td><p>
+
+ A _very_ simple overview is that you create a (Timer_q_base *) as the base
+of all your timed events. Then whenever you want a timed event you create a
+(Timer_q_node *) in the (Timer_q_base *). This will then "go off" when you
+call timer_q_run_norm() with a time equal, or greater, than the one the timer
+should go off at. It will also "go off" if you call timer_q_run_all() and you
+created the (Timer_q_base *) with the TIMER_Q_FLAG_BASE_RUN_ALL flag.
+
+</p></td></tr><tr><td><p>
+
+ The only other bit of information which doesn't really fit anyway, is that
+you are allow to _read_ the (Timer_q_base *)->num to find out how many
+nodes are in that base -- setting this value isn't allowed though and may or
+may not have any effect (and that effect may or may not be for the library to
+crash).
+
+</p></td></tr><tr><td><p>
+
+ Also note that you might want to have a look at the examples/ directory
+ex1.c is the most simple usage, ex2.c is more complicated etc.
+
+</p></td></tr>
+
+</table>
+
+    <hr>
+    <address><a href="mailto:james@and.org">James Antill</a></address>
+<!-- Created: Mon Mar 13 21:06:46 EST 2000 -->
+<!-- hhmts start -->
+Last modified: Thu Mar 30 10:17:52 EST 2000
+<!-- hhmts end -->
+  </body>
+</html>

@@ -1,0 +1,70 @@
+
+ Well this was sort of written to be compatible with EW, but life isn't
+isn't perfect and there are more than a couple of differences.
+ This list probably isn't complete.
+
+ Commands that got lost
+ ----------------------
+
+ sneeze - replaced with drag and "auth_player net"
+ splat - replaced with drag and "auth_player net"
+ banish - replaced with "auth_player name"
+ edit banish (or edban or whatever)
+ validate_email - not needed, they jsut don't set one.
+
+ tlist - couldn't work as it did before, so left it out.
+ slist - couldn't work as it did before, so left it out.
+ rlist - couldn't work as it did before, so left it out.
+ invites - The implementation isn't as easy, indeed friendof and
+            grabable aren't quite correct anymore. Although this could be 
+            fixed.
+ vlist - not implemented.
+ rm_list - never worked, so removed it.
+
+ noisy - couldn't work as it did before, so left it out.
+ quiet - couldn't work as it did before, so left it out.
+ earmuffs - couldn't work as it did before, so left it out.
+ blocktells - couldn't work as it did before, so left it out.
+ 
+ lists are very different, at present there are 5 player lists (coms,
+games, self, tmp coms and tmp self) and 2 room lists (local and global).
+ There are also channel lists.
+
+ So list and clist are different. The new all purpose command
+list_change replaces rlist/slist/tlist.
+
+ Also doing things like...
+
+ inform everyone
+
+ Doesn't put inform on for all the people on the program, indeed...
+
+ bar nevyn
+
+ Doesn't necessarly bar nevyn from all of your rooms.
+
+ Missing functionality
+ ---------------------
+
+ pipes - they never really worked well anyway and generic_social 
+and socials in general solve the problem better ... even if it's not
+as easy to use dynamically.
+
+ frog - it's now replaced with mask_coms which is available to all
+residents.
+
+ grab - doing grab <person> as an admin doesn't def. grab them. You have to
+use force_grab to def. grab them.
+
+ inform/friend etc. doesn't "inform" the other person that you've
+added/removed them
+
+ The sys_rooms files that make system rooms on boot no longer
+exist. It is now done using the <room system_create> and <room main>
+commands and they act more or less like other rooms.
+
+ If you delete the logs/error.log file then you'll have to run the
+command "log_reopen_error" or you won't get error logs until it
+reboots. This is because quite a few errors will stop the talker from
+opening files ... which means you'll never find out why something went 
+wrong.

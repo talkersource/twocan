@@ -1,0 +1,233 @@
+
+
+ Add - MATH TAG -> NUMEBR = adds values together
+ Connected_new - NUMBER = number of connections
+ Connected_total - NUMBER = number of different connections
+ Current_players - NUMBER = number of people logged onto the talker
+ Current_residents - NUMBER = number of players ressed, Ie. res_count
+ Diff_time - MATH TAG -> PERIOD = takes to times and gives you the difference.
+ Div - MATH TAG -> NUMBER
+ F - PLAYER = player sending tell
+ From - PLAYER = $F
+ Gathering - MAX NUMBER TAG = number of people logged onto the talker
+ If - TAG = does an if condition
+            =       with TAGS left, l, 1 and right, r, 2 inside
+            <       with TAGS left, l, 1 and right, r, 2 inside
+            >       with TAGS left, l, 1 and right, r, 2 inside
+            >=      with TAGS left, l, 1 and right, r, 2 inside
+            <=      with TAGS left, l, 1 and right, r, 2 inside
+ 	    true, t, 1
+ 	    false, f, 0
+                       Eg. $If( < (left (1) right (2)) true(works))
+                           $If( >=(l (2) r (2)) true(works))
+ If_case - TAG = $If but case doesn't matter
+ Line_fill(str) - NONE TAG = outputs the str RAW until the end of
+                               the persons screen
+ Mul - MATH TAG -> NUMBER
+ Newbie_players - NUMBER = number of newbies logged on
+ Number - NONE TAG -> NUMBER	
+ Player(name) - NONE TAG -> PLAYER = find_saved_player, basicaly
+ Prob_diff - PROBABILITY TAG
+ Prob_same - PROBABILITY TAG = saved so that if you do a say then all
+                               the people in the room will get the same tags
+ Probability_diff - PROBABILITY TAG = $Prob_diff
+ Probability_same - PROBABILITY TAG = $Prob_same
+ Qtime - STRING = $Time-24
+ Random_resident[0-9] - PLAYER = random player, excluding newbies
+ Recv - PLAYER = player getting tell
+ Return - STRING = "\n"
+ Room - ROOM = current room
+ Strlen - NUMBER = number of printable chars in output
+ Sub - MATH TAG -> NUMBER
+ Super_players - NUMBER = No. of sus
+ String - NONE TAG -> STRING
+ Talker - TALKER
+ Time - TIME = current talker time
+ Tonumber = $Tonum
+ Uptime - PERIOD = seconds since boot
+ While - IF, but with only a true case.
+ While_case - IF, but with only a true case.
+
+ TALKER
+ -Email_abuse - STRING = The address for when resis are subject to abuse
+ -Logging_now - NUMBER = How many people are in the process of logging in
+ -Name
+ -Stack_grown_size - NUMBER = coder thing
+ -Stack_max_size - NUMBER = coder thing
+ -Started - TIME = When the talker was booted
+ -Telnet - STRING = crazylands.org 6969
+ -Version - STRING = Version of program, I'll change the format of this soon
+ -Web - STRING = www.crazylands.org
+ -Www - STRING = $Talker-Web
+
+ PLAYER
+ -Age - NUMBER = player age
+ -Birthday - TIME = players birthday (no if set toggle atm :()
+ -Conjugate - STRING = -Gender(me() plural(s))
+ -Description - STRING = players description
+ -Email - STRING = players email address
+ -Emotive - STRING = -Gender(me($Recv-Gender(plural(yourselves) def(yourself)))
+                             male(himself) female(herself) plural(themselves)
+                             void(itself))
+ -Gender - TAG = gender of player, if me isn't specified then it uses the
+                 gender of the player it came from
+            plural, p
+            female, f
+            male, m
+            i, it, o, other, v, void
+            me
+ -Gender_show - STRING = -Gender(male(he) female(she) plural(they) void(it))
+ -Idle - PERIOD = how long person has been idle for
+ -Last_on - TIME = last time player logged off
+ -Login - PERIOD = total_login in seconds
+ -Name - STRING = name of player
+ -Name_low - STRING = lower cased, name of player
+ -Nationality - TAG
+            british, uk
+            american, us, usa
+            ca, cad, canadian
+            au, aus, australian
+            void
+ -Plan - STRING = players plan
+ -Plural - STRING = -Gender(plural(s))
+ -Possessive - STRING = -Gender(me(your) male(his) female(hers) plural(theirs)
+                                void(its))
+ -Privs - TAG
+            admin, ad                          *
+            lower admin, lad                   *
+            senior super user, ssu             *
+            super user, su                     *
+            coder, c
+            basic super user, bsu              *
+            minister, min
+            spod, s
+               where the ones with * can have an = put after them so that only
+               the people with exactly that priv get it.
+ -Ressed_on - TIME = when the person got res
+ -Room - ROOM = the room that the person is in
+ -Set - TOGGLE
+ -Setting - TOGGLE
+ -Spodnumber - NUMBER = the spod number you are at
+ -Time - TIME - time local to that player
+ -Url - STRING = players url
+
+ ROOM
+ -Gathering - MAX NUMBER TAG = number of people in room
+ -Id - STRING = the room id
+ -Name - STRING the room name
+ -Occupants - NUMBER = number of people in room
+ -Owner - PLAYER = person who owns the room
+ -Random_player[0-9] = random player out of the room, 
+                       same rules as global version.
+
+ MAX NUMBER TAG
+ base_number(numbertag() numbertag() ... max())
+  If the number given is less than or equal to the base_number then the
+   numbertag is searched for, else max is searched for. If nothing is
+   found def is searched for.
+
+ PROB TAG
+ base_number(numbertag() numbertag() ... )
+ A probability is chosen from 1 - base_number and is then searched for,
+  if not found it searches for def.
+ An error is produced is a number higher than base_number is given in the tag.
+
+ MATH TAG
+ (1() 2() ...)
+  tag 1 is searched for, tag 2 is searched for if both are found formula
+   is applied on 1 against 2. If not error is produced. 3 will be searched for
+   then 4 etc... untill one of them isn't found
+
+ TAG
+ (tagname() tagname() ... def())
+  A tagname is searched for by name if that fails sometimes another is searched
+   for eventualy def is searched for. The string within the ()'s of
+   the found tag is output as though the player had typed only that in.
+  An error msg is given if a none valid tagname is used within the tag.
+
+ NONE TAG
+  (text)
+   all the text is got from between the () in the bracket type way, and is
+    processed like all tags. The execption to the rule is Time as I don't see
+    the point untill we have variables.
+
+		********* NOTES ABOUT TAGS **********
+NOTE: tag( abcd ()) is ok tag( abcd() has to be done as tag( abcd\()
+      NOT work properly. Possibly resulting in an error message being generated
+      for the tag about no closing brace.
+ALSO NOTE: $Prob_diff-2( 1(abcd) 2($Prob_diff-3(1(abcd \\() def(2 thirds)))
+           would have to be done, or NOTE applies.
+FINAL NOTE: this also means that any \ should be \\ for one level deep.
+
+ TOGGLE
+ -Anonymous = do they allow anonymous posts to goto them
+ -Duty = are they on duty
+ -Email_show = public email in finger
+ -Follow_allowed = people can follow them
+ -Hiding = can not be found using where command
+ -Ignoreing_emote_prefix = don't see prefixes in emotes
+ -Ignoreing_eprefix = don't see prefixes in emotes
+ -Ignoreing_prefix = don't see prefix's in tells
+ -Ignoreing_rooms = Do they have brief on.
+ -Ignoreing_shouts = blocking shouts
+ -Ignoreing_tells = blocking tells
+ -Ignoreing = Ignoreing_tells
+ -Logged = is player logged on
+ -Lsu_list = is player on the lsu_list
+ -New_mail = does player have new mail
+ -Room_enter = do they see when people enter one of thier rooms
+     _off,_no = prints Y if toggle off, else prints N
+     _on,_yes = prints Y if toggle on, else prints N (default)
+
+ TIME
+ -12 - STRING = (Hour_12:Minute:Second:Ampm)
+ -24 - STRING = (Hour_24:Minute:Second)
+ -Ampm - STRING = shows am in the morning else shows pm 
+ -Cmp - RAW STRING = compatible output for use in $Diff_time()
+ -Day - STRING = -Day_name
+ -Day_name - STRING = the name of the day
+ -Day_number - NUMBER = day of week number
+ -Hour_12 - NUMBER
+ -Hour_24 - NUMBER
+ -Minute - NUMBER = minute of hour
+ -Month - STRING = -Month_name
+ -Month_day = NUMBER = day of month
+ -Month_name = STRING
+ -Month_number = NUMBER = month number 0 - 11
+ -Second = NUMBER
+ -Week_number - NUMBER = number of week in year, 0 - 51
+ -Year = -Year_long
+ -Year_day - NUMBER = day of year 0 - 364
+ -Year_long - NUMBER = four digit year
+ -Year_short - NUMBER = two digit year
+ ()- NONE TAG -> STRING = the bits that match the things above are replaced.
+                                Eg. $Time(hours = Hour_24, mins = Minute)
+ PERIOD
+ -Short
+ -Long
+      _years
+      _weeks
+      _days
+      _hours
+      _minutes
+      _seconds
+            _mod   = value it kept within range
+            _stick = stays even when value is zero
+                         Eg. -Short_years_stick_minutes_seconds_mod_stick
+                             -Short_stick_years_minutes_mod_seconds
+    default is all on
+
+ NUMBER
+  This is optional
+  -Tostr - STRING
+  -Tostr_cap - STRING
+    these get converted into words, Ie.   1-Tostr     = one
+                                        200-Tostr_cap = Two hundred
+  -(formatting)
+    where formatting is anything valid for sprintf between the % and the d
+
+ STRING
+  This is optional
+  -(formatting)
+    where formatting is anything valid for sprintf between the % and the s
+

@@ -1,0 +1,77 @@
+Notes about tell_players
+========================
+
+Where possible, please use the macros for tell_player and vtell_player
+called - SYSTEM_T, NORMAL_T and TALK_T. This will ease future
+upgradability. For explanations on these macros, see below.
+
+
+ SYSTEM_T
+
+Tells to the player from the system should be FROM 0 and have the flags,
+SYSTEM_INFO if it is important (to break through the pager if they are in it),
+and have a wrap value of 4. The time should be now. These tells are
+for example:
+
+  draughts moves, warnings for idleing, the motd, etc.
+
+ NORMAL_T
+
+Tells to the player from the system, _where they have requested the
+info_, then the tell should be FROM themselves (p, and to p),
+SYSTEM_INFO if it is important (to break through the pager if they are
+in it), it should have a wrap value of 3. The time should be
+now. These tells are for example:
+
+  site info about a player, the uptime of the program, stats, etc.
+
+ INFO_T
+
+Tells to the player which originate from another player (or strings
+which are affected by another player) should come from the owning
+player (FROM = players pointer). They should have a wrap
+value of 0, because they are almost always in things like
+finger. These tells are for example:
+
+  finger, examine, idlemsg's, mails, news, autos, rooms, etc.
+
+Tells to the player on LOGIN, should be FROM 0 and have SYSTEM_INFO at all
+times. Wrap is determined as appropriate. The time should be 0 (this is a
+small hack, but it just needs to be a long time ago, so if they go into
+the pager it won't decide to help them by including the logon screen).
+
+Note that on initial login, then a from player pointer must never be
+used as the player might not have a p->saved.
+
+Any responses to actions, and final information should come from the user
+who requested it if its not owned by anyone else. The only exceptions are
+the system messages that are there because of external forces.
+
+Note, that if a warning or comment is passed to a user because of the
+action of another user, then this should arrive as a system prompted
+message. This is because although user a initiated the message because
+of an action, they have NO control on its format of output and so
+on. It is also not from player b because they did not ask for it, its
+an externally caused comment (see above paragraph).
+
+All system tells are indented by one space and have a wrap of 4.
+
+All non-system stuff has a wrap of 3.
+
+The Macros
+----------
+
+ The basic macro is a *_T macro and is passed the player(s) who the message
+is going from/to.
+ There are extensions on this...
+
+ WF = Wrapping (so you can override the wrapping of a macro) and flags.
+ F =  Add some flags to the output, for instance RAW_OUTPUT.
+ P = "know" that the player the message is comming from is the variable p.
+
+ There is also a generic macro ALL_T which allows you to set all the
+parameters, this is usefull if you want to use the twinkle struct etc.
+
+ All macros go out at time now, and there is a version for each which
+takes both an alternative to player, and alternative flags. See
+extern-tools.h for their full definitions.

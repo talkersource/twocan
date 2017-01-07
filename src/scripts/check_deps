@@ -1,0 +1,16 @@
+#!/bin/sh
+
+cd $1
+
+for i in *.c; do
+ abcd=`basename $i .c`
+ if [ ! -r $1/include/$abcd.h ]; then 
+  echo " Creating include/$abcd.h"
+  touch $1/include/$abcd.h
+ fi
+ if [ ! -r $1/extern/extern-$abcd.h ]; then 
+  echo " Creating extern/extern-$abcd.h"
+  touch $1/extern/extern-$abcd.h
+ fi
+done
+

@@ -1,0 +1,26 @@
+#!/bin/perl -w
+
+my @small_array = qw(a b);
+my @large_array = qw(a b c d e f g h i j k l m);
+my $k = 0;
+
+ while ($k <= $#small_array)
+ {
+  my $i = 0;
+  while ($i <= $#large_array)
+  {
+   my $j = 0;
+   while ($j <= $#large_array)
+   {
+     system ("./player_telnet testing$small_array[$i]$large_array[$j]$large_array[$k] &");
+     sleep (2);
+    $j++;
+   }
+   sleep (60);
+   $i++;
+  }
+  $k++;
+ }
+
+exit;
+

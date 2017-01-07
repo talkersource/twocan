@@ -1,0 +1,64 @@
+#! @PERL_PATH@ -w
+
+# This is all done in a seperate process ...
+#  so if you start making races you'll have problems
+
+
+# Got from autoconf (inc. the location of perl)
+my $AC_GZIP = "@GZIP_PATH@";
+my $AC_BZIP2 = "@BZIP2_PATH@";
+my $AC_TAR = "@TAR_PATH@";
+
+my $AC_SENDMAIL = "@SENDMAIL_PATH@";
+
+
+my $backups_max = $ARGV[0];
+
+# Internal config ....
+my $backup_files = "files";
+
+# Backup logs too ... might even want to backup src, if you do local fixes etc.
+# my $backup_files = "files logs";
+
+# Start of code...
+
+my $file_pre = "backups/backup-";
+
+my @files = glob "$file_pre*";
+
+my $count = $#files;
+
+while ($count >= $backups_max)
+  {
+    unlink("$files[$count - $backups_max]");
+    --$count;
+  }
+
+# Date parser...
+my @d_p = gmtime;
+
+# you _can't_ use :'s in a tar file name ... or it tries to use rsh
+my $file_name = sprintf("%s%04d-%02d-%02d-%02d;%02d;%02d.tar", $file_pre, 
+			$d_p[5] + 1900, $d_p[4] + 1, $d_p[3], $d_p[2],
+			$d_p[1], $d_p[0]);
+my $file_name_ren = sprintf("%s%04d-%02d-%02d-%02d:%02d:%02d.tar", $file_pre, 
+			    $d_p[5] + 1900, $d_p[4] + 1, $d_p[3], $d_p[2],
+			    $d_p[1], $d_p[0]);
+
+system("$AC_TAR", "-cf", "$file_name", "$backup_files");
+rename("$file_name", "$file_name_ren");
+$file_name = $file_name_ren;
+
+# Could do an email here...    
+
+if (!($AC_BZIP2 eq ""))
+  {
+    
+    system("$AC_BZIP2", "-9", "$file_name");
+    exit 0;
+    
+  }
+
+system("$AC_GZIP", "-9", "$file_name");
+
+exit 0;

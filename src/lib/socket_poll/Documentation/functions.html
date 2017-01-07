@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+<head>
+<title>Socket_poll documentation -- functions</title>
+  </head><body bgcolor="#FFFFFF"><table width="100%"><tr><td bgcolor="#DDFFDD"><h1>Socket_poll documentation -- functions</h1>
+
+</td></tr></table><table width="90%"><tr><td bgcolor="#DDDDFF"><h2>Initialization function</h2>
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> socket_poll_init()
+
+<br>Returns: TRUE on success and FALSE on failure<br>Type: int
+</td></tr><tr><td>Parameter<strong>[1]</strong>: Value for the _MAP_COMPRESSED_GROW number<br>Type<strong>[1]</strong>: size_t
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function needs to be called before any of the other functions are
+ called.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  If you pass 0 to this function it will give the _MAP_COMPRESSED_GROW a
+ default value (0 isn't a valid value so this is ok).
+
+</td></tr></table><table width="90%"><tr><td bgcolor="#DDDDFF"><h2>Functions to add/remove from the socket poll</h2>
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> socket_poll_add();
+
+<br>Returns: a socket poll offset number<br>Type: Socket_poll_typedef_offset
+</td></tr><tr><td>Parameter<strong>[1]</strong>: fd<br>Type<strong>[1]</strong>: int
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function will add an offset from the current group of offsets.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  When using _MAP_DIRECT the returned offset may already be used by someone
+ else.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> void socket_poll_del(Socket_poll_typedef_offset);
+
+<br>Returns: nothing<br>Type: void
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function will remove an offset from the current group of offsets.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  When using _MAP_DIRECT the passed offset may still be being used by someone
+ else.
+
+
+</td></tr></table><table width="90%"><tr><td bgcolor="#DDDDFF"><h2>Updateing the socket poll</h2>
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> socket_poll_update_all(int);
+
+<br>Returns: number of offset's with interesting state, or -1 and sets errno<br>Type: int
+</td></tr><tr><td>Parameter<strong>[1]</strong>: milliseconds of time to wait<br>Type<strong>[1]</strong>: int
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function will update all of the offset's (struct pollfd *), chaging
+ the revents member. It will return either when something interesting has
+ happened, or after the timeout has expired.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This function _doesn't_ return the number of interesting fds, it returns the
+ number of intersting offsets. This is the same if you are using _MAP_DIRECT
+ but is very different if you are using _MAP_COMPRESSED.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> int socket_poll_update_one(Socket_poll_typedef_offset, int);
+
+<br>Returns: 0 or 1 depending on if offset has state, or -1 and sets errno<br>Type: int
+</td></tr><tr><td>Parameter<strong>[1]</strong>: socket poll offset<br>Type<strong>[1]</strong>: Socket_poll_typedef_offset
+</td></tr><tr><td>Parameter<strong>[2]</strong>: milliseconds of time to wait<br>Type<strong>[2]</strong>: int
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function will update the offset's (struct pollfd *), chaging
+ the revents member. It will return either when something interesting has
+ happened, or after the timeout has expired.
+
+</td></tr></table><table width="90%"><tr><td bgcolor="#DDDDFF"><h2>Functions for miscellaneous control of options</h2>
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> socket_poll_cntl_opt()
+
+<br>Returns: <br>Type: int
+</td></tr><tr><td>Parameter<strong>[1]</strong>: <br>Type<strong>[1]</strong>: int
+</td></tr><tr><td>Parameter<strong>[ ... ]</strong>: options depending on value of Parameter[1]<br>Type<strong>[ ... ]</strong>: Default stdarg/vararg promotion
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  See the SOCKET_POLL_CNTL_OPT_ macros for options.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This function isn't needed for simple uses of socket_poll.
+
+
+</td></tr></table><table width="90%"><tr><td bgcolor="#DDDDFF"><h2>Macro functions to use a socket poll offset</h2>
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> SOCKET_POLL_INDICATOR()
+
+<br>Returns: poll structure<br>Type: struct pollfd *
+</td></tr><tr><td>Parameter<strong>[1]</strong>: socket poll offset<br>Type<strong>[1]</strong>: Socket_poll_typedef_offset
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function is used to access the struct pollfd structure accociated with
+ a socket poll offset.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  You are allowed to, and indeed should, alter the (struct pollfd *)->events
+ member. However you should be careful about altering ->revents when using
+ _MAP_DIRECT mapping because it will be altered for all the other users of the
+ offset.
+
+</td></tr></table>
+</body></html>

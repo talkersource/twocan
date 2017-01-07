@@ -1,0 +1,159 @@
+
+# Change values in Makefile.in
+EXTERN	     = $(SRCDIR)/extern
+INCL	     = $(SRCDIR)/include
+
+
+# There might be bugs you would need to get around if you don't have gcc below
+CC          = nice $(AC_CC)
+
+PATHS	     = -DGZIP_PATH=\"$(AC_GZIP_PATH)\" \
+               -DBZIP2_PATH=\"$(AC_BZIP2_PATH)\" \
+	       -DSENDMAIL_PATH=\"$(AC_SENDMAIL_PATH)\"
+
+CONFIGS  = -DROOT=\"$(ROOTDIR)/\" -DVERSION=\"$(VERSIONID)\" $(TOTAL-DEFINES) \
+	   $(PATHS) $(PROFILE) -D_GNU_SOURCE
+CFLAGS   =  $(WARNS) -I$(EXTERN) -I$(INCL) -I- -I$(SRCDIR)/pcre \
+              $(SOCKET_POLL_CFLAGS) \
+              $(TIMER_Q_CFLAGS) \
+              $(CONFIGS) $(XTRA_GCC_OPTS)
+LDFLAGS  = $(LIBS) -L$(SRCDIR)/pcre -lpcre \
+              $(SOCKET_POLL_LDFLAGS) \
+              $(TIMER_Q_LDFLAGS) \
+              $(AC_LIBS)
+
+# Header files that EVERYTHING rely on
+EVERYTHING = \
+	$(INCL)/buffers.h \
+	$(INCL)/config.h \
+	$(INCL)/defines.h \
+	$(INCL)/main.h \
+	$(INCL)/multi_base.h \
+	$(INCL)/player_tree.h \
+	$(INCL)/player.h \
+	$(INCL)/process_output.h \
+	$(INCL)/structs.h \
+	$(INCL)/system.h \
+	$(INCL)/fix.h
+
+SRCS := $(wildcard $(SRCDIR)/*.c)
+
+# Needed for the touches...
+.PRECIOUS: $(SRCS)
+
+OBJS := $(patsubst $(SRCDIR)/%.c,$(OBJECT-DIR)/%.o,$(SRCS))
+
+$(BIN) crazy talker: external $(OBJECT-DIR)/check $(OBJS)
+		@echo ""
+		@echo "Linking $(BIN)"
+		@echo ""
+		@$(CC) $(CFLAGS) -o $(BIN) $(DEFS) $(OBJS) $(LDFLAGS)
+		@$(SRCDIR)/scripts/createmap $(BIN) $(SRCDIR)/
+
+talker.opts crazy.opts:
+		@nice $(AC_MAKE) `cat $(SRCDIR)/scripts/.configure.make_opts` $(BIN)
+
+all: $(BIN)
+		$(AC_MAKE) -C $(ADIR)
+		$(AC_MAKE) -C $(DNS_DIR)
+		-$(AC_MAKE) -C $(IDIR)
+		$(AC_MAKE) -C $(FDIR)
+		@echo 'Made all'
+
+external: $(SRCDIR)/lib/$(SOCKET_POLL_BUILD) $(SRCDIR)/lib/$(TIMER_Q_BUILD)
+
+tags: $(SRCDIR)/*.c $(INCL)/*.h $(EXTERN)/extern-*.h
+		@echo Making Tags for emacs
+		@$(AC_ETAGS) $(SRCDIR)/*.c $(INCL)/*.h $(EXTERN)/extern-*.h
+		@ln -f $(SRCDIR)/TAGS $(SRCDIR)/include/TAGS
+		@ln -f $(SRCDIR)/TAGS $(SRCDIR)/extern/TAGS
+		$(AC_MAKE) -C $(ADIR) tags
+		$(AC_MAKE) -C $(DNS_DIR) tags
+		-$(AC_MAKE) -C $(IDIR) tags
+
+$(OBJECT-DIR)/check: $(SRCDIR)/Makefile
+		@$(SRCDIR)/scripts/check_deps $(SRCDIR)
+		-@touch $(OBJECT-DIR)/check
+		@echo "Checkd all include files are present."
+
+$(SRCDIR)/lib/no.build:
+		$(SRCDIR)/lib/build.sh $(ROOTDIR)/lib $(SRCDIR)/lib no ""
+
+$(SRCDIR)/lib/socket_poll.build:
+		$(SRCDIR)/lib/build.sh $(ROOTDIR)/lib $(SRCDIR)/lib socket_poll ""
+
+$(SRCDIR)/lib/timer_q.build:
+		$(SRCDIR)/lib/build.sh $(ROOTDIR)/lib $(SRCDIR)/lib timer_q ""
+
+clean:
+		rm -f $(OBJECT-DIR)/check
+		rm -f $(OBJECT-DIR)/*.o $(BIN) $(ABIN) $(IBIN)
+		rm -f $(SRCDIR)/*.bb $(SRCDIR)/*.bbg $(SRCDIR)/*.da
+		rm -f $(INCL)/*.bb $(INCL)/*.bbg $(INCL)/*.da
+		rm -f $(EXTERN)/*.bb $(EXTERN)/*.bbg $(EXTERN)/*.da
+
+clean-all: clean
+		$(AC_MAKE) -C $(ADIR) clean
+		$(AC_MAKE) -C $(DNS_DIR) clean
+		-$(AC_MAKE) -C $(IDIR) clean
+		$(AC_MAKE) -C $(FDIR) clean
+		$(AC_MAKE) -C $(SRCDIR)/patch clean
+
+all-clean: clean-all
+
+distclean: clean-all
+		rm -f  $(SRCDIR)/Makefile $(SRCDIR)/Symbol.map $(SRCDIR)/scripts/.configure.make_opts
+		rm -f  $(SRCDIR)/TAGS $(SRCDIR)/include/TAGS $(SRCDIR)/extern/TAGS 
+		rm -f $(SRCDIR)/include/Makefile $(SRCDIR)/extern/Makefile
+		rm -f $(SRCDIR)/config.cache $(SRCDIR)/config.log 
+		rm -f $(SRCDIR)/config.status $(INCDIR)/autoconf.h
+		$(AC_MAKE) -C $(ADIR) distclean
+		$(AC_MAKE) -C $(DNS_DIR) distclean
+		-$(AC_MAKE) -C $(IDIR) distclean
+		$(AC_MAKE) -C $(FDIR) distclean
+		$(AC_MAKE) -C $(SRCDIR)/patch distclean
+		$(AC_MAKE) -C $(SRCDIR)/pcre clean
+
+moving: distclean
+realclean: realclean
+
+install: all
+		-@mv -f $(BIN_INSTALL) $(BIN_OLD_INSTALL).$(DATE)
+		@mv $(BIN) $(BIN_INSTALL)
+		@chmod $(EXECMOD) $(BIN_INSTALL)
+
+		$(AC_MAKE) -C $(ADIR) install
+		$(AC_MAKE) -C $(DNS_DIR) install
+		-$(AC_MAKE) -C $(IDIR) install
+		$(AC_MAKE) -C $(FDIR) install
+
+		@echo
+		@echo
+		@echo " Installed new everything"
+
+install-talker: $(BIN)
+		-@mv -f $(BIN_INSTALL) $(BIN_OLD_INSTALL).$(DATE)
+		@mv $(BIN) $(BIN_INSTALL)
+		@chmod $(EXECMOD) $(BIN_INSTALL)
+
+		@echo
+		@echo
+		@echo " Installed new talker"
+
+update: install-talker
+upgrade: install-talker
+
+redo: clean $(BIN)
+
+carryon:
+	@touch $(SRCDIR)/*.c
+	@touch $(OBJECT-DIR)/*.o
+	@nice $(AC_MAKE) $(BIN)
+
+$(OBJECT-DIR)/%.o: $(SRCDIR)/%.c $(INCL)/%.h $(EXTERN)/extern-%.h \
+                   $(EVERYTHING)
+		@echo " Compiling $*..."
+		@$(CC) $(CFLAGS) $(DEFS) -c $< -o $@
+
+showcomp:
+		@echo $(CC) $(CFLAGS) $(DEFS) OBJ-DIR: $(OBJECT-DIR) -- $(OBJS)

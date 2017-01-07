@@ -1,0 +1,8 @@
+.deps
+.libs
+Makefile.in
+Makefile
+fix.lo
+assert_loop.lo
+socket_poll.lo
+libsocket_poll.la

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+for i in $@; do
+  echo $i | ./unixmake noclear || exit 4
+  make distclean
+done
+
+echo
+echo "Compiled under options: $@"
+
+

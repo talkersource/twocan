@@ -1,0 +1,141 @@
+Section: Constants you pass to the socket_poll_cntl_opt() function
+
+Constant: SOCKET_POLL_CNTL_OPT_GET_MAP_TYPE
+
+ Parameter[1]: value holder
+ Type[1]: struct Socket_poll_cntl_ret_int *
+
+ Explanation:
+
+  This option will get the value for the option _MAP_TYPE.
+  Currently this can either be SOCKET_POLL_TYPE_MAP_COMPRESSED or
+ SOCKET_POLL_TYPE_MAP_DIRECT.
+
+ Note:
+
+  The value of this option is initially undefined, so if you _need_ a certain
+ type then you should call set with _MAP_TYPE.
+
+
+Constant: SOCKET_POLL_CNTL_OPT_SET_MAP_TYPE
+
+ Parameter[1]: value
+ Type[1]: int
+
+ Explanation:
+
+  This option will set the value for the option flag _MAP_TYPE.
+  Currently this can either be SOCKET_POLL_TYPE_MAP_COMPRESSED or
+ SOCKET_POLL_TYPE_MAP_DIRECT.
+
+  This is the flag which chooses whether the offsets returned from
+ socket_poll_add() are directly related to the fd you pass in (Ie. they are
+ fd + 1) or whether they are completely unrelated.
+  Each choice has it's pros and cons.
+  Directly mapped offsets are less CPU intensive on _add() and _del(), but can
+ be more memory intensive and if they are are likely to be more CPU intensive
+ on a call to _update_all().
+  Compressed mapped offsets work the other way, there is a CPU hit on _add()
+ and _del() but they will use less memory.
+
+ Note:
+
+  If you want to do socket_poll_add() on an fd many times, then it's worth
+ noting that if you use direct mapping then you can only do it 255 times (why
+ you'd want to do it anywhere near this ammount is beyond me) after which it
+ will always fail. However if you wish to do it 255 times or less then direct
+ mapping will always return the same offset and so use many times less memory.
+  Ie. If you do 4 socket_poll_add()'s per fd then compressed mapping will use
+ 4 offsets and direct mapping will use 1.
+  However in the case of multiple fd's the reurn value from
+ socket_poll_update_all() will be 1, not 4, in the above example.
+
+
+Constant: SOCKET_POLL_CNTL_OPT_GET_MAP_COMPRESSED_GROW
+
+ Parameter[1]: value holder
+ Type[1]: struct Socket_poll_cntl_ret_size_t *
+
+ Explanation:
+
+  This option will get the value of the _MAP_COMPRESSED_GROW number.
+
+
+Constant: SOCKET_POLL_CNTL_OPT_SET_MAP_COMPRESSED_GROW
+
+ Parameter[1]: value
+ Type[1]: size_t
+
+ Explanation:
+
+  This option will set the value of the _MAP_COMPRESSED_GROW number.
+  This number controls how much of a block to grow the mapping by when using
+ compressed mapping (and you socket_poll needs to allocate at least one offset
+ entry).
+
+
+Constant: SOCKET_POLL_CNTL_OPT_GET_MAP_SIZE
+
+ Parameter[1]: value holder
+ Type[1]: struct Socket_poll_cntl_ret_size_t *
+
+ Explanation:
+
+  This option will get the value of the current size of the indicators array.
+
+
+Constant: SOCKET_POLL_CNTL_OPT_SET_MAP_SIZE
+
+ Parameter[1]: value
+ Type[1]: size_t
+
+ Explanation:
+
+  This option will set the value of the indicators array (and hence realloc
+ the array).
+
+
+Constant: SOCKET_POLL_CNTL_OPT_GET_MAP_END_SIZE
+
+ Parameter[1]: value holder
+ Type[1]: struct Socket_poll_cntl_ret_size_t *
+
+ Explanation:
+
+  This option will get the value of the current size of the unused block of
+ memory at the end of the indicators array.
+
+
+Constant: SOCKET_POLL_CNTL_OPT_SET_MAP_END_SIZE
+
+ Parameter[1]: value
+ Type[1]: size_t
+
+ Explanation:
+
+  This option will set the value of the indicators array (and hence realloc
+ the array) by taking the input and adding the size of the used part to it.
+  So passing the value 0 will realloc() the array to have no unused space at
+ the end.
+
+ Note:
+
+  This function, combined with _CNTL_OPT_GET_MAP_ARRAY, is useful for
+ "wrapping" an implementation of poll().
+
+
+Constant: SOCKET_POLL_CNTL_OPT_GET_MAP_END_ARRAY
+
+ Parameter[1]: value holder
+ Type[1]: struct Socket_poll_cntl_ret_void_ptr *
+
+ Explanation:
+
+  This option will get a pointer to the end of the indicators array, 
+ equivilant to SOCKET_POLL_INDICATORS(max) (where max is the offset directly
+ after the last offset that has been given out).
+
+ Note:
+
+  This function is probably only useful so that you can "wrap" poll()
+ implementations.

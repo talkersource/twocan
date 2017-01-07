@@ -1,0 +1,532 @@
+#! /bin/sh
+# I'm not positive that this works with a _basic_ sh ... but it works on NetBSD
+# so it must be fairly portable.
+#
+# Need the which command to find commands... change to autoconf
+
+child_configures='angelserver dnsserver patch i-comserver forward-server'
+
+clear_screen=yes
+
+if [ "$1" = "noclear" ]; then
+ clear_screen=no
+ shift
+fi
+
+if [ "x$1" != "x" ]; then
+ cd $1
+ shift
+fi
+
+if [ "x$1" != "x" ]; then
+ how_conf_option=$1
+ shift
+fi
+
+thepwd=`pwd`
+therootpwd=`dirname $thepwd`
+
+version=`date +%Y/%m.%d-%H:%M+%S`
+date=`date +%Y-%m-%d`
+
+if [ "$clear_screen" = "yes" ]; then
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+fi
+
+echo "Making... Perl Compatible Regular Expressions (2.08)"
+(cd pcre; make)
+
+if [ "$clear_screen" = "yes" ]; then
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+ echo ""
+fi
+
+# (`)
+
+touch Makefile
+rm -f Makefile
+touch Makefile
+
+ ./scripts/configure --enable-called-from-unixmake --srcdir="$thepwd" --prefix="$therootpwd/lib/"
+
+chmod +x ../scripts/backups_run
+
+echo ""
+echo " Type in 'site' for a compile and go configuration (needs gcc)."
+echo " Type in 'linux' if your compiler/linker support -export-dynamic."
+echo " Or press return to interactively choose your options."
+echo " Typing anything else will get you the site configuration without the"
+echo "gcc assumption (although whether it compiles without gcc I'm unsure :)."
+echo ""
+
+generic_warns="-W -Wall -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-align -Wwrite-strings -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wnested-externs -Winline"
+
+if [ "x$how_conf_option" = "x" ]; then
+ echo -n " How do you want to configure options [user]? "
+ read a
+ how_conf_option=${a:-"user"}
+fi
+
+if [ "$how_conf_option" = "user" ]; then
+
+  echo " User configuring options..."
+  echo ""
+  
+  echo -n " What is your _run time_ configuration file called [default]? "
+  read a
+  config_file_name=${a:-"default"}
+  
+  echo -n " Do you want to run asserts [y/N]? "
+  read a
+  set_asserts=${a:-"N"}
+  
+if [ "$set_asserts" = "Y" -o  "$set_asserts" = "y" ]; then
+  echo -n " Do you want to run looping asserts [Y/n]? "
+  read a
+  set_loop_asserts=${a:-"Y"}
+fi
+
+  echo -n " Do you want long signal dumps [Y/n]? "
+  read a
+  s_ignal_info_long=${a:-"Y"}
+
+  echo -n " Any extra compiler options [-O2 -pipe]? "
+  read a
+  xtra_compiler_opts=${a:-"-O2 -pipe"}
+
+  echo -n " Any extra libs [none]? "
+  read a
+  use_libs=${a:-""}
+    
+  echo -n " Any extra make options [none]? "
+  read a
+  xtra_make_opts=${a:-""}
+  
+  echo -n " Do you want profiling on [Y/n]? "
+  read a
+  profile_me=${a:-"Y"}
+
+  echo -n " Do you want warns [y/N]? "
+  read a
+  use_warns=${a:-"N"}
+
+  echo -n " Extra malloc wrapper [y/N]? "
+  read a
+  malloc_wrapper=${a:-"N"}
+
+  echo -n " Trace commands [Y/n]? "
+  read a
+  trace_commands=${a:-"Y"}
+
+  echo -n " Trace input_to type functions [Y/n]? "
+  read a
+  trace_input_to=${a:-"Y"}
+
+  echo -n " Trace timed functions [Y/n]? "
+  read a
+  trace_timed=${a:-"Y"}
+
+  echo -n " Trace base functions [Y/n]? "
+  read a
+  trace_base=${a:-"Y"}
+
+  echo -n " Trace sections [Y/n]? "
+  read a
+  trace_section=${a:-"Y"}
+
+  echo -n " Run a dns server [Y/n]? "
+  read a
+  dns_server=${a:-"Y"}
+
+  echo -n " Dynamic linked shared library loading [Y/n]? "
+  read a
+  dl_loading=${a:-"Y"}
+
+if [ "$dl_loading" = "N" -o "$dl_loading" = "n" ]; then
+  export_dynamic="N"
+else
+  echo -n " Export dynamic flag [Y/n]? "
+  read a
+  export_dynamic=${a:-"N"}
+fi
+
+  echo -n " Debug 'The Scheduler' [y/N]? "
+  read a
+  debug_sched=${a:-"N"}
+
+  echo -n " Debug 'The telnet protocol' [y/N]? "
+  read a
+  debug_socket=${a:-"N"}
+
+  echo -n " Debug 'The commands list' [y/N]? "
+  read a
+  debug_cmds=${a:-"N"}
+
+  echo -n " Debug 'The player lists' [y/N]? "
+  read a
+  debug_lists={a:-"N"}
+
+  echo " If you write save/load routines say _YES_ or die to the next option."
+  echo -n " Debug 'The file io system' [y/N]? "
+  read a
+  debug_file=${a:-"N"}
+
+  echo -n " Debug 'The help files' [y/N]? "
+  read a
+  debug_help=${a:-"N"}
+
+  echo -n " Debug 'The email transport' [y/N]? "
+  read a
+  debug_sendmail=${a:-"N"}
+else
+ if [ "$how_conf_option" = "quit" ]; then
+  exit 0
+ fi
+ if [ -r ./scripts/.configure.default ]; then
+   . ./scripts/.configure.default
+   if [ -r ./scripts/.conf.$how_conf_option ]; then
+     . ./scripts/.conf.$how_conf_option
+   else
+     echo " ** Config file not present.... Running with defaults. **"
+   fi
+ else
+   echo " Default config file not present."
+   exit 6
+ fi
+fi
+
+
+# This is the end of the configuration stage...
+# This is the end of the configuration stage...
+# This is the end of the configuration stage...
+# This is the end of the configuration stage...
+# This is the end of the configuration stage...
+# This is the end of the configuration stage...
+# This is the end of the configuration stage...
+# This is the end of the configuration stage...
+# This is the end of the configuration stage...
+# This is the end of the configuration stage...
+# This is the end of the configuration stage...
+# This is the end of the configuration stage...
+# This is the end of the configuration stage...
+# This is the end of the configuration stage...
+# This is the end of the configuration stage...
+# This is the end of the configuration stage...
+# This is the end of the configuration stage...
+# This is the end of the configuration stage...
+# This is the end of the configuration stage...
+
+
+
+# Start a new makefile ... now done by autoconf.
+
+echo "#" >> Makefile
+echo "# Do NOT alter this file... run $0 again" >> Makefile
+echo "#" >> Makefile
+
+echo "SRCDIR      = $thepwd" >> Makefile
+echo "ROOTDIR     = $therootpwd" >> Makefile
+echo "VERSIONID   = $version" >> Makefile
+echo "DATE        = date:$date:pid:$$" >> Makefile
+
+# Show the person what is going on....
+echo " ****  Site options  **** "
+echo ""
+echo " Root: $therootpwd"
+echo " Version: $version"
+
+
+echo " DEF_ONE = -DCONFIGURE_DEFAULT_file_name=\\\"$config_file_name\\\"" >> Makefile
+echo " Run time config: $config_file_name"
+
+# DEF_TWO available...
+
+if [ "$set_asserts" = "N" -o  "$set_asserts" = "n" ]; then
+  echo " DEF_TWO = -DNDEBUG" >> Makefile
+  echo " Asserts: Off"
+else
+ if [ "$set_loop_asserts" = "N" -o  "$set_loop_asserts" = "n" ]; then
+   echo " DEF_TWO = -ggdb3" >> Makefile
+   echo " Asserts: Using system asserts, with gdb debugging."
+ else
+   echo " DEF_TWO = -DUSE_ASSERT_LOOP -ggdb3" >> Makefile
+   echo " Asserts: Using looping asserts, with gdb debugging."
+ fi
+fi
+
+if [ "$s_ignal_info_long" = "N" -o "$s_ignal_info_long" = "n" ]; then
+  echo " Using short version of signal dump (if available)."
+else
+  echo " DEF_THREE = -DS_IGNAL_INFO_LONG" >> Makefile
+  echo " Using long version of signal dump (if available)."
+fi
+
+echo -n " Tracing functions:"
+
+if [ "$trace_commands" = "Y" -o  "$trace_commands" = "y" ]; then
+  echo " DEF_FOUR = -DTRACE_COMMANDS" >> Makefile
+  echo -n " Commands"
+fi
+if [ "$trace_input_to" = "Y" -o  "$trace_input_to" = "y" ]; then
+  echo " DEF_FIVE = -DTRACE_INPUT_TO" >> Makefile
+  echo -n " Input_to"
+fi
+if [ "$trace_timed" = "Y" -o  "$trace_timed" = "y" ]; then
+  echo " DEF_SIX = -DTRACE_TIMED" >> Makefile
+  echo -n " Timed"
+fi
+if [ "$trace_base" = "Y" -o  "$trace_base" = "y" ]; then
+  echo " DEF_SEVEN = -DTRACE_BASE" >> Makefile
+  echo -n " Base"
+fi
+if [ "$trace_section" = "Y" -o  "$trace_section" = "y" ]; then
+  echo " DEF_EIGHT = -DTRACE_SECTION" >> Makefile
+  echo -n " Sections"
+fi
+# end the tracing line
+echo ""
+
+if [ "$malloc_wrapper" = "Y" -o  "$malloc_wrapper" = "y" ]; then
+ echo " DEF_ELEVEN = -DEXTRA_MALLOC_WRAPPER" >> Makefile
+ echo " Using Malloc wrapper."
+else
+ echo " NOT Using malloc wrapper."
+fi
+
+if [ "$dns_server" = "N" -o "$dns_server" = "n" ]; then
+  echo " Not resolving ip addresses."
+else
+  echo " DEF_TWELVE = -DUSE_DNS_SERVER" >> Makefile
+  echo " Resolving DNS, using a server."
+fi
+
+if [ "$dl_loading" = "N" -o "$dl_loading" = "n" ]; then
+  echo " You won't be able to patch a running talker."
+else
+# This is GCC specific
+  echo " DEF_THIRTEEN = -DUSE_DL_LOAD" >> Makefile
+
+  if [ "$export_dynamic" = "Y" -o "$export_dynamic" = "y" ]; then
+    echo " EXTRA_LIB_ONE = -export-dynamic" >> Makefile
+    echo " Dl patching enabled, with export-dynamic flag."
+  else
+    echo " Dl patching enabled."
+  fi
+fi
+
+  echo " DEF_FOURTEEN = -DUSE_EMAIL=1" >> Makefile
+#  echo " Going to send emails for boot/shutdown and bug/suggest logs."
+
+echo -n " Debugging:"
+
+if [ "$debug_sched" = "Y" -o "$debug_sched" = "y" ]; then
+  echo " DEF_FIFTEEN = -DSCHED_DEBUG=1" >> Makefile
+  echo -n " scheduler"
+else
+  echo " DEF_FIFTEEN = -DSCHED_DEBUG=0" >> Makefile
+fi
+
+if [ "$debug_socket" = "Y" -o "$debug_socket" = "y" ]; then
+  echo " DEF_SIXTEEN = -DSOCKET_DEBUG=1" >> Makefile
+  echo -n " socket"
+else
+  echo " DEF_SIXTEEN = -DSOCKET_DEBUG=0" >> Makefile
+fi
+
+if [ "$debug_cmds" = "Y" -o "$debug_cmds" = "y" ]; then
+  echo " DEF_SEVENTEEN = -DCMDS_DEBUG=1" >> Makefile
+  echo -n " cmds"
+else
+  echo " DEF_SEVENTEEN = -DCMDS_DEBUG=0" >> Makefile
+fi
+
+if [ "$debug_lists" = "Y" -o "$debug_lists" = "y" ]; then
+  echo " DEF_EIGHTEEN = -DLIST_DEBUG=1" >> Makefile
+  echo -n " cmds"
+else
+  echo " DEF_EIGHTEEN = -DLIST_DEBUG=0" >> Makefile
+fi
+
+if [ "$debug_file" = "Y" -o "$debug_file" = "y" ]; then
+  echo " DEF_NINTEEN = -DFILE_IO_DEBUG=1" >> Makefile
+  echo -n " file"
+else
+  echo " DEF_NINTEEN = -DFILE_IO_DEBUG=0" >> Makefile
+fi
+
+if [ "$debug_help" = "Y" -o "$debug_help" = "y" ]; then
+  echo " DEF_TWENTY = -DHELP_DEBUG=1" >> Makefile
+  echo -n " help"
+else
+  echo " DEF_TWENTY = -DHELP_DEBUG=0" >> Makefile
+fi
+
+if [ "$debug_sendmail" = "Y" -o "$debug_sendmail" = "y" ]; then
+  echo " DEF_TWENTYONE = -DSENDMAIL_DEBUG=1" >> Makefile
+  echo -n " sendmail"
+else
+  echo " DEF_TWENTYONE = -DSENDMAIL_DEBUG=0" >> Makefile
+fi
+
+# end of debugging.
+echo "."
+
+
+echo
+
+if [ "$use_warns" = "N" -o "$use_warns" = "n" ]; then
+  echo " WARNS    = -DNWARNS" >> Makefile
+  echo " Warns turned off."
+else
+ if [ "$use_warns" = "Y" -o "$use_warns" = "y" ]; then
+  echo " WARNS    = $generic_warns" >> Makefile 
+  echo " Warns turned on."
+ else
+  echo " WARNS    =  $use_warns" >> Makefile 
+  echo " Warns user defined."
+ fi
+fi
+
+if [ "$profile_me" = "Y" -o "$profile_me" = "y" ]; then
+  echo " PROFILE = -pg" >> Makefile
+  echo " Profiling on."
+else
+  echo " PROFILE = -DNPROFILING" >> Makefile
+  echo " Profiling off."
+fi
+
+echo " XTRA_GCC_OPTS = $xtra_compiler_opts" >> Makefile
+echo " Extra compiler options: $xtra_compiler_opts"
+
+echo " Extra libs: $use_libs"
+echo " LIBS = $use_libs \$(EXTRA_LIB_ONE)" >> Makefile
+
+# Put the defines into the makefile
+echo "      TOTAL-DEFINES = \$(DEF_ONE) \$(DEF_TWO) \$(DEF_THREE) \$(DEF_FOUR) \$(DEF_FIVE) \$(DEF_SIX) \$(DEF_SEVEN) \$(DEF_EIGHT) \$(DEF_NINE) \$(DEF_TEN) \$(DEF_ELEVEN) \$(DEF_TWELVE) \$(DEF_THIRTEEN) \$(DEF_FOURTEEN) \$(DEF_FIFTEEN) \$(DEF_SIXTEEN) \$(DEF_SEVENTEEN) \$(DEF_EIGHTEEN) \$(DEF_NINTEEN) \$(DEF_TWENTY) \$(DEF_TWENTY_ONE) \$(DEF_TWENTY_TWO)" >> Makefile
+
+
+for i in $child_configures; do
+ cp $thepwd/Makefile $thepwd/$i/
+done
+
+for i in . $child_configures; do
+ cd $thepwd/$i
+ echo "# End of auto config by $0 ..." >> Makefile
+ echo "# the rest of the file is from Makefile.orig" >> Makefile
+ cat Makefile.orig >> Makefile
+ cd $thepwd
+done
+
+for i in include extern; do
+ cp $thepwd/Makefile $thepwd/$i/
+done
+
+# Put some space so they can see what is going on...
+echo " Extra make options: $xtra_make_opts"
+echo ""
+echo ""
+
+touch  scripts/.configure.make_opts
+rm -f  scripts/.configure.make_opts
+echo "$xtra_make_opts" > scripts/.configure.make_opts
+
+cat ../skel/dist_copy_index | while read a; do
+ if [ ! -f ../$a ]; then
+  echo " Copying '$a' from skel/dist_copy default."
+  cp ../skel/dist_copy/$a ../$a
+ fi
+done
+
+cat ../skel/dist_rm_index | while read a; do
+ if [ -f ../$a ]; then
+  echo " Removing old '$a'."
+  rm ../$a
+ fi
+done
+
+
+echo -n " Press return to continue: "
+read a
+
+touch ../junk/check
+
+. scripts/sh_autoconf_env
+$AC_MAKE clean-all
+last_cmd=$?
+if [ "$last_cmd" = "0" ]; then
+ $AC_MAKE tags 
+ last_cmd=$?
+
+ if [ "$last_cmd" = "0" -a "$clear_screen" = "yes" ]; then
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+  echo ""
+ fi
+
+ $AC_MAKE crazy.opts
+ $AC_MAKE all
+fi
+

@@ -1,0 +1,33 @@
+2000-03-31  James Antill  <james@and.org>
+
+	* src/fix.c (FIX_C): Updated fix.c
+
+2000-03-11  James Antill  <james@and.org>
+
+	* src/timer_q.c (timer_q_del_node): Make del_node work even when all
+	the data members are the same.
+
+2000-03-10  James Antill  <james@and.org>
+
+	* src/timer_q.c (timer_q_add_node):
+	(timer_q_add_base): 
+	Removed passed Timer_q_node parameter, and added new functions 
+	timer_q_add_static_node() and timer_q_add_static_base().
+	(timer_q_del_base): Fixed problem with calling function from within
+	a timer_q call back.
+
+	* timer_qConf.sh.in (TIMER_Q_INCLUDEDIR): Forgot to add -ltimer_q into
+	the libraries section .. Doh!.
+
+2000-03-09  James Antill  <james@and.org>
+
+	* src/timer_q.c (timer_q_first_tv): Clean up function.
+	(timer_q_add_node): Add optimisation for bases without nodes.
+
+2000-02-02  James Antill  <james@and.org>
+
+	* src/timer_q.c (timer_q_first_tv): If all the queues are empty then
+	the assert wasn't true, duh!
+	(timer_q__run_norm): Add a TIMER_Q__CHECK() call after a run_norm.
+	(timer_q__run_norm): Remove scan_next, and just do scan = base->start;
+

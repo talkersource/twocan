@@ -1,0 +1,31 @@
+
+   INTRODUCTION
+
+ All functions are documented in functions.txt, all constants are
+in constants.txt and the namespace rules are in namespace.txt (fancy that).
+
+Basically you should be able to get an overview of a function by looking at
+the functions.txt file, and be able to get a deeper understanding by looking
+in the constants.txt file (Ie. all constants should be passed to a function
+listed, so the more detailed information is listed with the constants -- not
+the functions). Also if you used the development version of this library you
+should read the compatability.txt document as some of the symbol names changed.
+
+
+   A VERY SIMPLE OVERVIEW
+
+ A _very_ simple overview is that you create a (Timer_q_base *) as the base
+of all your timed events. Then whenever you want a timed event you create a
+(Timer_q_node *) in the (Timer_q_base *). This will then "go off" when you
+call timer_q_run_norm() with a time equal, or greater, than the one the timer
+should go off at. It will also "go off" if you call timer_q_run_all() and you
+created the (Timer_q_base *) with the TIMER_Q_FLAG_BASE_RUN_ALL flag.
+
+ The only other bit of information which doesn't really fit anyway, is that
+you are allow to _read_ the (Timer_q_base *)->num to find out how many
+nodes are in that base -- setting this value isn't allowed though and may or
+may not have any effect (and that effect may or may not be for the library to
+crash).
+
+ Also note that you might want to have a look at the examples/ directory
+ex1.c is the most simple usage, ex2.c is more complicated etc.

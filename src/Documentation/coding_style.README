@@ -1,0 +1,187 @@
+
+ Coding style
+ ------------
+
+ All braces are in the non KnR style Ie. do it like...
+
+ if ()
+ {
+ }
+
+ All scope is minimised, Ie. only declare it extern if something
+outside file scope actually uses it (or sometimes if you _really_ want 
+to say this _can_ be used outside -- but only sometimes).
+
+
+ Magic numbers are extremly _evil_, there is always a better way.
+ Ie.
+
+ func(int some_number)
+
+ should never _ever_ be called using func(4) but ... func(FUNC_VAL)
+ If you need to pass a flag then TRUE and FALSE should be used (not 1
+and 0). If you need to pass more than one flag then flags should be
+defined (passing -TRUE, TRUE and FALSE is more than evil).
+
+
+ Buffers are interesting things ... generally the best appraoch for
+short term buffers is to always allocate enough storage. Ie.
+
+ char buffer[sizeof("The num is %d\n") + BUF_NUM_TYPE_SZ(int)];
+
+ sprintf(buffer, "The num is %d\n", num);
+
+ The next best solution is to limit output, Ie.
+
+ sprintf(buffer, "%.*s", STR_LEN, str);
+
+ The other solution is to malloc
+
+ len = strlen(str);
+
+ if (!(str_new = malloc(len + 1)))
+   goto error_con;
+
+ memcpy(str_new, str, len);
+ new_str[len] = 0;
+
+ If a function accepts a buffer and needs to write to it, then pass
+it's length as well. Not following these instructions are considered
+exploits.
+
+
+ The stack is gone, and it's not coming back. See above point if you
+need to do a stack like thing.
+
+
+ comments are considered _evil_ ... if you have to comment heavily
+your code is unreadable or you should be writing the english elsewhere 
+(no pun intended) like in the help files etc.
+
+
+ Function names and variable names should be in the file
+namespace(s). Ie. something_find is prefered to find_something.
+ Also contrary to some people's beliefs long std identifiers are not
+harmful to programers.
+
+
+ All functions that a user can run are prefixed user_, all privilaged
+functions are prefixed user_su_ and all generic toggle functions
+user_toggle_ or user_su_toggle_.
+
+
+ As an extention to this a function which needs a logged on user to
+run (Ie. does error messages itself) also usually have _user_ in their 
+name Ie. something_find and something_user_find, where the later does
+error messages as well.
+
+
+ create/delete type functions are strongly encouraged, also having a
+safemalloc #define for your type is good (even if you only use it in
+file scope -- as malloc as global scope).
+
+
+ do_*order_* type functions seem to have worked very well, and are
+generally considered better than while loops.
+
+
+ long long is a syntax error, if you need to print off_t's etc then
+you're screwed. Use int_max_t or int64_t ... but you'll have to do the 
+macro magic in the printf fmt.
+
+
+ As for layout here is the emacs c-style we've used throughout
+the code...
+
+; Stop adding lines at the bottom of buffer
+(setq-default next-line-add-newlines nil)
+
+
+;; Tell cc-mode not to check for old-style (K&R) function declarations.
+;; This speeds up indenting a lot.
+(setq c-recognize-knr-p nil)
+
+; C-MODE stuff
+(defconst twocan-c-style
+  '((c-tab-always-indent           . t)
+;    (c-comment-only-line-offset    . 4)
+    (c-hanging-braces-alist        . ((substatement-open after)
+				      (brace-list-open)))
+    (c-hanging-colons-alist        . ((member-init-intro before)
+				      (inher-intro)
+				      (case-label after)
+				      (label after)
+				      (access-label after)))
+    (c-cleanup-list                . (scope-operator
+				      empty-defun-braces
+				      defun-close-semi))
+    (c-offsets-alist               . (
+				      (string . 0)
+				      (c . c-lineup-C-comments)
+				      (defun-open . 0)
+				      (defun-close . 0)
+				      (defun-block-intro . 1)
+				      (class-open . 0)
+				      (class-close . 0)
+				      (inline-open . 0)
+				      (inline-close . 0)
+				      (knr-argdecl-intro . 3)
+				      (knr-argdecl . 0)
+				      (topmost-intro . 0)
+				      (topmost-intro-cont . 0)
+				      (member-init-intro . 1)
+				      (member-init-cont . 0)
+				      (inher-intro . 1)
+				      (inher-cont . 0)
+				      (block-open . 0)
+				      (block-close . 0)
+				      (brace-list-open . 0)
+				      (brace-list-close . 0)
+				      (brace-list-intro . 1)
+				      (brace-list-entry . 0)
+				      (statement . 0)
+				      (statement-cont . 2)
+				      (statement-block-intro . 1)
+				      (statement-case-intro . 2)
+				      (statement-case-open . 0)
+				      (substatement . 2)
+				      (substatement-open . 0)
+				      (case-label . 1)
+				      (label . 0)
+				      (do-while-closure . 0)
+				      (else-clause . 0)
+				      (comment-intro . 0)
+				      (arglist-intro . c-lineup-comment)
+				      (arglist-cont . c-lineup-arglist)
+				      (arglist-cont-nonempty . c-lineup-arglist)
+				      (arglist-close . c-lineup-arglist)
+				      (stream-op . 0)
+				      (inclass . 1)
+				      (cpp-macro . 0)
+				      (friend . 0)
+				      ))
+    (c-echo-syntactic-information-p . t)
+    )
+  "Twocan coding layout")
+
+;; Customizations for all of c-mode, c++-mode, and objc-mode
+(defun twocan-c-mode-common-hook ()
+  (c-add-style "twocan" twocan-c-style t)
+
+  (c-set-offset 'member-init-intro '++)
+
+  (setq tab-width 8
+	;; this will make sure spaces are used instead of tabs
+	indent-tabs-mode nil)
+
+; These don't affect the layout... but are usefull.
+
+  (c-toggle-auto-hungry-state 1)
+  ;; keybindings for C, C++, and Objective-C.  We can put these in
+  ;; c-mode-map because c++-mode-map and objc-mode-map inherit it
+  (define-key c-mode-map "\C-m" 'newline-and-indent)
+  )
+
+;; the following only works in Emacs 19
+;; Emacs 18ers can use (setq c-mode-common-hook 'my-c-mode-common-hook)
+(add-hook 'c-mode-common-hook 'twocan-c-mode-common-hook)

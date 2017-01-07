@@ -1,0 +1,26 @@
+
+ Here are some docs on the player_find function.
+
+ All the player_find functions take the same arguments..
+
+ player_find_* (player *requester, const char *str, unsigned int flags)
+
+ requester =  The player who is requesting the find, this can be NULL if
+             the system is doing it.
+
+ str = passed string, the name of the player we are searching for.
+
+ flags = things to tweak how we find the player.
+
+PLAYER_FIND_NEWBIES = do we want to find newbies as well as residents.
+PLAYER_FIND_EXPAND = do expansion on the pass str, or is it an exact match.
+PLAYER_FIND_VERBOSE = Do we tell the requester what went wrong.
+PLAYER_FIND_PICK_FIRST = Do we pick the first match, or show mutli matches.
+PLAYER_FIND_SELF = Is the requester allowed to find themself.
+PLAYER_FIND_NICKS = Do we try nicknames of the requester first.
+
+ Note that is you pass either VERBOSE | SELF | NICKS then requester can't
+be NULL. Also some of the functionality isn't finnished, sue me.
+
+ There are also some SC (Shortcut) macros for things that happen a lot.
+

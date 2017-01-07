@@ -1,0 +1,4 @@
+.configure.make_opts
+configure
+sh_autoconf_env
+gnome-config-missing.sh

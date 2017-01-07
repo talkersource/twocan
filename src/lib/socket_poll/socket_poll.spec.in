@@ -1,0 +1,81 @@
+# Note that this is NOT a relocatable package
+%define ver      @VERSION@
+%define libver  @LT_RELEASE@
+%define  RELEASE 1
+%define  rel     %{?CUSTOM_RELEASE} %{!?CUSTOM_RELEASE:%RELEASE}
+%define prefix   /usr
+
+Summary: Handy library for polling on file descriptors
+Name: socket_poll
+Version: %ver
+Release: %rel
+Copyright: LGPL
+Group: Libraries
+Source: ftp://ftp.and.org/pub/james/socket_poll/%{ver}/socket_poll-%{ver}.tar.gz
+BuildRoot: /var/tmp/socket_poll-%{PACKAGE_VERSION}-root
+URL: http://www.and.org/socket_poll/
+Docdir: %{prefix}/doc
+
+%description
+Handy library of functions for polling file descriptors. It's main advantages
+are that it's faster than most implementations and it allows for transparent
+usage by shared libraries.
+
+%package devel
+Summary: Support library for various applications/libraries.
+Group: Libraries
+
+%description devel
+Static libraries and header files for the support library of various
+applications and libraries, which are available as public libraries.
+Also includes a *Conf.sh file for gnome-config.
+
+%changelog
+
+* Mon Apr 10 2000 James Antill <james@and.org>
+- Hack a spec file.
+
+%prep
+%setup
+
+%build
+# For devel releases
+if [ ! -f configure ]; then
+  ./pre_configure
+fi
+
+CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%prefix
+make
+
+%install
+rm -rf $RPM_BUILD_ROOT
+
+# This makes it install in $RPM_BUILD_ROOT instead of where it should.
+# The INST_GNOME_CONFIG_HACK is because we install the timer_qConf.sh into the
+# dir which gnome-config is configured with.
+make prefix=$RPM_BUILD_ROOT%prefix INST_GNOME_CONFIG_HACK=$RPM_BUILD_ROOT install
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%post -p /sbin/ldconfig
+
+%postun -p /sbin/ldconfig
+
+%files
+%defattr(-, root, root)
+
+%doc AUTHORS COPYING ChangeLog NEWS README 
+
+%{prefix}/lib/libsocket_poll-%{libver}.so.*
+%{prefix}/lib/libsocket_poll.so
+
+%files devel
+%defattr(-, root, root)
+
+%doc Documentation/functions.txt Documentation/functions.html Documentation/constants.txt Documentation/constants.html Documentation/namespace.txt Documentation/namespace.html Documentation/overview.txt Documentation/overview.html
+
+%{prefix}/lib/libsocket_poll.la
+%{prefix}/lib/libsocket_poll.a
+%{prefix}/lib/socket_pollConf.sh
+%{prefix}/include/*.h

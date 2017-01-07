@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>TODO</title>
+  </head>
+
+  <body bgcolor="#FFFFFF">
+
+    <TABLE WIDTH="80%">
+      <TR><TD BGCOLOR="#DDDDDD">
+	  <STRONG>TODO, these aren't bugs they're features, or lack therof :)</STRONG>
+	</TD></TR>
+      <TR><TD BGCOLOR="#DDDDDD">Misc</TD></TR>
+      <TR><TD><STRONG>I</STRONG>gnore command to do list-chan coms player all %!.</TD></TR>
+      <TR><TD><STRONG>T</STRONG>imeout values in angel, dns and loading of players/mail/lists to go into configure command.</TD></TR>
+      <TR><TD><STRONG>S</STRONG>us want to get rid of the non expantion of su commands ... so that they all expand but will prompt you if there is more than one match and say are you sure ?</TD></TR>
+      <TR><TD><STRONG>A</STRONG>liases need to be able to be subscrtibed to via. the system. Like channels_add_system and list_change_system etc.</TD></TR>
+      <TR><TD><STRONG>A</STRONG>llow people to reconfig the base defaults on a channel.</TD></TR>
+      <TR><TD><STRONG>L</STRONG>ogs should be done as disk.c files, so that you can delete lines etc. ?</TD></TR>
+      <TR><TD><STRONG>E</STRONG>ditor/pager quiet should inform you of how much data is waiting for you if you leave the editor .. should also allow temp quiet and show queued data.</TD></TR>
+      <TR><TD><STRONG>T</STRONG>ell you who your name is _like_ on init logon, ala. key</TD></TR>
+      <TR><TD><STRONG>H</STRONG>ave personal local social colour and personal non-local social colour _instead_ of the current two.</TD></TR>
+      <TR><TD><STRONG>C</STRONG>onfigureable x, a wrapper around twinkles</TD></TR>
+      <TR><TD><STRONG>K</STRONG>ARMA, do karma ordering ... so you can see who has the most karma etc.</TD></TR>
+      <TR><TD><STRONG>T</STRONG>oggle to auto see comments instead of code for aliases</TD></TR>
+      <TR><TD><STRONG>S</STRONG>aved warnings</TD></TR>
+      <TR><TD><STRONG>M</STRONG>ain room(s) run time config, Ie. can have more than one ... and prived.</TD></TR>
+      <TR><TD><STRONG>A</STRONG>lter list/show/grant so they work like alias (maybe have sub system).</TD></TR>
+      <TR><TD><STRONG>U</STRONG>se timer queue in news.</TD></TR>
+      <TR><TD><STRONG>A</STRONG>dd more colour options Eg. inform, friend inform, multis, format, system</TD></TR>
+      <TR><TD><STRONG>A</STRONG>llow pager etc. to have input on a per char basis.</TD></TR>
+      <TR><TD><STRONG>A</STRONG>uto saving, so you do get saved say once every 30 mins.</TD></TR>
+      <TR><TD><STRONG>D</STRONG>ynamic timeouts of player files.</TD></TR>
+      <TR><TD><STRONG>S</STRONG>peed up nicknames/aliases/lists and player_linked_lists by putting end arg in</TD></TR>
+      <TR><TD><STRONG>A</STRONG>lias privs (Ie. controllable from sus only for disable command per person).</TD></TR>
+      <TR><TD><STRONG>R</STRONG>ecall_lines and recall_time (recall_time is easier).</TD></TR>
+      <TR><TD><STRONG>A</STRONG>uto banish system banishes on boot.</TD></TR>
+      <TR><TD><STRONG>A</STRONG>dd int to multis (one for block groupings ?)</TD></TR>
+      <TR><TD><STRONG>M</STRONG>ake blink (flash) blockable (possibly other wands (or twinkles ?) blockable).</TD></TR>
+      <TR><TD><STRONG>M</STRONG>ake command matching go to 2 letters (and blockable?). Also normal_expand as well as clever expand.</TD></TR>
+      <TR><TD><STRONG>M</STRONG>ail and news signatures (end mail/news with .sig)</TD></TR>
+      <TR><TD><STRONG>C</STRONG>entering for editor (or twinkles... have it on a line by line ... but that's not enough).</TD></TR>
+      <TR><TD><STRONG>M</STRONG>ake the "continue" prompt in the disclaimer use continue/accpet/yes randomly -- to make sure people read it ?</TD></TR>
+      <TR><TD><STRONG>U</STRONG>se autoconf AC_EGREP_CPP or something to check for the const struct dirent in scandir.</TD></TR>
+
+      <TR><TD BGCOLOR="#DDDDDD">Memory reduction</TD></TR>
+      <TR><TD><STRONG>S</STRONG>plit player up into at least the following sections 
+	  commonly used variables (probably inc. all small stuff)
+	  usually only used when logged on, variables.
+	  
+	  only used when logged on.
+	  
+	  Then have player_load, only load certain things (and have the player
+	  structure be allocated)
+	  
+	  This should mean that we aren't eating 8k just to see someone title.
+	</TD></TR>
+      
+      <TR><TD BGCOLOR="#DDDDDD">Prompts</TD></TR>
+      <TR><TD><STRONG>D</STRONG>ynamic updates -- for clock mainly</TD></TR>
+      
+      <TR><TD BGCOLOR="#DDDDDD">Twinkles</TD></TR>
+      <TR><TD><STRONG>R</STRONG>ot1 to Rot25 ... maybe even any number, should be fairly easy ... but isn't Rot13 enough ?:)</TD></TR>
+      <TR><TD><STRONG>R</STRONG>ecv-Time_till_next_spod -- not easy to get right :(</TD></TR>
+      <TR><TD><STRONG>P</STRONG>layer-Friends-Person()</TD></TR>
+      <TR><TD><STRONG>I</STRONG>ncludes</TD></TR>
+
+      <TR><TD BGCOLOR="#DDDDDD">Multis</TD></TR>
+      <TR><TD><STRONG>A</STRONG>dd as C types (low priority) .. multi_number, multi_entry_flags, multi_base_flags, multi_return_flags</TD></TR>
+      <TR><TD><STRONG>A</STRONG>dd some way of tagging via privs (?) - single ppl maybe -- do via. priv int .. priv:sus ?</TD></TR>
+      <TR><TD><STRONG>F</STRONG>ix the compare code. -- do by removing BLOCK flag ?</TD></TR>
+    </TABLE>
+
+    <hr>
+    <address><a href="mailto:nevyn@twocan.org">James</a></address>
+<!-- Created: Mon Jun 14 15:17:32 IST 1999 -->
+<!-- hhmts start -->
+Last modified: Sat Oct 30 14:49:03 EST 1999
+<!-- hhmts end -->
+  </body>
+</html>

@@ -1,0 +1,14 @@
+ Most of the log files are cycled on their own, so just
+delete'ing/move'ing them is ok. But you can just leave them alone,
+until you need them.
+
+ The bug, suggest and error logs aren't rotated so you'll want to
+delete them if they get to big.
+
+ _BUT_
+
+ If you delete the logs/error.log file then you'll have to run the
+command "log_reopen_error" or you won't get error logs until it
+reboots. This is because quite a few errors will stop the talker from
+opening files ... which means you'll never find out why something went 
+wrong.

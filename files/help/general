@@ -1,0 +1,458 @@
+Expand-Type: expand_special
+Telnet-Client: false
+Allow-Find: true
+Header: $Merge(2( General help: $Help-Primary_name ) 1($Line_fill(-)))
+Footer: $Line_fill(-=)$Line_fill(-)
+Always-Header: false
+Always-Footer: false
+Override-Last: true
+
+# Start of helps...
+# ------------------------------------------------------------------------
+Body: end
+
+ At a minimum you'll need to know how to use the following commands:
+
+say
+emote
+
+ These commands will do a say or an emote (an action like bows jumps
+etc.) to the current room.
+
+tell
+remote
+
+ These commands will do a tell or a remote (an action like bows jumps
+etc.) to the specified players.
+
+end
+Keywords: "newbie" "index" "README"
+Primary-Name: newbie
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether the
+program will automatically work out your age from your birthday.
+
+end
+Keywords: "toggles"
+Primary-Name: age_auto
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether the
+program will send you idle warn messages when you try and communicate
+with someone who is idle.
+
+ See also: idle
+
+end
+Keywords: "toggles"
+Primary-Name: blockidle_warnds
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+other players can do tells to you.
+
+ See also: blockfriends, earmuffs, tell
+
+end
+Keywords: "toggles" "communication"
+Primary-Name: blocktells
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+you will get shown the room description when you enter a room.
+
+ See also: look
+
+end
+Keywords: "toggles" "brief"
+Primary-Name: brief
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+you will get shown the games board in a game.
+
+ See also: draughts, ttt, sps
+
+end
+Keywords: "toggles" "games" "brief"
+Primary-Name: brief_games
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+you are on the CrazyLands Channel.
+
+ See also: shout
+
+end
+Keywords: "toggles" "channels"
+Primary-Name: cc
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+you will get shown the clock times in 24 hour format, or 12 hour format.
+
+ See also: time, examine, finger
+
+end
+Keywords: "toggles"
+Primary-Name: clock_format
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+other people can see how long you have been logged on for.
+
+ See also: examine, finger
+
+end
+Keywords: "toggles" "logon_time" "spodlist"
+Primary-Name: conceal_logon
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+you will get emailed CrazyNews (our, sort of monthly, newsletter).
+
+ See also: email
+
+end
+Keywords: "toggles" "email"
+Primary-Name: crazynews
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+you will get any communication from people, who aren't in the same room)
+
+ See also: blockfriends, blocktells, tell
+
+end
+Keywords: "toggles" "communication"
+Primary-Name: earmuffs
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+other people can see which room you are in.
+
+ See also: look, where
+
+end
+Keywords: "toggles" "room"
+Primary-Name: hide
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is magic, don't use unless
+you understand what it does.
+
+end
+Keywords: "toggles"
+Primary-Name: iacga
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+you will get lists of players shown in cronological or alphabetical order.
+
+ See also: look, swho, twho, who
+
+end
+Keywords: "toggles"
+Primary-Name: inorder_lists
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+you will keep_executing commands when expanded from aliases, or whether
+you will automatically stop after a set number.
+
+ See also: alias, unalias
+
+end
+Keywords: "toggles" "alias"
+Primary-Name: keep_executing
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+other people can see what your gmt offset is set to (hence they can
+guess where you are).
+
+ See also: gmt_offset
+
+end
+Keywords: "toggles"
+Primary-Name: kill_gmt_offset
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+you are placed on the "spodlist" or not.
+
+ See also: lsp
+
+end
+Keywords: "toggles"
+Primary-Name: kill_logon
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+the room you are in is locked or not.
+
+ See also: go, join, look, visit
+
+end
+Keywords: "toggles"
+Primary-Name: lock
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+you will get shown prefix's for players in emotes.
+
+ See also: emote, remote
+
+end
+Keywords: "toggles"
+Primary-Name: noeprefix
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+you will get shown prefix's for players in says.
+
+ See also: say, tell
+
+end
+Keywords: "toggles"
+Primary-Name: noprefix
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+other people can see what your email address is.
+
+ See also: finger
+
+end
+Keywords: "toggles"
+Primary-Name: public_email
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+twinkles from players will expand for you.
+
+end
+Keywords: "toggles"
+Primary-Name: raw_twinkle_toggle
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+you will get shown who did an echo, when one occurs.
+
+ See also: echo, recho
+
+end
+Keywords: "toggles"
+Primary-Name: seeecho
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+you will get shown the exits from a room when you enter it.
+
+ See also: exits, look
+
+end
+Keywords: "toggles"
+Primary-Name: showexits
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to toggle whether
+the socials code will automatically assume a name.
+
+end
+Keywords: "toggles" "socials"
+Primary-Name: social_name_auto
+# ------------------------------------------------------------------------
+Body: end
+
+ This is an example of spam.
+ *******************************
+ *******************************
+ *******************************
+ *******************************
+ *******************************
+ *******************************
+ *******************************
+ *******************************
+ ******************************************************************
+ ******************************************************************
+ ******************************************************************
+ ******************************************************************
+ ******************************************************************
+ ******************************************************************
+ ******************************************************************
+ ******************************************************************
+ ******************************************************************
+ ******************************************************************
+ ******************************************************************
+ *******************************
+ *******************************
+ *******************************
+ *******************************
+ *******************************
+ *******************************
+ *******************************
+ *******************************
+ That was an example of spam.
+
+end
+Keywords: "spam"
+Primary-Name: spam
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to change your list entries
+for your coms, self, games, coms tmp and self tmp lists.
+ You can alter multiple list entries, with multiple flags at the same
+time.
+
+ See also: list, room list, room list_change
+
+end
+Keywords: "list"
+Primary-Name: list_change
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to view your list entries
+for your coms, self, games, coms tmp and self tmp lists.
+
+ The communication list, contains flags for blocking certain types of
+communication to you, from other people.
+
+ The games list is the same idea as the communication list, but for
+games.
+
+ The self list, contains flags for allowing people to do things to
+you.
+
+ The temporary lists, will automatically get deleted as you logoff.
+
+ See also: list_change, room list, room list_change
+
+end
+Keywords: "list" "flags"
+Primary-Name: list
+# ------------------------------------------------------------------------
+Body: end
+
+$Merge(2(^B^U^LWands^N and ^98^1C^2o^3l^4o^5u^6r^7s^N) 1( ))
+$Merge(2(-----------------) 1( ))
+
+ $Talker-Name has wands and colors. It is possible for users to
+put ^1c^2o^3l^4o^5u^6r^7s^N or ^Bbold^N, ^Lblinking^N and
+^Uunderlined^N text in their tells and says etc.
+
+ To switch them on and off you use the command hilight. See
+"help terminal" for more information, as you also need a terminal
+set, although if you are using a nice telnet client it will set
+a terminal for you automatically.
+
+ Once they have been enabled, then you can enter colors and
+wands by using the following simple system.
+
+ To make text bold,            type:  ^^B^Btext^N^^N
+ To make text Blink,           type:  ^^L^Ltext^N^^N
+ To underline text,            type:  ^^U^Utext^N^^N
+
+ To enter a color, use ^^1, ^^2, etc to switch on that particular color. 
+ To switch on a background color, use ^^91, ^^92 etc. This will set the
+background to your chosen color. eg:
+
+ To get color 1,               type: ^^1^1text^N^^N
+ To get color 2,               type: ^^2^2text^N^^N  etc...
+
+ To get background color 1,    type: ^^91^91text^N^^N
+ To get background color 2,    type: ^^92^92text^N^^N
+
+ To save the previous settings in a sentence, use ^^S and to restore 
+them use ^^s.
+
+ To get a normal ^ in a sentence which precedes one of the above
+control codes,                type: ^^^^
+ To get 2 carets,             type: ^^^^^^^^  and so on...
+
+ ^B^URemember, ^^N turns wands and colors off.^N
+
+ Another way of terminating wands is to use a small letter rather
+than a big one. eg: ^^b, ^^u, ^^l ... and you can use a 0 to
+turn colors off, eg: ^^0 and ^^90 for background colors.
+
+ See also: colours list, wands list, terminal, tush
+
+end
+Keywords: "colours" "wands"
+Primary-Name: colours
+Other-Name: colors
+Other-Name: wands
+# ------------------------------------------------------------------------
+Body: end
+
+ Inverse        -       ^^I^IInverse^^i^i
+ Bold           -       ^^B^BBold^^b^b
+ Dim            -       ^^D^DDim^^d^d
+ Underline      -       ^^U^UUnderline^^u^u
+ Flashing       -       ^^F^FFlashing^^f^f
+ Save settings  -       ^^S^S^^B^B^^S^SSave ^^s^srestored ^^s^srestored again
+
+ See also: colours list, colourise, terminal
+
+end
+Keywords: "colours" "wands"
+Primary-Name: wands list
+Other-Name: wands list
+# ------------------------------------------------------------------------
+Body: end
+
+ Here is a list of your colours. Remember, you must have a terminal
+set and have them switched on.
+
+ For you the colours are...
+
+ ^1colour one,  ^2colour two, ^3colour three, ^4colour four,
+ ^5colour five, ^6colour six, ^7colour seven, ^8colour eight.^N
+
+ The default colors are usually...
+
+ 1 = ^1Black^0, 2 = ^2Red^0,    3 = ^3Green^0, 4 = ^4Yellow^0 (or brown),
+ 5 = ^5Blue^0,  6 = ^6Purple^0, 7 = ^7Cyan^0,  8 = ^8White^0 (or grey).
+
+ And in bold...
+
+ ^B1 = ^1Black^0, 2 = ^2Red^0,    3 = ^3Green^0, 4 = ^4Yellow^0 (or brown),
+ 5 = ^5Blue^0,  6 = ^6Purple^0, 7 = ^7Cyan^0,  8 = ^8White^0 (or grey).^N
+
+  See Also: colours, colours2, terminal, hilight
+
+end
+Keywords: "colours" "wands"
+Primary-Name: colours list
+Other-Name: colors list
+Other-Name: colours_list
+Other-Name: colors_list
+# -----------------------------------------------------------------------

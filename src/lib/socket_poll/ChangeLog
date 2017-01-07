@@ -1,0 +1,20 @@
+2000-05-27  James Antill  <james@and.org>
+
+	* src/socket_poll.c (socket_poll_add): On min optomisations offset 
+	should be 2 before min value not 1 before.
+
+2000-05-23  James Antill  <james@and.org>
+
+	* src/socket_poll.c (socket_poll_add): Bug for the first final _del 
+	as min and max get set to 0 not 1.
+
+2000-04-19  James Antill  <james@and.org>
+
+	* Documentation/txt2html.pl: Fix name problem on documentation.
+
+2000-02-17  James Antill  <james@and.org>
+
+	* src/socket_poll.c: Remove the socket_poll_ret value.
+	(socket_poll_cntl): Change to using param for get values, like 
+	timer_q and socket_com etc.
+

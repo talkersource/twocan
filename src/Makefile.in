@@ -1,0 +1,56 @@
+# Autoconf stuf...
+AC_CC = @CC@
+AC_CFLAGS = @CFLAGS@
+AC_LDFLAGS = @LDFLAGS@
+AC_LIBS = @LIBS@
+AC_GZIP_PATH = @GZIP_PATH@
+AC_BZIP2_PATH = @BZIP2_PATH@
+AC_SENDMAIL_PATH = @SENDMAIL_PATH@
+AC_MAKE = @MAKE_PATH@
+AC_ETAGS = @ETAGS_PATH@
+
+SOCKET_POLL_BUILD = @SOCKET_POLL_BUILD@
+SOCKET_POLL_CFLAGS = @SOCKET_POLL_CFLAGS@
+SOCKET_POLL_LDFLAGS = @SOCKET_POLL_LDFLAGS@
+
+TIMER_Q_BUILD = @TIMER_Q_BUILD@
+TIMER_Q_CFLAGS = @TIMER_Q_CFLAGS@
+TIMER_Q_LDFLAGS = @TIMER_Q_LDFLAGS@
+
+# End of autoconf..
+
+# Programming changes to be made after here ....
+BIN               = $(SRCDIR)/talker
+BIN_INSTALL       = $(ROOTDIR)/bin/talker
+BIN_OLD_INSTALL   = $(ROOTDIR)/bin/old/talker
+
+ADIR	          = $(SRCDIR)/angelserver
+
+ABIN              = $(ADIR)/angel
+ABIN_INSTALL      = $(ROOTDIR)/bin/angel
+ABIN_OLD_INSTALL  = $(ROOTDIR)/bin/old/angel
+
+DNS_DIR           = $(SRCDIR)/dnsserver
+
+DSBIN             = $(DNS_DIR)/dns_server
+DSBIN_INSTALL     = $(ROOTDIR)/bin/dns_server
+DSBIN_OLD_INSTALL = $(ROOTDIR)/bin/old/dns_server
+DCBIN             = $(DNS_DIR)/dns_child
+DCBIN_INSTALL     = $(ROOTDIR)/bin/dns_child
+DCBIN_OLD_INSTALL = $(ROOTDIR)/bin/old/dns_child
+
+IDIR              = $(SRCDIR)/i-comserver
+
+IBIN              = $(IDIR)/intercom
+IBIN_INSTALL     = $(ROOTDIR)/bin/intercom
+IBIN_OLD_INSTALL = $(ROOTDIR)/bin/old/intercom
+
+FDIR	          = $(SRCDIR)/forward-server
+
+FBIN              = $(FDIR)/forward_server
+FBIN_INSTALL      = $(ROOTDIR)/bin/forward_server
+FBIN_OLD_INSTALL  = $(ROOTDIR)/bin/old/forward_server
+
+OBJECT-DIR        = $(ROOTDIR)/junk
+
+EXECMOD           = 750

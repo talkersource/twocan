@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>Timer_q documentation -- namespaces</title>
+  </head>
+
+  <body bgcolor="#FFFFFF">
+    <table width="100%"><tr><td bgcolor="#DDFFDD">
+	  <h1>Timer_q documentation -- namespaces</h1>
+	</td></tr></table>
+    <!-- this is basically copy and paste from the .txt file... */ ... errr -->
+
+<table width="80%"><tr><td><p>
+ The library itself claims <b>/^timer_q[a-z0-9_]*$/i</b> as a namespace.<br>
+ Saying that all types are under...
+<br><pre>
+
+   Timer_q_[a-z0-9]*
+
+</pre>...all other global symbols (Ie. functions/variables) are under...
+<br><pre>
+
+   timer_q_[a-z0-9]*
+
+</pre>...and all CPP symbols/constants are under...
+<br><pre>
+
+   TIMER_Q_[A-Z0-9]*
+
+</pre>...this is mainly to make it easier to see what you are dealing with.
+
+ Also...
+<br><pre>
+
+   timer_q_timeval_[a-z][0-9]*
+
+</pre>...is used for all the functions to do with manipulating timeval
+structures.
+
+</p></td></tr><tr><td><p>
+
+ As far as trying to claim bits of the namespace back for yourself all the
+typedefs that aren't under the <b>/^Timer_q_typedef_[a-z0-9_]*$/</b>
+namespace can be switched off by #define'ing TIMER_Q_COMPILE_TYPEDEF to 0 --
+they will all be uninons or structs and so will be available under those
+namespaces. Ie.
+<br><pre>
+
+#define TIMER_Q_COMPILE_TYPEDEF 0
+#include &lt;timer_q.h&gt;
+
+struct Timer_q_base *global_base = NULL;
+
+</pre>
+
+</p></td></tr><tr><td><p>
+
+ This is of esp. note to <b>library authors</b> because all header files <b>_MUST_</b> use
+the struct/union namespace (or people won't be able to use your library if
+they #define TIMER_Q_COMPILE_TYPEDEF.
+
+</p></td></tr><tr><td><p>
+
+ All of the namespace where a double _ appears is not supposed to be used
+directly by _you_ the user of the library. If these interfaces change and
+it isn't visible via. the normal interfaces then the binary/source interface
+numbers will _NOT_ be changed on the library.
+
+</p></td></tr>
+
+</table>
+
+    <hr>
+    <address><a href="mailto:james@and.org">James Antill</a></address>
+<!-- Created: Mon Mar 13 21:07:30 EST 2000 -->
+<!-- hhmts start -->
+Last modified: Mon Mar 20 13:40:39 EST 2000
+<!-- hhmts end -->
+  </body>
+</html>

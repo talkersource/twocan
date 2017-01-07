@@ -1,0 +1,46 @@
+
+# End of auto generated bit...
+CC = $(AC_CC)
+
+PATHS	     = -DGZIP_PATH=\"$(AC_GZIP_PATH)\" \
+               -DBZIP2_PATH=\"$(AC_BZIP2_PATH)\" \
+	       -DSENDMAIL_PATH=\"$(AC_SENDMAIL_PATH)\"
+
+CONFIGS  = -DROOT=\"$(ROOTDIR)/\" -DVERSION=\"$(VERSIONID)\" $(TOTAL-DEFINES) \
+           $(PATHS) -D_GNU_SOURCE
+CFLAGS   =  $(WARNS) -I$(ADIR) -I- -I$(SRCDIR)/pcre \
+              $(SOCKET_POLL_CFLAGS) \
+              $(TIMER_Q_CFLAGS) \
+              $(CONFIGS) $(XTRA_GCC_OPTS) -DSHOW_WHY_DIED
+LDFLAGS  =  $(LIBS) $(AC_LIBS) $(SOCKET_POLL_LDFLAGS)
+
+OFILES := $(patsubst $(ADIR)/%.c,$(ADIR)/%.o,$(wildcard $(ADIR)/*.c))
+
+all: $(OFILES)
+		@$(CC) $(CFLAGS) $(LDFLAGS) -o $(ADIR)/angel \
+		  $(OFILES) $(LDFLAGS)
+		@echo ""
+		@echo "Linking angel"
+		@echo ""
+
+$(ADIR)/%.o: $(ADIR)/%.c
+		@$(CC) $(CFLAGS) -c $< -o $@
+		@echo " Compiling $*..."
+
+install: all
+		-@mv -f $(ABIN_INSTALL) $(ABIN_OLD_INSTALL).$(DATE)
+		@mv $(ABIN) $(ABIN_INSTALL)
+		@chmod $(EXECMOD) $(ABIN_INSTALL)
+
+tags:
+		@etags $(ADIR)/*.c $(ADIR)/*.h
+
+clean:
+		rm -f $(ADIR)/*.o $(ADIR)/angel TAGS \
+		  $(ADIR)/*.bb $(ADIR)/*.bbg $(ADIR)/*.da
+
+distclean: clean
+		rm -f Makefile
+
+showcomp:
+		@echo $(CC) $(CFLAGS) $(DEFS) OBJS: $(OFILES)

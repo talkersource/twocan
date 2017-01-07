@@ -1,0 +1,20 @@
+
+   INTRODUCTION
+
+ All functions are documented in functions.txt, all constants are
+in constants.txt and the namespace rules are in namespace.txt (fancy that).
+
+Basically you should be able to get an overview of a function by looking at
+the functions.txt file, and be able to get a deeper understanding by looking
+in the constants.txt file (Ie. all constants should be passed to a function
+listed, so the more detailed information is listed with the constants -- not
+the functions).
+
+
+   A VERY SIMPLE OVERVIEW
+
+ A very simple overview is that you create a Socket_poll_typedef_offset by
+passing an fd to socket_poll_add(). You can then use it via.
+SOCKET_POLL_INDICATOR() as a normal (struct pollfd *) and by calling
+socket_poll_update_all(), instead of poll().
+

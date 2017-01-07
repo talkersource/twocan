@@ -1,0 +1,31 @@
+
+ There were some last minute changes at version 1.0.0 from 0.9.0, these
+should be pretty easy to fix and were made to make things clearer. 0.9.0 was
+a development release, so this isn't a problem ... this is now a stable
+release and so won't be happening again.
+
+ These are the old and the new symbol names:
+
+
+        old                                               new
+        ===                                               ===
+
+TIMER_Q_CALL_TYPE_RUN_NORM               TIMER_Q_TYPE_CALL_RUN_NORM
+TIMER_Q_CALL_TYPE_DEL                    TIMER_Q_TYPE_CALL_DEL
+TIMER_Q_CALL_TYPE_RUN_ALL                TIMER_Q_TYPE_CALL_RUN_ALL
+
+TIMER_Q_TV_CMP                           TIMER_Q_TIMEVAL_CMP
+TIMER_Q_TV_NORM                          TIMER_Q_TIMEVAL_NORM
+TIMER_Q_TV_ADD_SECS                      TIMER_Q_TIMEVAL_ADD_SECS
+TIMER_Q_TV_ADD_MINS                      TIMER_Q_TIMEVAL_ADD_MINS
+TIMER_Q_TV_ADD_HOURS                     TIMER_Q_TIMEVAL_ADD_HOURS
+TIMER_Q_TV_ADD_DAYS                      TIMER_Q_TIMEVAL_ADD_DAYS
+
+timer_q_diff_usecs                       timer_q_timeval_diff_usecs
+timer_q_diff_msecs                       timer_q_timeval_diff_msecs
+timer_q_diff_secs                        timer_q_timeval_diff_secs
+
+timer_q_first_tv                         timer_q_first_timeval
+
+timer_q_del_node_data                    timer_q_del_data
+

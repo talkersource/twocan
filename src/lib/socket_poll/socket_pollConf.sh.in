@@ -1,0 +1,7 @@
+#
+# Configuration file for using the socket_poll library, (via. gnome-config).
+#
+SOCKET_POLL_LIBDIR="@SOCKET_POLL_LIBDIR@"
+SOCKET_POLL_LIBS="@SOCKET_POLL_LIBS@ -lsocket_poll"
+SOCKET_POLL_INCLUDEDIR="@SOCKET_POLL_INCLUDEDIR@"
+MODULE_VERSION="socket_poll-@VERSION@"

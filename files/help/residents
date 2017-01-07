@@ -1,0 +1,253 @@
+Expand-Type: expand_special
+Telnet-Client: false
+Allow-Find: true
+Header: $Merge(2( Resident help: $Help-Primary_name ) 1($Line_fill(-)))
+Footer: $Line_fill(-=)$Line_fill(-)
+Always-Header: false
+Always-Footer: false
+Override-Last: true
+
+# Start of helps...
+# ------------------------------------------------------------------------
+Body: end
+
+ At a minimum you'll need to know how to use the following commands:
+
+say
+emote
+
+ These commands will do a say or an emote (an action like bows jumps
+etc.) to the current room.
+
+tell
+remote
+
+ These commands will do a tell or a remote (an action like bows jumps
+etc.) to the specified players.
+
+room create
+
+ This command will create a room for you (you can pass an id for the
+room as you create it, otherwise you'll have to use the "room id"
+command as the default will be unknown).
+
+room sethome
+
+ This command will set the current room as your home room (as long as
+you own it). This means that typing the command "home" will take you
+to it, also running the command "connect_home" means that you will be
+taken to your home room when you connect.
+
+end
+Keywords: "general" "index" "README"
+Primary-Name: general
+# ------------------------------------------------------------------------
+Header: $Merge(2( Mail help ) 1($Line_fill(-)))
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is the mail mode command. Each
+sub command. Each sub command has it's own help file, which can be
+accessed by doing "help $Help-Search_name sub_cmd".
+
+$Merge(2( Mail commands ) 1($Line_fill(-)))
+
+apost - Post a mail, anonymously.
+areply - Reply to a mail, anonymously.
+post - Post a mail.
+reply - Reply to a mail.
+
+check - Check your latest mail.
+check_all - Check all your mail.
+
+delete_recieved - Delete a mail you have recieved.
+delete_sent - Delete a mail that you have sent.
+
+noanonymous - Toggle whether people can send anonymous mails to you.
+
+read_recieved - Read a recieved mail.
+read_sent - Read a sent mail.
+
+sent - Check sent mail.
+sent_all - Check all sent mail.
+sent_info - Check information about a sent mail.
+
+end
+Keywords: "modes" "mail"
+Primary-Name: mail
+# ------------------------------------------------------------------------
+Header: $Merge(2( Channels help ) 1($Line_fill(-)))
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is the channels mode
+command. Each sub command has it's own help file, which can be
+accessed by doing "help $Help-Search_name sub_cmd".
+
+$Merge(2( Channels commands ) 1($Line_fill(-)))
+
+channels - List all the channels available.
+join - Join a channel.
+leave - Leave a channel.
+
+clist - Remove a list entry from the channel.
+list - View the list for the channel.
+list_change - Change the list for the channel.
+
+say - Say something to a channel.
+emote - Emote something to a channel.
+
+boot - Boot someone from a channel.
+who - List who is on a channel.
+
+configure - Configure how the channel looks to you.
+
+ See also: clist, list, list_change, boot, socials.
+
+end
+Keywords: "channels" "modes"
+Primary-Name: channels
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to show all the current 
+channels that you can join, or leave.
+
+end
+Keywords: "channels"
+Primary-Name: channels channels
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to "join" a
+channel. This only works if you have the "read" flag on your list
+entry for that channel.
+ If a channel doesn't exist then the channel will be created.
+
+ Advanced.
+
+ You can also configure the default look of the channel as you create
+it (or your settings if it already exists) by passing the "colour
+type" as the second argument and the "seperator" as the third
+argument.
+
+ See also: channels configure
+
+end
+Keywords: "channels"
+Primary-Name: channels join
+Other-Name: channels_join
+Other-Name: channel join
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to "leave" a channel.
+ This command only works if you are on the channel.
+
+end
+Keywords: "channels"
+Primary-Name: channels leave
+Other-Name: channels_leave
+Other-Name: channel leave
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to show all the players 
+who are currently on a channel.
+ This command only works if you are on the channel.
+
+end
+Keywords: "channels"
+Primary-Name: channels who
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to "boot" (force leave) 
+a player who is currently on a channel.
+ This command only works if you are on the channel.
+
+ Note: Nothing stops them re-join'ing the channel after they have been 
+booted. So you may need to change their list entry on the channel.
+
+ See also: clist, list, list_change
+
+end
+Keywords: "channels"
+Primary-Name: channels boot
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to "say" something to
+the channel.
+ This command only works if you are on the channel.
+
+ See also: tell, say
+
+end
+Keywords: "channels"
+Primary-Name: channels say
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to "emote" something to
+the channel.
+ This command only works if you are on the channel.
+
+ See also: remote, emote
+
+end
+Keywords: "channels"
+Primary-Name: channels emote
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is used to "configure" your
+settings for how the channel will be displayed to you.
+ This command only works if you are on the channel.
+
+ The 1st argument is the name of the channel you wish to configure.
+ The 2nd argument is the name of the configure option you wish to
+use.
+
+ The current configure options are..
+
+ show
+
+ This will show the current settings for the channel.
+
+ "colour type"
+ colour_type
+ "color type"
+ color_type
+
+ This will change the colour type, by passing the colour type as the
+3rd argument (or using default will reset it to the default). All
+colour types available can be listed by passing "list" as the 3rd
+argument.
+
+ seperator
+
+ This will change the seperator, by passing the seperator as the
+3rd argument (or using default will reset it to the default). All
+colour types available can be listed by passing "list" as the 3rd
+argument.
+
+ See also: channel join
+
+end
+Keywords: "channels" "configure"
+Primary-Name: channels configure
+Other-Name: channels_configure
+Other-Name: channel configure
+# ------------------------------------------------------------------------
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is an interface into the list
+for the channel. This controls who is aloowed to join, say, emote,
+boot and alter the list for the channel.
+ This command only works if you are on the channel.
+
+ See also: clist, list, list_change
+
+end
+Keywords: "channels"
+Primary-Name: channels list

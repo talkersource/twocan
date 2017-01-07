@@ -1,0 +1,9 @@
+ This is a shared library that should solve the problem of doing
+timed events within C programs. This library _DOES NOT_ use alarm()
+nor any of it's derivatives (and it will never do so).
+
+ It aims to be fast and small, if used properly, but also easy to use.
+
+ It is Licensed under the LGPL, see the COPYING file for details.
+
+ See the AUTHORS file for authors.

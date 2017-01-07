@@ -1,0 +1,96 @@
+Expand-Type: expand_special
+Telnet-Client: false
+Allow-Find: false
+Header: $Merge(2( Format: $Help-Search_name ) 1($Line_fill(-)))
+Footer: ** not seen
+Always-Header: true
+Always-Footer: false
+Override-Last: false
+
+# ------------------------------------------------------------------------
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is a toggle command, 
+you can run it in any of the following ways...
+
+^S^B$Help-Search_name^s ?
+
+ Will prints out a quick one line format for the command.
+
+^S^B$Help-Search_name^s on
+^S^B$Help-Search_name^s off
+^S^B$Help-Search_name^s toggle
+
+ Will change your current setting.
+
+^S^B$Help-Search_name^s
+
+ Will show you your current setting.
+
+end
+# Keywords that are relevant to the help file... 
+#  (again it needs to be before the name headers)
+# Primary, doesn't mean anything here...
+Primary-Name: age_auto
+Other-Name: blockidle_warnds
+Other-Name: blocktells
+Other-Name: brief
+Other-Name: brief_games
+Other-Name: cc
+Other-Name: clock_format
+Other-Name: conceal_logon
+Other-Name: crazynews
+Other-Name: crazynews_bulletin
+Other-Name: duty
+Other-Name: earmuffs
+Other-Name: hide
+Other-Name: iacga
+Other-Name: inorder_lists
+Other-Name: keep_executing
+Other-Name: kill_gmt_offset
+Other-Name: kill_logon
+Other-Name: lock
+Other-Name: noeprefix
+Other-Name: noprefix
+Other-Name: public_email
+Other-Name: raw_twinkle_toggle
+Other-Name: seeecho
+Other-Name: showexits
+Other-Name: social_name_auto
+Other-Name: verbose
+# ------------------------------------------------------------------------
+Header: $Merge(2( Mode command: $Help-Search_name ) 1($Line_fill(-)))
+Body: end
+
+ The command "^S^B$Help-Search_name^s" is a mode command, 
+you can run it in any of the following ways...
+
+^S^B$Help-Search_name^s
+
+ Will let you "enter" the mode so that you can run all that modes
+commands by just typing them but to run "non-mode" commands you'll
+have to do "/cmd".
+ To leave the mode just type "end".
+
+ Also all mode commands have the following commands...
+
+^S^B$Help-Search_name^s help
+^S^B$Help-Search_name^s commands
+
+ Note that the "converse" mode only has the "end" sub command,
+to make it more useful.
+
+end
+Primary-Name: mail
+Other-Name: news
+Other-Name: newsgroup
+Other-Name: channels
+Other-Name: room
+Other-Name: draughts
+Other-Name: editor
+Other-Name: stats
+Other-Name: check
+# This isn't really a mode command.
+Other-Name: converse
+Other-Name: intercom
+Other-Name: chlim

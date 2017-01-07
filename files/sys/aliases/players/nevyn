@@ -1,0 +1,19 @@
+versionsi:1:1
+headerob.must_usebf:1:0
+headerob.needs_helpbf:1:0
+headerob.number_of_aliasessi:1:1
+headerob.priv_typesi:1:0
+listob.0001ob.commandss:10:idle_total
+listob.0001ob.command_typesh:1:4
+listob.0001ob.comment_dobf:1:0
+listob.0001ob.flagsob.clever_matchbf:1:0
+listob.0001ob.flagsob.disabledbf:1:0
+listob.0001ob.flagsob.expand_matchbf:1:0
+listob.0001ob.flagsob.hiddenbf:1:0
+listob.0001ob.flagsob.no_beg_spacebf:1:0
+listob.0001ob.flagsob.privedbf:1:0
+listob.0001ob.flagsob.publicbf:1:0
+listob.0001ob.flagsob.sub_commandbf:1:0
+listob.0001ob.flagsob.sub_command_onlybf:1:0
+listob.0001ob.flagsob.use_namebf:1:1
+listob.0001ob.stringss:263:\showme $Count4(set(0) noprint())-- Idle totals $Line_fill(-=)$Line_fill(-)$Return$While_number(<(1($Count4(postinc())) 2($Current_players)) t($Player_alpha($Count4())-Name-(-20) - Idle in total for $Player_alpha($Count4())-Idle_total-Short.$Return))$Line_fill(-)

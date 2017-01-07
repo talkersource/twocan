@@ -1,0 +1,2 @@
+#! /bin/sh
+AC_MAKE="@MAKE_PATH@"

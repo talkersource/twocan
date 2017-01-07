@@ -1,0 +1,81 @@
+# This is hacked from glib
+# Note that this is NOT a relocatable package
+%define ver      @VERSION@
+%define libver  @LT_RELEASE@
+%define  RELEASE 1
+%define  rel     %{?CUSTOM_RELEASE} %{!?CUSTOM_RELEASE:%RELEASE}
+%define prefix   /usr
+
+Summary: Handy library for creating and using timed events
+Name: timer_q
+Version: %ver
+Release: %rel
+Copyright: LGPL
+Group: Libraries
+Source: ftp://ftp.and.org/pub/james/timer_q/%{ver}/timer_q-%{ver}.tar.gz
+BuildRoot: /var/tmp/timer_q-%{PACKAGE_VERSION}-root
+URL: http://www.and.org/timer_q/
+Docdir: %{prefix}/doc
+
+%description
+Handy library of functions for timed events.  Development libs and headers
+are in timer_q-devel.
+
+%package devel
+Summary: Support library for various applications/libraries.
+Group: Libraries
+
+%description devel
+Static libraries and header files for the support library of variuos
+applications and libraries, which are available as public libraries.
+
+
+%changelog
+
+* Tue Mar 14 2000 James Antill <james@and.org>
+- Hack a spec file.
+
+%prep
+%setup
+
+%build
+# For devel releases
+if [ ! -f configure ]; then
+  ./pre_configure
+fi
+
+CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%prefix
+make
+
+%install
+rm -rf $RPM_BUILD_ROOT
+
+# This makes it install in $RPM_BUILD_ROOT instead of where it should.
+# The INST_GNOME_CONFIG_HACK is because we install the timer_qConf.sh into the
+# dir which gnome-config is configured with.
+make prefix=$RPM_BUILD_ROOT%prefix INST_GNOME_CONFIG_HACK=$RPM_BUILD_ROOT install
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%post -p /sbin/ldconfig
+
+%postun -p /sbin/ldconfig
+
+%files
+%defattr(-, root, root)
+
+%doc AUTHORS COPYING ChangeLog NEWS README 
+
+%{prefix}/lib/libtimer_q-%{libver}.so.*
+%{prefix}/lib/libtimer_q.so
+
+%files devel
+%defattr(-, root, root)
+
+%doc Documentation/compatability.txt Documentation/compatability.html Documentation/functions.txt Documentation/functions.html Documentation/constants.txt Documentation/constants.html Documentation/namespace.txt Documentation/namespace.html Documentation/overview.txt Documentation/overview.html
+
+%{prefix}/lib/libtimer_q.la
+%{prefix}/lib/libtimer_q.a
+%{prefix}/lib/timer_qConf.sh
+%{prefix}/include/*.h

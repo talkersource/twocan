@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>Socket_poll documentation -- namespace</title>
+  </head>
+
+  <body bgcolor="#FFFFFF">
+    <table width="100%"><tr><td bgcolor="#DDFFDD">
+	  <h1>Socket_poll documentation -- namespace</h1>
+	</td></tr></table>
+    <!-- this is basically copy and paste from the .txt file... */ ... errr -->
+
+<table width="80%"><tr><td><p>
+ The library itself claims <b>/^socket_poll[a-z0-9_]*$/i</b> as a namespace.<br>
+ Saying that all types are under...
+<br><pre>
+
+   socket_poll_[a-z0-9]*
+
+</pre>...all other global symbols (Ie. functions/variables) are under...
+<br><pre>
+
+   socket_poll_[a-z0-9]*
+
+</pre>...and all CPP symbols/constants are under...
+<br><pre>
+
+   SOCKET_POLL_[A-Z0-9]*
+
+</pre>...this is mainly to make it easier to see what you are dealing with.
+
+</p></td></tr><tr><td><p>
+
+ All of the namespace where a double _ appears is not supposed to be used
+directly by _you_ the user of the library. If these interfaces change and
+it isn't visible via. the normal interfaces then the binary/source interface
+numbers will _NOT_ be changed on the library.
+
+</p></td></tr>
+
+</table>
+
+
+    <hr>
+    <address><a href="mailto:james@and.org">James Antill</a></address>
+<!-- Created: Tue Apr 11 09:43:40 EDT 2000 -->
+<!-- hhmts start -->
+Last modified: Tue Apr 11 09:47:44 EDT 2000
+<!-- hhmts end -->
+  </body>
+</html>

@@ -1,0 +1,27 @@
+#!/bin/perl
+
+my $keep_going = 1;
+
+select(STDOUT); $| = 1; # Make output unbuffered
+
+print "\n" x 4;
+print "pager off\n";
+
+while ($keep_going)
+{
+ my $cmd_count = 1;
+
+ while ($cmd_count < 500)
+ {
+  print "parse_exec \$Command($cmd_count) 12 abcd abcd abcd abcd\n";
+  print "\n" x 2;
+  print "parse_exec \$Command($cmd_count)\nend\n";
+
+  sleep (2);
+
+  $cmd_count++;
+ }
+}
+
+exit;
+

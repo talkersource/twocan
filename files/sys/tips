@@ -1,0 +1,16 @@
+versionsi:1:1
+headerob.number_of_sectionsui:1:2
+headerob.number_of_tipsui:1:7
+sectionsob.0001ob.namess:4:misc
+sectionsob.0001ob.numberui:1:6
+sectionsob.0001ob.priv_typeui:1:0
+sectionsob.0001ob.tipsob.0001ob.textss:108:You can display you clock in 24 hour mode (aka. millitary time), by using the ^S^Bclock_24_format^s command.
+sectionsob.0001ob.tipsob.0002ob.textss:127:You can use the ^S^Bansi_override^s command to turn ANSI colours on, even if your terminal doesn't tell us it can support them.
+sectionsob.0001ob.tipsob.0003ob.textss:111:You can use the ^S^Bcolourise^s or ^S^Bcolorise^s commands to change what colour says/tells/shouts etc. are in.
+sectionsob.0001ob.tipsob.0004ob.textss:51:You can use the ^S^Bbell^s command to toggle bells.
+sectionsob.0001ob.tipsob.0005ob.textss:97:You can toggle between an audible bell and a visual bell, by using the ^S^Bvisual_bell^s command.
+sectionsob.0001ob.tipsob.0006ob.textss:92:You can see who has recently logged off the program, by using the ^S^Blast_logoff^s command.
+sectionsob.0002ob.namess:4:spod
+sectionsob.0002ob.numberui:1:1
+sectionsob.0002ob.priv_typeui:1:8
+sectionsob.0002ob.tipsob.0001ob.textss:69:You can use the ^S^Braw_twinkles^s command to turn off user twinkles.

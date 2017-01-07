@@ -1,0 +1,46 @@
+
+# End of auto generated bit...
+CC = $(AC_CC)
+
+PATHS	     = -DGZIP_PATH=\"$(AC_GZIP_PATH)\" \
+               -DBZIP2_PATH=\"$(AC_BZIP2_PATH)\" \
+	       -DSENDMAIL_PATH=\"$(AC_SENDMAIL_PATH)\"
+
+CONFIGS  = -DROOT=\"$(ROOTDIR)/\" -DVERSION=\"$(VERSIONID)\" $(TOTAL-DEFINES) \
+           $(PATHS) -D_GNU_SOURCE
+CFLAGS   =  $(WARNS) -I$(FDIR) -I- -I$(SRCDIR)/pcre \
+              $(SOCKET_POLL_CFLAGS) \
+              $(TIMER_Q_CFLAGS) \
+              $(CONFIGS) $(XTRA_GCC_OPTS)
+LDFLAGS  =  $(LIBS) $(AC_LIBS)
+
+OFILES := $(patsubst $(FDIR)/%.c,$(FDIR)/%.o,$(wildcard $(FDIR)/*.c))
+
+all: $(OFILES)
+		@$(CC) $(CFLAGS) $(LDFLAGS) -o $(FDIR)/forward_server \
+		  $(OFILES) $(LDFLAGS)
+		@echo ""
+		@echo "Linking forward_server"
+		@echo ""
+
+$(FDIR)/%.o: $(FDIR)/%.c
+		@$(CC) $(CFLAGS) -c $< -o $@
+		@echo " Compiling $*..."
+
+install: all
+		-@mv -f $(FBIN_INSTALL) $(FBIN_OLD_INSTALL).$(DATE)
+		@mv $(FBIN) $(FBIN_INSTALL)
+		@chmod $(EXECMOD) $(FBIN_INSTALL)
+
+tags:
+		@etags $(FDIR)/*.c $(FDIR)/*.h
+
+clean:
+		rm -f $(FDIR)/*.o $(FDIR)/angel TAGS \
+		  $(FDIR)/*.bb $(FDIR)/*.bbg $(FDIR)/*.da
+
+distclean: clean
+		rm -f Makefile
+
+showcomp:
+		@echo $(CC) $(CFLAGS) $(DEFS) OBJS: $(OFILES)

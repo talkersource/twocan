@@ -1,0 +1,6 @@
+ The API might change, specifically most of the global variables will disappear
+and be replaced with a socket_poll_opt() function (see the socket_com or 
+timer_q libraries by me if you want an example).
+ So don't think about basing anything off of this until you've spoken
+with me... 
+  "James Antill" <james@and.org>

@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>BUGS</title>
+  </head>
+
+  <body bgcolor="#FFFFFF">
+
+    <TABLE WIDTH="80%">
+      <TR><TD BGCOLOR="#DDDDDD">
+	  <STRONG>BUGS</STRONG>
+	</TD></TR>
+      <TR><TD BGCOLOR="#DDDDDD">SERIOUS</TD></TR>
+      <TR><TD><STRONG>Crash</STRONG> in mail_save (maybe only when called from player_save_all when people loggoff ?) -- 3.
+	   It appears that it's from the call...
+  file_put_string("body", from->body, from->body_size, io_mail);
+           and it looks like from->body is NULL ... but the dump was trashed
+           so I'm not sure. Putting some debug stuff in so I'll have a better
+           idea soon.
+</TD></TR>
+      <TR><TD><STRONG>T</STRONG>he whole MAX_OUTPUT_LIST mess.</TD></TR>
+      <TR><TD><STRONG>S</STRONG>ocials doesn't have any precision on the output strings.</TD></TR>
+      <TR><TD><STRONG>S</STRONG>ocials don't tell you when no-one is listening.</TD></TR>
+      <TR><TD><STRONG>U</STRONG>se add/del instead of insert/remove.</TD></TR>
+      <TR><TD><STRONG>A</STRONG>lias libraries can't be subscribed to automatically.</TD></TR>
+      <TR><TD><STRONG>S</STRONG>ps saves the player ptr.</TD></TR>
+
+      <TR><TD BGCOLOR="#DDDDDD">Not so bad</TD></TR>
+      <TR><TD><STRONG>S</STRONG>cripting doesn't log things through the pager.</TD></TR>
+      <TR><TD><STRONG>R</STRONG>aw_output dosn't work, in that there are a few system things that rely on output variables and not all of them use OVERRIDE_RAW_OUTPUT_VARIABLES. This also affects trying to completely disable output variables.</TD></TR>
+      <TR><TD><STRONG>O</STRONG>utput limiting doesn't work for non-printable characters ... so eg. you can keep changing colours and it will do quite a bit of work making output nodes.</TD></TR>
+      <TR><TD><STRONG>T</STRONG>erminal doesn't reap memory.</TD></TR>
+
+      <TR><TD BGCOLOR="#DDDDDD">UI</TD></TR>
+      <TR><TD><STRONG>M</STRONG>inister channel is in generic channels but lsm_off and list_ministers use their own thing (need allow who when not on flag).</TD></TR>
+      <TR><TD><STRONG>M</STRONG>ail doesn't reap old sent mail.</TD></TR>
+      <TR><TD><STRONG>S</STRONG>ocials don't tell you when no-one is listening.</TD></TR>
+      <TR><TD><STRONG>W</STRONG>hisper/exclude/drag/boot -- only accept one player as an argument.</TD></TR>
+      <TR><TD><STRONG>T</STRONG>elnet and quitting over a compressed stream (you don't get the final banner text -- how does it know ????).</TD></TR>
+      <TR><TD><STRONG>M</STRONG>cclient and quitting, it doesn't accept the IAC WONT COMPRESS I'm guessing this is a problem with mcclient -- but then we're distributing that too.</TD></TR>
+      <TR><TD><STRONG>I</STRONG>dlemsg if set twice, will not set it the second time.</TD></TR>
+      <TR><TD><STRONG>G</STRONG>et_parameter allows empty strings to be passed as arguments ... some things might get confused with that.</TD></TR>
+    </TABLE>
+
+    <hr>
+    <address><a href="mailto:james@twocan.org">James Antill</a></address>
+<!-- Created: Mon Jun 14 15:08:46 IST 1999 -->
+<!-- hhmts start -->
+Last modified: Fri Sep 24 00:36:32 EST 1999
+<!-- hhmts end -->
+  </body>
+</html>

@@ -1,0 +1,6 @@
+Makefile
+Makefile.in
+autoconf.h
+stamp-h
+stamp-h.in
+timer_q-conf.h

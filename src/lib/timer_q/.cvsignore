@@ -1,0 +1,11 @@
+Makefile
+Makefile.in
+aclocal.m4
+config.cache
+config.log
+config.status
+configure
+gnome-config-missing.sh
+libtool
+timer_q.spec
+timer_qConf.sh

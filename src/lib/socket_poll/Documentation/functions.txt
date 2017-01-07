@@ -1,0 +1,139 @@
+
+Section: Initialization function
+
+Function: socket_poll_init()
+
+ Returns: TRUE on success and FALSE on failure
+ Type: int
+
+ Parameter[1]: Value for the _MAP_COMPRESSED_GROW number
+ Type[1]: size_t
+
+ Explanation:
+
+  This function needs to be called before any of the other functions are
+ called.
+
+ Note:
+
+  If you pass 0 to this function it will give the _MAP_COMPRESSED_GROW a
+ default value (0 isn't a valid value so this is ok).
+
+Section: Functions to add/remove from the socket poll
+
+Function: socket_poll_add();
+
+ Returns: a socket poll offset number
+ Type: Socket_poll_typedef_offset
+
+ Parameter[1]: fd
+ Type[1]: int
+
+ Explanation:
+
+  This function will add an offset from the current group of offsets.
+
+ Note:
+
+  When using _MAP_DIRECT the returned offset may already be used by someone
+ else.
+
+
+Function: void socket_poll_del(Socket_poll_typedef_offset);
+
+ Returns: nothing
+ Type: void
+
+ Explanation:
+
+  This function will remove an offset from the current group of offsets.
+
+ Note:
+
+  When using _MAP_DIRECT the passed offset may still be being used by someone
+ else.
+
+
+Section: Updateing the socket poll
+
+Function: socket_poll_update_all(int);
+
+ Returns: number of offset's with interesting state, or -1 and sets errno
+ Type: int
+
+ Parameter[1]: milliseconds of time to wait
+ Type[1]: int
+
+ Explanation:
+
+  This function will update all of the offset's (struct pollfd *), chaging
+ the revents member. It will return either when something interesting has
+ happened, or after the timeout has expired.
+
+ Note:
+
+  This function _doesn't_ return the number of interesting fds, it returns the
+ number of intersting offsets. This is the same if you are using _MAP_DIRECT
+ but is very different if you are using _MAP_COMPRESSED.
+
+
+Function: int socket_poll_update_one(Socket_poll_typedef_offset, int);
+
+ Returns: 0 or 1 depending on if offset has state, or -1 and sets errno
+ Type: int
+
+ Parameter[1]: socket poll offset
+ Type[1]: Socket_poll_typedef_offset
+
+ Parameter[2]: milliseconds of time to wait
+ Type[2]: int
+
+ Explanation:
+
+  This function will update the offset's (struct pollfd *), chaging
+ the revents member. It will return either when something interesting has
+ happened, or after the timeout has expired.
+
+Section: Functions for miscellaneous control of options
+
+Function: socket_poll_cntl_opt()
+
+ Returns: 
+ Type: int
+
+ Parameter[1]: 
+ Type[1]: int
+
+ Parameter[ ... ]: options depending on value of Parameter[1]
+ Type[ ... ]: Default stdarg/vararg promotion
+
+ Explanation:
+
+  See the SOCKET_POLL_CNTL_OPT_ macros for options.
+
+ Note:
+
+  This function isn't needed for simple uses of socket_poll.
+
+
+Section: Macro functions to use a socket poll offset
+
+Function: SOCKET_POLL_INDICATOR()
+
+ Returns: poll structure
+ Type: struct pollfd *
+
+ Parameter[1]: socket poll offset
+ Type[1]: Socket_poll_typedef_offset
+
+ Explanation:
+
+  This function is used to access the struct pollfd structure accociated with
+ a socket poll offset.
+
+ Note:
+
+  You are allowed to, and indeed should, alter the (struct pollfd *)->events
+ member. However you should be careful about altering ->revents when using
+ _MAP_DIRECT mapping because it will be altered for all the other users of the
+ offset.

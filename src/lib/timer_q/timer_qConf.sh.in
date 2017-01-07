@@ -1,0 +1,7 @@
+#
+# Configuration file for using the timer_q library, (via. gnome-config).
+#
+TIMER_Q_LIBDIR="@TIMER_Q_LIBDIR@"
+TIMER_Q_LIBS="@TIMER_Q_LIBS@ -ltimer_q"
+TIMER_Q_INCLUDEDIR="@TIMER_Q_INCLUDEDIR@"
+MODULE_VERSION="timer_q-@VERSION@"

@@ -1,0 +1,119 @@
+2000-04-11  James Antill  <james@and.org>
+
+	* scripts/make_talker_build.sh: Do ./pre_configure on the libs.
+
+2000-03-21  James Antill  <james@and.org>
+
+	* EW_COMPAT: Removed the bit about ignore not existing, because it 
+	does.
+
+2000-01-21  James Antill  <james@and.org>
+
+	* Release-2000-01-21
+
+2000-01-10  James Antill  <james@and.org>
+
+	* skel/dist_rm_index: Added all the socket_com and timer stuff into the
+	delete list (it'll come back somewhere else ... eventually).
+
+1999-12-14  James Antill  <james@and.org>
+
+	* Release-1999-12-15
+
+	* Release-1999-12-14
+
+1999-11-11  James Antill  <james@and.org>
+
+	* Release-1999-11-11
+
+1999-11-10  James Antill  <james@and.org>
+
+	* THANKS: Added Winzlo to the THANKS file.
+
+	* Release-1999-11-10
+
+1999-09-30  James Antill  <james@and.org>
+
+	* Release-1999-09-30
+
+1999-09-28  James Antill  <james@and.org>
+
+	* Release-1999-09-28
+
+1999-09-27  James Antill  <james@and.org>
+
+	* scripts/clean_old_bins.in: Add script to truncate old binaries to a 
+	specified ammount.
+
+1999-09-22  James Antill  <james@and.org>
+
+	* skel/pre_rm: Sites might want to change hangman.words file.
+			Dito index for aliases.
+
+1999-09-19  James Antill  <james@and.org>
+
+	* Relase-1999-08-19
+
+	* skel/pre_rm: Added auth_player file to pre_rm ... as sites may well
+	want to change this.
+
+1999-09-18  James Antill  <james@and.org>
+
+	* Release-1999-09-18
+
+	* skel/pre_rm: Don't overright the default config file, so people
+	can use that instead of making their own name.
+
+1999-09-17  James Antill  <james@and.org>
+
+	* EW_COMPAT: Removed check entry defect line, as it's in now.
+
+1999-09-12  James Antill  <james@and.org>
+
+	* scripts/make_talker_build.sh (thepwd): Changed the skel stuff, so
+	people can just uintar to upgrade.
+
+1999-09-11  James Antill  <james@and.org>
+
+	* files/sys/aliases/misc/all: Do the privilage => privilege 
+	spelling correction.
+
+1999-09-07  James Antill  <james@and.org>
+
+	* README: Try and explain how to get a talker up and running a little better.
+
+1999-09-05  James Antill  <james@and.org>
+
+	* THANKS: Added person to THANKS file.
+
+1999-08-26  James Antill  <james@and.org>
+
+	* files/sys/aliases/misc/sus: Added the sucomment alias.
+
+	* README: Added some documentation about starting the talker.
+
+1999-08-01  James Antill  <james@and.org>
+
+	* README: Minor changes.
+
+1999-07-26  James Antill  <james@and.org>
+
+	* logs/.cvsignore: Ignore duty.log file.
+
+	* files/help/rules: Added rules file.
+
+	* EW_COMPAT: Added warning about error.log not behaving as it does
+ 	in EW.
+
+	* README: Added announce list.
+
+	* files/sys/aliases/misc/sus: Re-added lsu_hide.
+
+1999-07-25  James Antill  <james@and.org>
+
+	* Create release-1999-07-25.
+
+	* Added suggest.log to ignore list, in logs/.
+
+	* Added ChangeLog file.
+

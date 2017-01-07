@@ -1,0 +1,459 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+<head>
+<title>Timer_q documentation -- functions</title>
+  </head><body bgcolor="#FFFFFF"><table width="100%"><tr><td bgcolor="#DDFFDD"><h1>Timer_q documentation -- functions</h1>
+</td></tr></table><table width="90%"><tr><td bgcolor="#DDDDFF"><h2>Functions to add/delete base objects</h2>
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_add_base()
+
+<br>Returns: base object on sucess and NULL on failure.<br>Type: struct Timer_q_base *
+</td></tr><tr><td>Parameter<strong>[1]</strong>: default call back function<br>Type<strong>[1]</strong>: void (*)(int, void *)</td></tr><tr><td>Parameter<strong>[2]</strong>: flags<br>Type<strong>[2]</strong>: int
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function is used to create and add a new (Timer_q_base) object to the
+ list of known (Timer_q_base) objects.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  If you add the (Timer_q_base) with the _MOVE_WHEN_EMPTY flag then the base
+ will be added to the empty list, so to get maximum performance when you are
+ going to add a (Timer_q_node) imediatlely you want to create the
+ (Timer_q_base) without the _MOVE_WHEN_EMPTY flag and then add the node, and
+ then add the flag to the base.
+</p><p>  It's worth pointing out that the nodes are sorted in time order within
+ the base list, so you might want to specify _INSERT_FROM_END depending on
+ the timestamps of nodes you will be adding.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_add_static_base()
+
+<br>Returns: base object (== Parameter[1]) on success and NULL on failure.<br>Type: struct Timer_q_base *
+</td></tr><tr><td>Parameter<strong>[1]</strong>: base object<br>Type<strong>[1]</strong>: struct Timer_q_base *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: default call back function<br>Type<strong>[2]</strong>: void (*)(int, void *)</td></tr><tr><td>Parameter<strong>[3]</strong>: flags<br>Type<strong>[3]</strong>: int
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This functions is used to add a new (Timer_q_base) object that you have
+ previuosly allocated yourself to the list of known (Timer_q_base) objects.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  When you call *_del_base(), if Parameter[1] is used, the object will not
+ be destoryed. This allows you to statically allocate objects, or allocate them
+ as members of a larger object.
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_del_base()
+
+<br>Returns: nothing<br>Type: void
+</td></tr><tr><td>Parameter<strong>[1]</strong>: base object<br>Type<strong>[1]</strong>: struct Timer_q_base *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  The function deletes a (Timer_q_base) object to be from the list of
+ known base objects and if applicable destroyes it. It will also always
+ destroy all of the (Timer_q_node)s accociated with the base.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This function _cannot_ be called from a timer node call back. If it is
+ then the library may crash. See timer_q_quick_del_base().
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_quick_del_base()
+
+<br>Returns: nothing<br>Type: void
+</td></tr><tr><td>Parameter<strong>[1]</strong>: base object<br>Type<strong>[1]</strong>: struct Timer_q_base *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  The function marks a (Timer_q_base) object to be deleted from the list of
+ known base objects and if applicable to be destroyed. When the base is deleted
+ from the list of known base objects all the nodes accociated with it will also
+ be deleted.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  The function doesn't delete the (Timer_q_base) object immediatlely, this is
+ because this function can be called inside a (Timer_q_node) call back thus it
+ isn't safe to delete (Timer_q_base) objects immediately. When the object is
+ eventually deleted...
+<br><pre>
+     timer_q_cntl_base(base, ... _GET_FLAG_HAVE_DELETED ... );
+
+</pre> ...will return TRUE.
+
+
+</td></tr></table><table width="90%"><tr><td bgcolor="#DDDDFF"><h2>Functions to add/delete node objects</h2>
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_add_node()
+
+<br>Returns: node object on sucess and NULL on failure.<br>Type: struct Timer_q_node *
+</td></tr><tr><td>Parameter<strong>[1]</strong>: base object<br>Type<strong>[1]</strong>: struct Timer_q_base *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: call back data<br>Type<strong>[2]</strong>: void *
+</td></tr><tr><td>Parameter<strong>[3]</strong>: Time to do call back<br>Type<strong>[3]</strong>: const struct timeval *
+</td></tr><tr><td>Parameter<strong>[4]</strong>: flags<br>Type<strong>[4]</strong>: int
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function allocates and adds a (Timer_q_node) to the base (Parameter[1]).
+</p><p>  The node is initialised with the call back data as Parameter[2] and the time
+ as a copy of Parameter[3].
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  If you do not specify one of _SINGLE, _DOUBLE or _FUNC then the default will
+ be taken from the base. If you do specify a type then that type will be
+ created.
+</p><p>  If you specify _SINGLE and _DOUBLE then the _SINGLE will be ignored.
+</p><p>  It's worth pointing out that the nodes are sorted in time order within
+ the base list.
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_add_static_node()
+
+<br>Returns: node object on success and NULL on failure.<br>Type: struct Timer_q_node *
+</td></tr><tr><td>Parameter<strong>[1]</strong>: node object<br>Type<strong>[1]</strong>: struct Timer_q_base *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: base object<br>Type<strong>[2]</strong>: struct Timer_q_base *
+</td></tr><tr><td>Parameter<strong>[3]</strong>: call back data<br>Type<strong>[3]</strong>: void *
+</td></tr><tr><td>Parameter<strong>[4]</strong>: Time to do call back<br>Type<strong>[4]</strong>: const struct timeval *
+</td></tr><tr><td>Parameter<strong>[5]</strong>: flags<br>Type<strong>[5]</strong>: int
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function adds a (Timer_q_node) (Parameter[1]) to the base
+ (Parameter[2]).
+</p><p>  The node is initialised with the call back data as Parameter[2] and the time
+ as Parameter[3].
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  If you allocate a (Timer_q_node) and pass the flags to use a 
+ (Timer_q_double_node) then the library will not know that the object you
+ passed in Parameter[1] wasn't correct and so will probably crash. Always
+ pass the correct flags or just use timer_q_add_node().
+</p><p>  Also if you don't pass one of _SINGLE, _DOUBLE or _FUNC then the function
+ will not use the passed argument as act just like timer_q_add_node(). This is
+ a saftey measure to help the first note not happen.
+</p><p>  When you call *_del_node(), if Parameter[1] is used, the object will not
+ be destoryed. This allows you to statically allocate objects, or allocate them
+ as members of a larger object.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_del_node()
+
+<br>Returns: nothing<br>Type: void
+</td></tr><tr><td>Parameter<strong>[1]</strong>: base object</td></tr><tr><td>Tyope<strong>[1]</strong>: struct Timer_q_base *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: node object<br>Type<strong>[2]</strong>: struct Timer_q_node *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function will delete the node (Parameter[2]) from the base
+ (Parameter[1]), and will also destory the node, if applicable, after calling
+ the call back with the _DEL argument.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  It is assumed that Parameter[2] is in the base you supply as Parameter[1]
+ if this is not the case the library will probably crash.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_quick_del_node()
+
+<br>Returns: nothing<br>Type: void
+</td></tr><tr><td>Parameter<strong>[1]</strong>: node object</td></tr><tr><td>Tyope<strong>[1]</strong>: struct Timer_q_node *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function will mark the node (Parameter[1]) to be removed, and if aplicable
+ to be destroyed. The call back will be called just before the removal is done.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This function is faster than timer_q_del_node().
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_del_node_data()
+
+<br>Returns: TRUE on success and FALSE on failure.<br>Type: int
+</td></tr><tr><td>Parameter<strong>[1]</strong>: base node<br>Type<strong>[1]</strong>: struct Timer_q_base *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: node call back data<br>Type<strong>[2]</strong>: void *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function trys to find the (Timer_q_node) accociated with the node call
+ back data (Parameter[2]) in the base (Parameter[1]). If it finds a node it
+ will delete it from the base (Parameter[2]) and call the call back with _DEL.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+  This is semantically equivilant to...
+<br><pre>
+     if ((node = timer_q_find_data(base, data)))
+       timer_q_del_node(base, node);
+
+</pre> ...however it is as fast as doing...
+<br><pre>
+     if ((node = timer_q_find_data(base, data)))
+       timer_q_quick_del_node(node);
+
+</pre> ...instead.
+
+
+</td></tr></table><table width="90%"><tr><td bgcolor="#DDDDFF"><h2>Functions for finding objects</h2>
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_find_data()
+
+<br>Returns: node object on success and NULL on failure<br>Type: struct Timer_q_node *
+</td></tr><tr><td>Parameter<strong>[1]</strong>: base object<br>Type<strong>[1]</strong>: struct Timer_q_base *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: node call back data<br>Type<strong>[2]</strong>: void *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function trys to find the (Timer_q_node) accociated with the node call
+ back data (Parameter[2]) in the base (Parameter[1]).
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  If a node is not found NULL is returned and nothing bad happens.
+
+
+</td></tr></table><table width="90%"><tr><td bgcolor="#DDDDFF"><h2>Functions for running the timer q</h2>
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_run_norm()
+
+<br>Returns: number of nodes called<br>Type: unsigned int
+</td></tr><tr><td>Parameter<strong>[1]</strong>: current time<br>Type<strong>[1]</strong>: const struct timeval *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function runs the call backs for all nodes that have a timestamp less
+ than or equal to the timestamp (Parameter[1]). The type is equal to _RUN_NORM.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  After a call to the call back the (Timer_q_node) is removed from the base
+ it belonged to and if applicable is destroyed.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_run_all()
+
+<br>Returns: number of nodes called<br>Type: unsigned int
+</td></tr><tr><td>Parameter<strong>[1]</strong>: nothing<br>Type<strong>[1]</strong>: void
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function runs the call backs for all nodes that are in a base with the
+ _RUN_ALL flag set. The type is equal to _RUN_ALL.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  After a call to the call back the (Timer_q_node) is _not_ removed from the
+ base it belonged to and hence never destroyed. If timer_q_run_norm() is called
+ after this function, with a timestamp grreater than or equal to the timestamp
+ of a (Timer_q_node), then the (Timer_q_node) call back will get called twice.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_first_timeval()
+
+<br>Returns: timestamp<br>Type: const struct timeval *
+</td></tr><tr><td>Parameter<strong>[1]</strong>: nothing<br>Type<strong>[1]</strong>: void
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function returns the lowest timestamp of any of the (Timer_q_nodes)
+ in any one of the (Timer_q_base), this allows you to find out how long it
+ will be before _at least one_ of the (Timer_q_nodes) will "go off".
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This function will sometimes have to look through every base that is in the
+ list of bases. However when timer_q_run_norm() is called it will return
+ immediatelty, as long as you haven't deleted a node in the mean time.
+</p><p>  If you call timer_q_first_tv() twice, without calling anything else in
+ between, the second call will return the same value without having to do
+ any work.
+
+
+</td></tr></table><table width="90%"><tr><td bgcolor="#DDDDFF"><h2>Functions for normalising timestamps and adding time to them</h2>
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> TIMER_Q_TIMEVAL_NORM()
+
+<br>Returns: nothing<br>Type: void
+</td></tr><tr><td>Parameter<strong>[1]</strong>: unnormalised timestamp<br>Type<strong>[1]</strong>: struct timeval *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function normalises a struct timeval, Ie. the tv_usec member will never
+ be > 1_000_000 after a call to this function.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This function is should rarely be called explicitly.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> TIMER_Q_TIMEVAL_ADD_SECS()
+
+<br>Returns: nothing<br>Type: void
+</td></tr><tr><td>Parameter<strong>[1]</strong>: timestamp<br>Type<strong>[1]</strong>: struct timeval *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: seconds<br>Type<strong>[2]</strong>: int
+</td></tr><tr><td>Parameter<strong>[3]</strong>: micro seconds<br>Type<strong>[3]</strong>: int
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function adds the seconds (Parameter[2]) and micro seconds
+ (Parameter[3]) onto the timestamp (Parameter[1]).
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This function automatically normalises the timestamp (Parameter[1]) before
+ it returns.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> TIMER_Q_TIMEVAL_ADD_SECS()
+
+<br>Returns: nothing<br>Type: void
+</td></tr><tr><td>Parameter<strong>[1]</strong>: timestamp<br>Type<strong>[1]</strong>: struct timeval *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: minutes<br>Type<strong>[2]</strong>: int
+</td></tr><tr><td>Parameter<strong>[3]</strong>: micro seconds<br>Type<strong>[3]</strong>: int
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function adds the minutes (Parameter[2]) and micro seconds
+ (Parameter[3]) onto the timestamp (Parameter[1]).
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This function automatically normalises the timestamp (Parameter[1]) before
+ it returns.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> TIMER_Q_TIMEVAL_ADD_HOURS()
+
+<br>Returns: nothing<br>Type: void
+</td></tr><tr><td>Parameter<strong>[1]</strong>: timestamp<br>Type<strong>[1]</strong>: struct timeval *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: hours<br>Type<strong>[2]</strong>: int
+</td></tr><tr><td>Parameter<strong>[3]</strong>: micro seconds<br>Type<strong>[3]</strong>: int
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function adds the hours (Parameter[2]) and micro seconds
+ (Parameter[3]) onto the timestamp (Parameter[1]).
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This function automatically normalises the timestamp (Parameter[1]) before
+ it returns.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> TIMER_Q_TIMEVAL_ADD_DAYS()
+
+<br>Returns: nothing<br>Type: void
+</td></tr><tr><td>Parameter<strong>[1]</strong>: timestamp<br>Type<strong>[1]</strong>: struct timeval *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: days<br>Type<strong>[2]</strong>: int
+</td></tr><tr><td>Parameter<strong>[3]</strong>: micro seconds<br>Type<strong>[3]</strong>: int
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function adds the days (Parameter[2]) and micro seconds
+ (Parameter[3]) onto the timestamp (Parameter[1]).
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This function automatically normalises the timestamp (Parameter[1]) before
+ it returns.
+
+
+</td></tr></table><table width="90%"><tr><td bgcolor="#DDDDFF"><h2>Functions for comparing/diffing timestamps</h2>
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> TIMER_Q_TIMEVAL_CMP()
+
+<br>Returns: 0 on a match, < 0 if Paramteter[1] < Parameter[2], > 0 otherwise.<br>Type: int
+</td></tr><tr><td>Parameter<strong>[1]</strong>: timestamp<br>Type<strong>[1]</strong>: const struct timeval *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: timestamp<br>Type<strong>[2]</strong>: const struct timeval *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+  This function is the equivilant of...
+<br><pre>
+   strcmp(Parameter[1], Parameter[2])
+
+</pre> ...for timeval structures. It works like you would expect...
+<br><pre>
+   Parameter[1] - Parameter[2]
+
+</pre> ...to work.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  Both arguments are expected to be normalised. If this could be the case then
+ you need to call TIMER_Q_TIMEVAL_NORM().
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_timeval_diff_usecs()
+
+<br>Returns: microseconds<br>Type: long 
+</td></tr><tr><td>Parameter<strong>[1]</strong>: timestamp<br>Type<strong>[1]</strong>: const struct timeval *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: timestamp<br>Type<strong>[2]</strong>: const struct timeval *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function returns the difference in microseconds between the 2
+ timestamps. The return value is how you would expect
+ Parameter[1] - Parameter[2] to work.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  If the difference in time is >= LONG_MAX then LONG_MAX will be returned,
+ likewise for LONG_MIN.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_timeval_udiff_usecs()
+
+<br>Returns: microseconds<br>Type: unsigned long 
+</td></tr><tr><td>Parameter<strong>[1]</strong>: timestamp<br>Type<strong>[1]</strong>: const struct timeval *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: timestamp<br>Type<strong>[2]</strong>: const struct timeval *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function returns how much bigger the first timestamp (Parameter[1])
+ is over the second timestamp (Parameter[2]), in microseconds.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  If the difference in time is negative then 0 is returned.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_timeval_diff_msecs()
+
+<br>Returns: milliseconds<br>Type: long 
+</td></tr><tr><td>Parameter<strong>[1]</strong>: timestamp<br>Type<strong>[1]</strong>: const struct timeval *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: timestamp<br>Type<strong>[2]</strong>: const struct timeval *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function returns the difference in milliseconds between the 2
+ timestamps. The return value is how you would expect
+ Parameter[1] - Parameter[2] to work.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  If the difference in time is >= LONG_MAX then LONG_MAX will be returned,
+ likewise for LONG_MIN.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_timeval_udiff_msecs()
+
+<br>Returns: microseconds<br>Type: unsigned long 
+</td></tr><tr><td>Parameter<strong>[1]</strong>: timestamp<br>Type<strong>[1]</strong>: const struct timeval *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: timestamp<br>Type<strong>[2]</strong>: const struct timeval *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function returns how much bigger the first timestamp (Parameter[1])
+ is over the second timestamp (Parameter[2]), in milliseconds.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  If the difference in time is negative then 0 is returned.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_timeval_diff_secs()
+
+<br>Returns: seconds<br>Type: long 
+</td></tr><tr><td>Parameter<strong>[1]</strong>: timestamp<br>Type<strong>[1]</strong>: const struct timeval *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: timestamp<br>Type<strong>[2]</strong>: const struct timeval *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function returns the difference in seconds between the 2
+ timestamps. The return value is how you would expect
+ Parameter[1] - Parameter[2] to work.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  If the difference in time is >= LONG_MAX then LONG_MAX will be returned,
+ likewise for LONG_MIN.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_timeval_udiff_secs()
+
+<br>Returns: microseconds<br>Type: unsigned long 
+</td></tr><tr><td>Parameter<strong>[1]</strong>: timestamp<br>Type<strong>[1]</strong>: const struct timeval *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: timestamp<br>Type<strong>[2]</strong>: const struct timeval *
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  This function returns how much bigger the first timestamp (Parameter[1])
+ is over the second timestamp (Parameter[2]), in seconds.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  If the difference in time is negative then 0 is returned.
+
+
+</td></tr></table><table width="90%"><tr><td bgcolor="#DDDDFF"><h2>Functions for miscellaneous control of options</h2>
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_cntl_opt()
+
+<br>Returns: TRUE on success and FALSE on failure<br>Type: int
+</td></tr><tr><td>Parameter<strong>[1]</strong>: option type<br>Type<strong>[1]</strong>: int
+</td></tr><tr><td>Parameter<strong>[ ... ]</strong>: options depending on value of Parameter[1]<br>Type<strong>[ ... ]</strong>: Default stdarg/vararg promotion
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  See the TIMER_Q_CNTL_OPT_ macros for options.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This function isn't needed for simple uses of timer_q.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_cntl_node()
+<br>Returns: TRUE on success and FALSE on failure<br>Type: int
+</td></tr><tr><td>Parameter<strong>[1]</strong>: node object<br>Type<strong>[1]</strong>: struct Timer_q_node *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: option type<br>Type<strong>[2]</strong>: int
+</td></tr><tr><td>Parameter<strong>[ ... ]</strong>: options depending on value of Parameter[1]<br>Type<strong>[ ... ]</strong>: Default stdarg/vararg promotion
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  See the TIMER_Q_CNTL_NODE_ macros for options.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This function isn't needed for simple uses of timer_q.
+
+
+</td></tr></table><table width="80%"><tr><td bgcolor="#DDDDDD"><strong>Function: </strong> timer_q_cntl_base()
+
+<br>Returns: TRUE on success and FALSE on failure<br>Type: int
+</td></tr><tr><td>Parameter<strong>[1]</strong>: base object<br>Type<strong>[1]</strong>: struct Timer_q_base *
+</td></tr><tr><td>Parameter<strong>[2]</strong>: option type<br>Type<strong>[2]</strong>: int
+</td></tr><tr><td>Parameter<strong>[ ... ]</strong>: options depending on value of Parameter[1]<br>Type<strong>[ ... ]</strong>: Default stdarg/vararg promotion
+</td></tr><tr><td><strong>Explanation:</strong></td></tr><tr><td><p>
+</p><p>  See the TIMER_Q_CNTL_BASE_ macros for options.
+
+</td></tr><tr><td><strong>Note:</strong></td></tr><tr><td><p>
+</p><p>  This function isn't needed for simple uses of timer_q.
+
+</td></tr></table>
+</body></html>

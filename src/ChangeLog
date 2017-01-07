@@ -1,0 +1,860 @@
+2000-05-27  James Antill  <james@and.org>
+
+	* lists.c (timed_list_cleanup):  Fix timer_q_static_add_node.
+	* mail.c (timed_mail_cleanup): Fix timer_q_static_add_node.
+	(internal_mail_load):  Fix timer_q_static_add_node.
+	(mail_edit_end):  Fix timer_q_static_add_node.
+
+2000-05-23  James Antill  <james@and.org>
+
+	* process_output.c (output_for_player): 
+	* prompt.c (prompt_do_output): 
+	* process_output.c (output_maybe_delete_line): 
+	Major overhaul to the prompt outputting so that it goes out with
+	normal data now (looks much faster).
+
+2000-05-07  James Antill  <james@and.org>
+
+	* privs.c (user_su_assist_player): Change error message to make it
+	clear you can only assist one person at a time.
+
+2000-04-28  James Antill  <james@and.org>
+
+	* boot.c (main): Move the timer init near the begining so that the 
+	global timer queue can be used by other files.
+
+	* alarm.c (user_alarm): Changed alarm to go by a timer_q.
+
+2000-04-24  James Antill  <james@and.org>
+
+	* dnsserver/Makefile.orig: Added paths and pcre cflag stuff.
+	* angelserver/Makefile.orig: Added paths and pcre cflag stuff.
+
+2000-04-21  James Antill  <james@and.org>
+
+	* logon.c (logon_program_command_motd): Update the motd time when you
+	press return not before.
+	(logon_program_command_sumotd): Dito sumotd.
+
+	* angel.c (init_angel): Add POLLIN.
+
+	* dns.c (internal_dns_add): Add POLLIN.
+
+	* logon.c (logon_program): Show staff the sumotd before the motd.
+
+2000-04-12  James Antill  <james@and.org>
+
+	* process_output.c (output_for_player_flush): Fixed a crashing bug in
+	_flush() when scriping is on.
+
+2000-04-11  James Antill  <james@and.org>
+
+	* quit_in.c (user_quit_in): Add command.
+
+	* cmds_list.c (init_cmds_list): Add quit in init sutff.
+	* boot.c (main): Add quit in init sutff.
+
+2000-03-31  James Antill  <james@and.org>
+
+	* fix.c (getopt_internal): Fix getopt(0, ... )
+
+2000-03-30  James Antill  <james@and.org>
+
+	* Makefile.orig: Added more '-' flags for intercom.
+
+	* scripts/.configure.default (profile_me): Remove default profiling,
+	as FreeBSD doesn't have a -lc_p by default.
+
+	* include/fix.h: (SA_NOMASK): 
+	(stpcpy):  Add SA_NOMASK and fix stpcpy() function.
+
+	* fix.c (getopt):
+	(getopt_long):
+	(getopt_long_only): Fix minor corruption to the C file that happened at
+	some point.
+
+
+	* unixmake (date): Add prefix argument for configure.
+
+	* scripts/configure.in: Move the AC_INIT, doesn't work on non-Linux 
+	the old way.
+
+2000-03-21  James Antill  <james@and.org>
+
+	* room.c (user_room_change_automessage_time): Tell the current 
+	automessage time if no args given.
+
+	* alias.c (user_su_alias_lib_info): Add nice format message to 
+	alias_info_library
+
+	* room.c (user_room_transfer_home): Give error message when running 
+	home from home.
+
+2000-03-20  James Antill  <james@and.org>
+
+	* channels.c (timed_channels_sync): Fixed bug when calling 
+	channels_timed_save() after SYNC_ANYWAY had gone by.
+
+2000-03-17  James Antill  <james@and.org>
+
+	* session.c (session_init): Added session init function.
+
+	* include/main_system.h: Add the timer_q and socket_poll library
+	headers in.
+
+2000-03-07  James Antill  <james@and.org>
+
+	* cmds_list.c (init_cmds_list): Add cmds_init_mode() in so we get the
+	"modes" and "unmode" commands(how loing has this been missing :().
+
+2000-03-01  James Antill  <james@and.org>
+
+	* mail.c (mail_edit_end): Add needs_saving, as we can actually save
+	the mail at this point.
+
+	* buffers.c (buffer_mail_create): Remove needs_saving; do it when
+	they've finnished.
+
+	* mail.c (mail_create_mail_sent): Removed needs_saving = FALSE; this 
+	is very wrong.
+
+2000-01-27  James Antill  <james@and.org>
+
+	* unixmake (generic_warns): Remove -Wcast-qual, as it just got very 
+	annoying with the email changes.
+
+2000-01-26  James Antill  <james@and.org>
+
+	* logon.c (logon_program): Fixed long standing problem with 
+	logging_onto_count going < 0. This was because players who quit during
+	the motd/sumotd get the count decremented twice.
+
+	* email.c (email_report_extern): Removed function.
+
+	* passwd.c (passwd_check): Load the player, and use 
+	p->saved->player_ptr to check the passwd.
+
+	* logon.c (logon_program): Make sure players data is logged on.
+	(logon_player_load_make):  Make sure the player saves if it
+	gets auto cleanedup. Also don't copy the passwd accross, as we'll jump
+	through p->saved->player_ptr instead.
+
+	* extern/extern-chlim.h (CHLIM_BUILD): Make player save if you'd 
+	loaded them.
+
+	* dnsserver/dns.c (main): 
+	* dnsserver/dns_child.c (main): Fix problem for systems that don't have
+	prctl() because child_com_wait() doesn't work in this case.
+
+2000-01-24  James Antill  <james@and.org>
+
+	* room.c (user_room_with): Change the id and owner name around. Also
+	Fix a plural player output problem.
+	(room_can_enter): Remove the assert(), it wasn't true.
+	(user_room_change_id): Change all owner->lower_name's to owner->name
+	in error output.
+
+2000-01-12  James Antill  <james@and.org>
+
+	* copy_str.c (cmds_init_copy_str): Let newbies set prefix's.
+
+	* who.c (cmds_init_who): Newbies can't have any friends so don't let 
+	them use qwho/fwho.
+
+2000-01-10  James Antill  <james@and.org>
+
+	* Makefile.orig: A failing intercom dir doesn't stop the make.
+
+2000-01-09  James Antill  <james@and.org>
+
+	* multi_base.c (user_list_multis_for_player): Add space after multi number.
+
+	* logoff.c (logoff_player_resident):
+	(logoff_player_newbie):  Set is_fully_on flag to off sooner, so that
+	code doesn't go following ptrs that it shouldn't.
+
+	* room.c (cmds_init_room): Changed permission on force_grab from 
+	basic_su to senior_su.
+
+2000-01-07  James Antill  <james@and.org>
+
+	* display_time.c (disp_time_create): Add new function so you can
+	create time_t variables on the fly.
+
+	* system.c (load_system_file): Make old dates use 1995, CL thing. 
+	Newer code shouldn't do anything here, ignore this line :).
+
+	* include/system.h (sys_info): Removed the cl_version member.
+
+2000-01-05  James Antill  <james@and.org>
+
+	* last_logon.c (cmds_init_last_logon): Change name of command from 
+	last_logon to last_logoff (this means the filename is wrong, but 
+	what can you do).
+
+1999-12-14  James Antill  <james@and.org>
+
+	* socials.c (socials_internal_map_xmas_bop): Fixed spelling mistake.
+
+	* include/config.h (CONFIGURE_DEFAULT_socials_xmas_strings): Default 
+	xmas bops to _off_.
+
+	* terminal.c (terminal_setup): Fix stupid typo.
+
+	* unixmake (generic_warns): Put an option in unixmake for list 
+	debuging.
+
+	* cmds_list.c (internal_cmds_match): Allowed aliases from a sub command
+	to specify '/' to use normal commands.
+
+	* lists.c (user_list_room_view): Chnage default "room list" to be 
+	global, as that's what most people care about.
+	(list_type_room_parse): A couple of changes to make it more obvious
+	which room a list is about. Also added "me" list so you can look at 
+	your global room list without having to goto one of your rooms.
+
+	* socials.c (bop_str): Change so it automatically works everything
+	out and people can just add strings.
+	(user_configure_socials_xmas_strings): Add toggle to enable/disable 
+	xmas strings.
+
+1999-12-12  James Antill  <james@and.org>
+
+	* terminal.c (terminal_setup): Add code for automatic _ANSI_ colour 
+	on terminal names (as against generic colour which is what we 
+	had before). Also add comments for stuff we could do to be nicer for 
+	crappy terminals (that support colour).
+
+1999-12-06  James Antill  <james@and.org>
+
+	* mail.c (user_mail_delete_sent): Fix double delete bug.
+	(user_mail_delete_received): Fix double delete bug.
+
+1999-11-22  James Antill  <james@and.org>
+
+	* extern/extern-sys_rlim.h (SYS_RLIM_CHANGE): Tidy up sys_rlim calls.
+
+1999-11-20  James Antill  <james@and.org>
+
+	* lists.c (user_list_key): Fix key command to look for the key list
+	(not the beep one ... Duh!)
+
+	* room.c (jail_command_del): Remove the mode_del() function, as that 
+	caused recursion over the cleanup function ... and wasn't needed 
+	anyway.
+
+	* dnsserver/dns.c (init_sys_rlim): Add sys rlimit in so we don't get
+	cores for the dns server/dns child.
+
+1999-11-19  James Antill  <james@and.org>
+
+	* blank.c (user_su_blank): Tell p2 not p, that you have blanked their 
+	str.
+
+1999-11-16  James Antill  <james@and.org>
+
+	* include/idle.h: Added #define to fix race.
+
+	* idle.c (timed_idle_warn): Fixed weird race with idle'ing.
+	(timed_idle_kick): Fixed weird race with idle'ing.
+
+1999-11-14  James Antill  <james@and.org>
+
+	* fix.c (inet_ntop): Fix killing of last byte if len is not exceeded.
+
+1999-11-11  James Antill  <james@and.org>
+
+	* include/fix.h: Add some more defines, so it's easier to compile.
+	(stpcpy): Added stpcpy() to fix.c where it belongs.
+
+1999-11-07  James Antill  <james@and.org>
+
+	* process_output.c (player_variables): Move Terinal-Name variable so it
+	works.
+
+1999-11-06  James Antill  <james@and.org>
+
+	* idle.c (timed_idle_kick): Scary spelling/grammar thing.
+
+	* multi_base.c (multi_add): Added "friends of " for friends of marker.
+
+1999-11-05  James Antill  <james@and.org>
+
+	* schedule.c (schedule_can_go): Allow spods to be exempt from the 
+	1 second limit of resis. Having spod is now a major priv.
+
+	* alias.c (user_parse_execute): Fix parse_execute to set the length.
+
+	* angel.c (init_angel): Fix the always poll fd 0 bug.
+
+	* user_configure.c (user_configure_name_abbr): Fix length from
+	CONFIGURE_NAME_SZ to CONFIGURE_NAME_ABBR_SZ.
+
+	* room.c (user_room_change_where_description): Move "now" string in
+	order.
+
+	* msgs.c (msg_edit_sync_file): Add \0 terminator to text.
+
+1999-10-31  James Antill  <james@and.org>
+
+	* lists.c (user_list_ignore): Added ignore command.
+	(user_list_tignore): Added tignore command.
+
+	* mail.c (mail_find_sent): Add abaility to find without error messages.
+	(mail_find_recieved): Add abaility to find without error messages.
+
+	* display_time.c (disp_date_birthday_string): Fix stupid birthday 
+	error ... how can I have missed this for sooo long.
+
+1999-10-25  James Antill  <james@and.org>
+
+	* log.c (log_pid): Force log_pid(), which kills the old version.
+
+	* dnsserver/dns.c (main): Hack to make the Dns server timeout after
+	a bit.
+
+	* room.c (room_load): Fixed autos loading.
+
+1999-10-21  James Antill  <james@and.org>
+
+	* terminal.c (terminal_setup): Add comments for termcap values.
+
+	* i-comserver/socket_com.c (socket_com_write_fd): 
+	(socket_com_write_creds): 
+	(socket_com_read_fd_sz): 
+	(socket_com_read_fds): 
+	(socket_com_read_creds): If we don't have a "struct cmsghdr" then
+	just return FALSE all the time.
+
+	* i-comserver/socket_com.h (struct ucred): Define a "struct ucred"
+	problem, if one isn't available from the system.
+
+1999-10-15  James Antill  <james@and.org>
+
+	* process_output.c (special_char_output): Add pg+ aliases for wands
+	^H and ^K.
+
+1999-10-13  James Antill  <james@and.org>
+
+	* marriage.c (user_marriage_say): Added spouse_str, so people can 
+	tell it's not a room say.
+	(user_marriage_sing): Added spouse_str, so people can tell it's not
+	a room sing.
+
+1999-10-11  James Antill  <james@and.org>
+
+	* unixmake (date): Fix reporting of pcre version, 
+	it was 2.08 since last upgrade.
+
+1999-10-08  James Antill  <james@and.org>
+
+	* Makefile.in (IBIN_OLD_INSTALL): Fixed intercom old stuff.
+
+	* alias.c (user_alias_realias): Fix major buffer overflow in aliases.
+
+	* help.c (user_su_showhelp): Changed wrapping to zero.
+	(user_help): Changed wrapping to zero.
+
+1999-10-06  James Antill  <james@and.org>
+
+	* unixmake (child_configures): Added i-comserver to chidl_configure 
+	list.
+
+1999-10-03  James Antill  <james@and.org>
+
+	* help.c (user_help_list_topics): Don't let people use help_topics 
+	numbers < 0.
+
+	* nuke.c (user_su_nuke_player): Don't let people nuke people twice.
+
+1999-10-01  James Antill  <james@and.org>
+
+	* boot.c (main): Added a DNS_DELETE() call after shutdown_exit, on
+	normalk shutdown.
+
+	* dnsserver/dns.c (main): Probably fix hanging dns_servers after 
+	shutdown/crash.
+
+	* player_tree.c (player_tree_random): Change the #define the other
+	way around so that the quick random funciton is used unless specified.
+	Hence you won't get a warning with the default options now.
+	(player_tree_random): Make player_tree_random not return banished or 
+	system_room players when using the fast version :O.
+
+1999-09-30  James Antill  <james@and.org>
+
+	* glue_intercom.c (intercom_tell_player): Inital addition of intercom-1.1.6.
+
+	* save_player.c (player_save): Safty check.
+
+	* load_player.c (player_load_saved): Call file_read_close for system
+	characters.
+
+	* super_channel.c (user_make_root): Apply another patch from
+	Erik Landry <landrye@capital.OUS.EDU>
+	Fix strcmp => strcasecmp ... as it's not lowercase.
+	
+	* unixmake (date): Apply patch from 
+	Erik Landry <landrye@capital.OUS.EDU>
+	Fixes for when people choose "user" in unixmake.
+
+	* user_configure.c (configure_load): If the config file doesn't exist
+	create it.
+
+1999-09-29  James Antill  <james@and.org>
+
+	* commands.c (user_uptime): Fix user_uptime command, after the 
+	word_time_short change.
+
+	* process_output.c (seconds_variables): Remove the number stuff, 
+	as it doesn't work anymore anyway (just wrap in a $Number())
+
+	* Makefile.orig (install-talker): Don't recompile everything for a
+ 	"make update"/"make upgrade"
+
+1999-09-28  James Antill  <james@and.org>
+
+	* channels.c (user_configure_channels_players_do_all): 
+	(user_configure_channels_players_join): Add configure functions.
+
+	* word_time.c: Change the output format of _short, so that you can
+	always see what's going on.
+
+	* extern/extern-user_configure.h (USER_CONFIGURE_INT_FUNC): 
+	(USER_CONFIGURE_TIME_FUNC): Added generic MACRO builder for int
+ 	and time changing functions.
+
+	* mask_coms.c (user_configure_mask_coms_again_timeout): Added 
+	configure command function.
+	(user_configure_mask_coms_mask_timeout): Added configure command 
+	function.
+
+	* include/mask_coms.h (MASK_COMS_TYPE_FIRST): Remove the MASK_TIMEOUT 
+	and AGAIN_TIMEOUT defaines.
+
+1999-09-27  James Antill  <james@and.org>
+
+	* include/mask_coms.h (MASK_COMS_FMT): Added FMT #define.
+	(MASK_COMS_TYPE_FIRST): 
+	(MASK_COMS_TYPE_PIG): 
+	(MASK_COMS_TYPE_ROBOT): 
+	(MASK_COMS_TYPE_LAST): Added types.
+	(MASK_COMS_MASK_TIMEOUT): Changed timeout [from 20s to 32s].
+
+	* mask_coms.c (user_mask_coms): Added player_find_msg for SELF.
+	(mask_coms_str_say): Added "pig" and "robot" types.
+
+	* forward-server/main.c (service_user): Make it so the forward-server
+	compiles again. Fixup a lot of the socket stuff :O.
+
+1999-09-26  James Antill  <james@and.org>
+
+	* extern/extern-disk.h (FILE_IO_NOMMAP_CLOSE): Add ferror() call
+	on close.
+
+	* socket.c (init_socket): Removed memset, as it should work without.
+	(init_socket): Fixed comment, to be "more obvious".
+
+1999-09-25  James Antill  <james@and.org>
+
+	* mail.c (mail_edit_end): Possibly fix the crashing bug in mail or
+	the cause of it anyway.
+
+1999-09-24  James Antill  <james@and.org>
+
+	* msgs.c (user_su_msgs_reload): Added "msgs" as a short form of 
+	"messages".
+
+	* disk.c (file_section_end): Changed assert to be >, not >= ... as it
+	can't be 0.
+	(finnish_put_entry): Added assert to make sure buffer != NULL.
+
+	* mail.c (mail_load_all): Added some checks, so that mail cannot get
+ 	loaded over edited mail (not sure this could happen, but it doesn't 
+	hurt to make sure it doesn't).
+	(mail_load_all): Added assert that scan->body will contain something.
+	(mail_save): Added assert that scan->body will contain something.
+
+	* process_output.c (variables_char_output): Added $Date() for creating
+	time.
+
+	* signal.c (init_signals): Added sigaltstack, so the stack doesn't 
+	get trashed when we SEGV.
+
+	* include/autoconf.h.in: Added HAVE_SIGALTSTACK #undef.
+
+	* scripts/configure.in (talker_cv_have_sigaltstack): Added 
+	HAVE_SIGALTSTACK autoconf macro.
+
+1999-09-22  James Antill  <james@and.org>
+
+	* communication.c (internal_whisper_player_find_msg): Made nice
+	message for doing whispers to yourself.
+	(internal_exclude_player_find_msg): Dito.
+
+	* multi_communication.c (internal_tell_player_find_msg): Made nice
+	message for doing tells to yourself.
+	(internal_remote_player_find_msg): Dito.
+	(internal_recho_player_find_msg): Dito.
+
+	* player_find.c (player_find_msg_add): Add ability to override
+	player_find messages.
+
+	* boot.c (main): Re-ordered boot sequence, again, local _must_ come
+	after cmds or people can't override commands.
+
+	* process_output.c (variables_char_output): Added $Text() to access
+	text_objs.
+	(player_variables): Changed various (p == object->player_ptr) into
+	(from == object) so you can tell people your variables.
+
+	* alias.c (internal_substitute_alias_command): Added 'T' Modifier
+	to use text_objs.
+
+	* text_objs.c (TEXT_OBJS_C): Added temporary text_objs sub system.
+
+1999-09-21  James Antill  <james@and.org>
+
+	* commands.c (user_set_birthday): Minor tidy up in birthday command.
+	Also remove -tm_year problem.
+
+1999-09-19  James Antill  <james@and.org>
+
+	* socials.c: Remove the #ifdef USE_SOCIALS code.
+
+	* shutdown.c (shutdown_error): Fix wlog into vwlog.
+	(shutdown_error): Fix end of wlog problem. Argg... this is probably
+	what the SEGV's have been about in the crash code.
+
+	* include/fix.h: Add include for sigcontext.
+
+	* angelserver/angel.c (main): Move init_configure() so that ps value
+	for the angel works.
+
+1999-09-18  James Antill  <james@and.org>
+
+	* include/fix.h (HAVE_SIGCONTEXT): Make HAVE_OLD_SIGCONTEXT work.
+
+	* shutdown.c (shutdown_error): Fix dump information.
+
+	* session.c (cmds_init_session): Add better sess_name 
+	initialisation in. Also remove need for snprintf().
+
+	* process_output.c (output_list_linkin_after): Fix the assert 
+	[Duh, it needed to be checked then assigned not the other way around].
+
+1999-09-17  James Antill  <james@and.org>
+
+	* backups.c (cmds_init_backups): Change name of init_backups command
+	to backups_run.
+
+	* stats_files.c (stats_log_event): Remove assert, as backups uses it.
+
+	* include/autoconf.h.in: Added USE_QUICK_TIME as an autoconf option.
+	* scripts/configure.in (talker_cv_use_quick_add_time): 
+	Added USE_QUICK_TIME as an autoconf option.
+
+	* unixmake (generic_warns): Move USE_ASSERT_LOOP into a unixmake 
+	option.
+
+	* lists.c (list_show_all): Fix minor buffer overflow when using a lot
+	of groups in lists.
+	(user_list_other_player_view): Added "check entry" command back in.
+	(list_create_or_find_entry): Fix _major_ bug ... as player names
+	didn't expand so you could create as many entries for one person
+	as you wanted to.
+
+	* user_configure.c (configure_load): Added the 
+	connect_msg/disconnect_msg ... also added game_X_use for draughts, 
+	hangman, sps and ttt. ./unixmake now just deals with debugging stuff.
+
+	* room.c (user_configure_room_connect_msg): Added connect_msg configure
+	command.
+	(user_configure_room_disconnect_msg): Added disconnect_msg configure
+	command.
+
+1999-09-16  James Antill  <james@and.org>
+
+	* room.c (room_player_transfer): Made move for conect
+ 	msg to be generalised [via. configure command].
+
+	* player_event.c (player_event_do_quit_msgs): Made move for dissconect
+ 	msg to be generalised [via. configure command].
+
+1999-09-15  James Antill  <james@and.org>
+
+	* socials.c (cmds_init_socials): Make socials commands disappear when
+ 	configured out.
+	(user_configure_socials_use): Added ability to remove all socials at 
+	runtime, via. configure.
+
+	* email.c (user_configure_email_sendmail_extern_run): Have flag for
+	sending mails for bug/suggest to the mailing list.
+
+1999-09-13  James Antill  <james@and.org>
+
+	* spodlist.c (user_spodlist_display): Add "who" argument to 
+	display_spod command (Ie. "spodwho" == "display_spod who").
+
+	* idle.c (timed_idle_warn): Fix grammar.
+
+	* terminal.c (user_toggle_visual_bell): Fixed spelling.
+
+	* backups.c (user_configure_backups_ammount): Add abaility to change
+	the ammount of backups done from talker.
+
+	* process_output.c (vfvtell_player): Do best effort with snprintf.
+
+	* log.c (user_su_log_view): Fix minor PATH_MAX overflow.
+	(user_su_log_view): Make error message nicer.
+
+	* process_output.c (player_variables): Added terminal variables, 
+	mainly for debugging.
+
+	* unixmake: Made ability to upgrade twocan release _much_ easier.
+	Users now just untar and run unixmake, which copies or deletes files
+	as necessary.
+
+1999-09-12  James Antill  <james@and.org>
+
+	* process_output.c (internal_output_string): Allow people to alter 
+	raw_output at runtime.
+	* user_configure.c (user_configure_output_raw_twinkles): Add configure
+ 	command to alter it.
+
+	* email.c (email_generic): Allow people to configure emails at runtime.
+	(user_configure_email_sendmail_run): Add configure command to alter it.
+
+1999-09-11  James Antill  <james@and.org>
+
+	* log.c (user_su_log_pgrep): Added working pgrep command.
+
+	* include/config.h (CONFIGURE_DEFAULT_email_extern_bugs): Miss-spelt
+ 	twocan-bug@.
+
+	* blank.c (user_su_blank): 
+	* channels.c (user_channels_boot): 
+	* commands.c (user_recapitalise_name): 
+	* priv_test.c (priv_test_user_check): 
+	* privs.c (cmds_init_privs): 
+	* timer_player.c (internal_timer_player_setup): Do the 
+	privilage => privilege spelling change.
+
+1999-09-08  James Antill  <james@and.org>
+
+	* user_configure.c (user_configure_show): Added socket interfaces
+	show to configure show.
+
+	* auth_player.c (auth_player_name_do): Fix for pcre upgrade.
+
+	* admin.c (inorder_search_email): Fix for pcre upgrade.
+
+	* pcre/ChangeLog: Upgraded to version pcre-2.08
+
+1999-09-07  James Antill  <james@and.org>
+
+	* privs.c (user_su_list_newbies): Allowed "all" as well as "full" to see who is 
+	in the process of logging on.
+
+	* dnsserver/dns.c (deal_with_requests): Remove second \n ... which caused the 
+	dns_server to get killed everytime it did one request.
+
+1999-09-05  James Antill  <james@and.org>
+
+	* last_logon.c (user_last_logon_display): Add call to pager function.
+
+	* signal.c (init_signals): Make sure SA_NOMASK is set for die signals.
+
+	* socials.c (sing_str): Merged new sing strings from <Suchomski@bsr.com>
+
+1999-09-02  James Antill  <james@and.org>
+
+	* socket.c (init_socket): Fix address family => protocol family mixup
+ 	in socket call (shouldn't make any difference).
+
+	* last_logon.c (user_last_logon_display): Make the display go in the
+ 	right direction.
+
+1999-09-01  James Antill  <james@and.org>
+
+	* socket.c (init_socket): Add check for getprotobyname()
+	(socket_accept_connection): Remove the logging when getpeername() 
+	fails.
+
+	* load_player.c (player_load_saved): Cap names of system rooms.
+	(player_load): Add BTRACE.
+	(player_load_cleanup): Add BTRACE.
+
+	* user_configure.c (configure_load): Fix loading of abbrieviated names.
+
+1999-08-31  James Antill  <james@and.org>
+
+	* room.c (user_toggle_room_lock): Fix messages.
+	(user_room_change_automessage_time): Added word_time_parse to set_autos.
+
+	* extern/extern-tools.h (MK_TIME_DAY): Changed from 60 to 24, I know 
+	how many hours are in a day ... no honestly I do :).
+
+	* shutdown.c (user_shutdown): Fix word_time_long.
+	(shutdown_exit): Use sys_flag.panic to tell if it's a shutdown or
+ 	a crash.
+
+	* lists.c (user_list_change_newbie_time): Fix message bug.
+	(user_list_change_newbie_time): Fix word_time_long.
+	(list_load): Make sure multiple list entries die on load.
+	(list_player_all_used_entry): Changed FALSE to TRUE, so it works.
+	
+	* pager.c (user_toggle_pager_return): Fix "now" when no arguments.
+ 	Allowed the autoquit/manualquit options to be two word ones as well.
+
+	* hangman.c (user_hangman_play): Fix it when people type "hangman c"
+	so that it doesn't match to hangman clear etc.
+
+	* mail.c (user_mail_delete_sent): Add delete_sent all.
+	(user_mail_delete_received):  Add delete_received all.
+	(mail_exit_mode): Added static.
+	(mail_view_commands): Added static.
+	
+	* karma.c (user_karma_command): Make it so you can't add karma to
+ 	yourself as well as remove it.
+
+1999-08-26  James Antill  <james@and.org>
+
+	* save_player.c (player_save): Removed the "player info saved" msg.
+
+	* scripts/configure.in (LIBS): Change to generic MEMCMP AC macro.
+
+	* logon.c (logon_shortcut_logon_start): Fix bad use of p->ip_address.
+
+	* log.c (open_wlog): Removed bug/suggest hack as it's mailed anyway.
+
+1999-08-25  James Antill  <james@and.org>
+
+	* alias.c (user_alias_lib_del): Added Extra checking into 
+	unalias_library so you don't get annoying error messages if you 
+	supply too many arguments.
+
+	* log.c (user_bug):
+	(user_suggestion):  Added space to thankyou.
+
+	* player_find.c (player_find_all):
+	(player_find_on): Fix message to be nicer when newbies or self 
+	isn't allowed, thanks nex.
+
+	* mask_coms.c (mask_coms_str_emote): Capitalize 'Fluke'.
+
+	* editor.c (cmds_init_editor): Added .input and .insert commands so you can 
+	start lines with a '/' or a '.'.
+
+	* mail.c (user_mail_delete_sent): Made it so you can delete multiple sent 
+	mails, at once.
+	(user_mail_delete_received): Made it so you can delete multiple recieved 
+	mails, at once.
+
+1999-08-24  James Antill  <james@and.org>
+
+	* tools.c (ptell_mid): Fix bug with raw output.
+
+1999-08-02  James Antill  <james@and.org>
+
+	* last_logon.c (user_configure_last_logon_def_show): Added config
+ 	for default ammount of lines to show from last_logon command
+ 	(user_configure variable).
+
+	* user_configure.c (configure_load): Changed all of the #defines
+ 	in src/include/config.h to be loaded, saved and configured from
+ 	the talker.
+
+	* socket.c (init_socket): Fixed port == 0, message.
+
+	* admin.c (cmds_init_admin): Fix priv problem on name_from_email.
+
+1999-07-30  James Antill  <james@and.org>
+
+	* sumotd.c (user_sumotd_edit): Fixed bug with not able to allocte
+ 	edit mode.
+
+	* motd.c (user_motd_edit): Fixed bug with not able to allocte edit
+ 	mode.
+
+1999-07-28  James Antill  <james@and.org>
+
+	* include/boot.h (TALKER_CODE_SNAPSHOT): Moved, as it's not really
+ 	a config variable.
+
+1999-07-27  James Antill  <james@and.org>
+
+	* angelserver/angel.c (main): Fix passing of --root-dir to angel
+ 	handling.
+
+	* cmd_line.c (init_cmd_line): Make read-only have an optional
+ 	argument, instead of a required one. Also add toggle stuff to 
+	angel.c parsing.
+
+	* unixmake (generic_warns): Fixed up the debug_cmds variable to
+ 	default off.
+
+	* cmds_list.c (internal_command_node_cmp): Made CMDS_DEBUG tell
+ 	you when there are multiple cmds of the same name (easier than
+ 	removing it :).
+
+	* include/safemalloc.h (MALLOC_TYPE_CMDS_NODE_OBJS): 
+	(MALLOC_TYPE_CMDS_NODE_LIST): Added two new malloc object types
+ 	for cmds_lists.c
+
+	* safemalloc.c (saferealloc): Old bug in saferealloc, first time 
+	it's been used so it's not unexpected. Had to more or less re-write
+	it. Also added a couple of extra asserts in the safemalloc code.
+
+	* news.c (internal_news_list): 
+	(internal_news_read_article): 
+	Make anon strings tidier.
+
+	* mail.c (internal_mail_inform): 
+	(mail_tell_player):
+	(internal_mail_check): 
+	Make anon strings tidier.
+	
+	* cmds_list.c (init_cmds_list): Change from static arrays into
+ 	malloc'd chunks so it's easier for other people to add commands.
+
+	* todo.html: Docs on how to do the scandir autoconf thing.
+
+1999-07-26  James Antill  <james@and.org>
+
+	* help.c (help_array): Removed channels help file (it's in
+ 	residents) and added rules.
+
+	* logoff.c (logoff_real): Fix problem with newbies getting a
+ 	player_newbie_del() done on them when they haven't had a
+ 	player_newbie_add()
+
+	* logon.c (logon_program): Minor comment change.
+
+	* unixmake (generic_warns): Tided up games print out.
+
+	* Documentation/logs.README: Added logs.README file ... so people
+ 	know what the logs stuff does.
+
+1999-07-25  James Antill  <james@and.org>
+
+	* Create release-1999-07-25.
+
+	* channels.c (internal_channels_staff_join_leave): Duh. Fix the
+ 	duty on/off problem
+
+	* super_channel.c (cmds_init_super_channel): Remove old command
+ 	init's (they were in an #if 0 anyway)
+
+	* last_logon.c (user_last_logon_display): Make the last_logon
+ 	command look nicer.
+
+	* log.c (user_suggestion):
+		(user_bug): Fixed buffer overflow possability (admin
+ 	config error anyway but..)
+
+	* include/load_player.h (PLAYER_CLEANUP_TIMEOUT_SYNC_ANYWAY):
+ 	Change value as it gives a message everytime you save.
+
+	* Added ChangeLog file.
+

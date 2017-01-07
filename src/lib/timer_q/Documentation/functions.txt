@@ -1,0 +1,685 @@
+Section: Functions to add/delete base objects
+
+Function: timer_q_add_base()
+
+ Returns: base object on sucess and NULL on failure.
+ Type: struct Timer_q_base *
+
+ Parameter[1]: default call back function
+ Type[1]: void (*)(int, void *)
+ Parameter[2]: flags
+ Type[2]: int
+
+ Explanation:
+
+  This function is used to create and add a new (Timer_q_base) object to the
+ list of known (Timer_q_base) objects.
+
+ Note:
+
+  If you add the (Timer_q_base) with the _MOVE_WHEN_EMPTY flag then the base
+ will be added to the empty list, so to get maximum performance when you are
+ going to add a (Timer_q_node) imediatlely you want to create the
+ (Timer_q_base) without the _MOVE_WHEN_EMPTY flag and then add the node, and
+ then add the flag to the base.
+  It's worth pointing out that the nodes are sorted in time order within
+ the base list, so you might want to specify _INSERT_FROM_END depending on
+ the timestamps of nodes you will be adding.
+
+
+Function: timer_q_add_static_base()
+
+ Returns: base object (== Parameter[1]) on success and NULL on failure.
+ Type: struct Timer_q_base *
+
+ Parameter[1]: base object
+ Type[1]: struct Timer_q_base *
+
+ Parameter[2]: default call back function
+ Type[2]: void (*)(int, void *)
+ Parameter[3]: flags
+ Type[3]: int
+
+ Explanation:
+
+  This functions is used to add a new (Timer_q_base) object that you have
+ previuosly allocated yourself to the list of known (Timer_q_base) objects.
+
+ Note:
+
+  When you call *_del_base(), if Parameter[1] is used, the object will not
+ be destoryed. This allows you to statically allocate objects, or allocate them
+ as members of a larger object.
+
+Function: timer_q_del_base()
+
+ Returns: nothing
+ Type: void
+
+ Parameter[1]: base object
+ Type[1]: struct Timer_q_base *
+
+ Explanation:
+
+  The function deletes a (Timer_q_base) object to be from the list of
+ known base objects and if applicable destroyes it. It will also always
+ destroy all of the (Timer_q_node)s accociated with the base.
+
+ Note:
+
+  This function _cannot_ be called from a timer node call back. If it is
+ then the library may crash. See timer_q_quick_del_base().
+
+
+Function: timer_q_quick_del_base()
+
+ Returns: nothing
+ Type: void
+
+ Parameter[1]: base object
+ Type[1]: struct Timer_q_base *
+
+ Explanation:
+
+  The function marks a (Timer_q_base) object to be deleted from the list of
+ known base objects and if applicable to be destroyed. When the base is deleted
+ from the list of known base objects all the nodes accociated with it will also
+ be deleted.
+
+ Note:
+
+  The function doesn't delete the (Timer_q_base) object immediatlely, this is
+ because this function can be called inside a (Timer_q_node) call back thus it
+ isn't safe to delete (Timer_q_base) objects immediately. When the object is
+ eventually deleted...
+
+     timer_q_cntl_base(base, ... _GET_FLAG_HAVE_DELETED ... );
+
+ ...will return TRUE.
+
+
+Section: Functions to add/delete node objects
+
+Function: timer_q_add_node()
+
+ Returns: node object on sucess and NULL on failure.
+ Type: struct Timer_q_node *
+
+ Parameter[1]: base object
+ Type[1]: struct Timer_q_base *
+
+ Parameter[2]: call back data
+ Type[2]: void *
+
+ Parameter[3]: Time to do call back
+ Type[3]: const struct timeval *
+
+ Parameter[4]: flags
+ Type[4]: int
+
+ Explanation:
+
+  This function allocates and adds a (Timer_q_node) to the base (Parameter[1]).
+  The node is initialised with the call back data as Parameter[2] and the time
+ as a copy of Parameter[3].
+
+ Note:
+
+  If you do not specify one of _SINGLE, _DOUBLE or _FUNC then the default will
+ be taken from the base. If you do specify a type then that type will be
+ created.
+  If you specify _SINGLE and _DOUBLE then the _SINGLE will be ignored.
+  It's worth pointing out that the nodes are sorted in time order within
+ the base list.
+
+Function: timer_q_add_static_node()
+
+ Returns: node object on success and NULL on failure.
+ Type: struct Timer_q_node *
+
+ Parameter[1]: node object
+ Type[1]: struct Timer_q_base *
+
+ Parameter[2]: base object
+ Type[2]: struct Timer_q_base *
+
+ Parameter[3]: call back data
+ Type[3]: void *
+
+ Parameter[4]: Time to do call back
+ Type[4]: const struct timeval *
+
+ Parameter[5]: flags
+ Type[5]: int
+
+ Explanation:
+
+  This function adds a (Timer_q_node) (Parameter[1]) to the base
+ (Parameter[2]).
+  The node is initialised with the call back data as Parameter[2] and the time
+ as Parameter[3].
+
+ Note:
+
+  If you allocate a (Timer_q_node) and pass the flags to use a 
+ (Timer_q_double_node) then the library will not know that the object you
+ passed in Parameter[1] wasn't correct and so will probably crash. Always
+ pass the correct flags or just use timer_q_add_node().
+  Also if you don't pass one of _SINGLE, _DOUBLE or _FUNC then the function
+ will not use the passed argument as act just like timer_q_add_node(). This is
+ a saftey measure to help the first note not happen.
+  When you call *_del_node(), if Parameter[1] is used, the object will not
+ be destoryed. This allows you to statically allocate objects, or allocate them
+ as members of a larger object.
+
+
+Function: timer_q_del_node()
+
+ Returns: nothing
+ Type: void
+
+ Parameter[1]: base object
+ Tyope[1]: struct Timer_q_base *
+
+ Parameter[2]: node object
+ Type[2]: struct Timer_q_node *
+
+ Explanation:
+
+  This function will delete the node (Parameter[2]) from the base
+ (Parameter[1]), and will also destory the node, if applicable, after calling
+ the call back with the _DEL argument.
+
+ Note:
+
+  It is assumed that Parameter[2] is in the base you supply as Parameter[1]
+ if this is not the case the library will probably crash.
+
+
+Function: timer_q_quick_del_node()
+
+ Returns: nothing
+ Type: void
+
+ Parameter[1]: node object
+ Tyope[1]: struct Timer_q_node *
+
+ Explanation:
+
+  This function will mark the node (Parameter[1]) to be removed, and if aplicable
+ to be destroyed. The call back will be called just before the removal is done.
+
+ Note:
+
+  This function is faster than timer_q_del_node().
+
+
+Function: timer_q_del_node_data()
+
+ Returns: TRUE on success and FALSE on failure.
+ Type: int
+
+ Parameter[1]: base node
+ Type[1]: struct Timer_q_base *
+
+ Parameter[2]: node call back data
+ Type[2]: void *
+
+ Explanation:
+
+  This function trys to find the (Timer_q_node) accociated with the node call
+ back data (Parameter[2]) in the base (Parameter[1]). If it finds a node it
+ will delete it from the base (Parameter[2]) and call the call back with _DEL.
+
+ Note:
+
+  This is semantically equivilant to...
+
+     if ((node = timer_q_find_data(base, data)))
+       timer_q_del_node(base, node);
+
+ ...however it is as fast as doing...
+
+     if ((node = timer_q_find_data(base, data)))
+       timer_q_quick_del_node(node);
+
+ ...instead.
+
+
+Section: Functions for finding objects
+
+Function: timer_q_find_data()
+
+ Returns: node object on success and NULL on failure
+ Type: struct Timer_q_node *
+
+ Parameter[1]: base object
+ Type[1]: struct Timer_q_base *
+
+ Parameter[2]: node call back data
+ Type[2]: void *
+
+ Explanation:
+
+  This function trys to find the (Timer_q_node) accociated with the node call
+ back data (Parameter[2]) in the base (Parameter[1]).
+
+ Note:
+
+  If a node is not found NULL is returned and nothing bad happens.
+
+
+Section: Functions for running the timer q
+
+Function: timer_q_run_norm()
+
+ Returns: number of nodes called
+ Type: unsigned int
+
+ Parameter[1]: current time
+ Type[1]: const struct timeval *
+
+ Explanation:
+
+  This function runs the call backs for all nodes that have a timestamp less
+ than or equal to the timestamp (Parameter[1]). The type is equal to _RUN_NORM.
+
+ Note:
+
+  After a call to the call back the (Timer_q_node) is removed from the base
+ it belonged to and if applicable is destroyed.
+
+
+Function: timer_q_run_all()
+
+ Returns: number of nodes called
+ Type: unsigned int
+
+ Parameter[1]: nothing
+ Type[1]: void
+
+ Explanation:
+
+  This function runs the call backs for all nodes that are in a base with the
+ _RUN_ALL flag set. The type is equal to _RUN_ALL.
+
+ Note:
+
+  After a call to the call back the (Timer_q_node) is _not_ removed from the
+ base it belonged to and hence never destroyed. If timer_q_run_norm() is called
+ after this function, with a timestamp grreater than or equal to the timestamp
+ of a (Timer_q_node), then the (Timer_q_node) call back will get called twice.
+
+
+Function: timer_q_first_timeval()
+
+ Returns: timestamp
+ Type: const struct timeval *
+
+ Parameter[1]: nothing
+ Type[1]: void
+
+ Explanation:
+
+  This function returns the lowest timestamp of any of the (Timer_q_nodes)
+ in any one of the (Timer_q_base), this allows you to find out how long it
+ will be before _at least one_ of the (Timer_q_nodes) will "go off".
+
+ Note:
+
+  This function will sometimes have to look through every base that is in the
+ list of bases. However when timer_q_run_norm() is called it will return
+ immediatelty, as long as you haven't deleted a node in the mean time.
+  If you call timer_q_first_tv() twice, without calling anything else in
+ between, the second call will return the same value without having to do
+ any work.
+
+
+Section: Functions for normalising timestamps and adding time to them
+
+Function: TIMER_Q_TIMEVAL_NORM()
+
+ Returns: nothing
+ Type: void
+
+ Parameter[1]: unnormalised timestamp
+ Type[1]: struct timeval *
+
+ Explanation:
+
+  This function normalises a struct timeval, Ie. the tv_usec member will never
+ be > 1_000_000 after a call to this function.
+
+ Note:
+
+  This function is should rarely be called explicitly.
+
+
+Function: TIMER_Q_TIMEVAL_ADD_SECS()
+
+ Returns: nothing
+ Type: void
+
+ Parameter[1]: timestamp
+ Type[1]: struct timeval *
+
+ Parameter[2]: seconds
+ Type[2]: int
+
+ Parameter[3]: micro seconds
+ Type[3]: int
+
+ Explanation:
+
+  This function adds the seconds (Parameter[2]) and micro seconds
+ (Parameter[3]) onto the timestamp (Parameter[1]).
+
+ Note:
+
+  This function automatically normalises the timestamp (Parameter[1]) before
+ it returns.
+
+
+Function: TIMER_Q_TIMEVAL_ADD_SECS()
+
+ Returns: nothing
+ Type: void
+
+ Parameter[1]: timestamp
+ Type[1]: struct timeval *
+
+ Parameter[2]: minutes
+ Type[2]: int
+
+ Parameter[3]: micro seconds
+ Type[3]: int
+
+ Explanation:
+
+  This function adds the minutes (Parameter[2]) and micro seconds
+ (Parameter[3]) onto the timestamp (Parameter[1]).
+
+ Note:
+
+  This function automatically normalises the timestamp (Parameter[1]) before
+ it returns.
+
+
+Function: TIMER_Q_TIMEVAL_ADD_HOURS()
+
+ Returns: nothing
+ Type: void
+
+ Parameter[1]: timestamp
+ Type[1]: struct timeval *
+
+ Parameter[2]: hours
+ Type[2]: int
+
+ Parameter[3]: micro seconds
+ Type[3]: int
+
+ Explanation:
+
+  This function adds the hours (Parameter[2]) and micro seconds
+ (Parameter[3]) onto the timestamp (Parameter[1]).
+
+ Note:
+
+  This function automatically normalises the timestamp (Parameter[1]) before
+ it returns.
+
+
+Function: TIMER_Q_TIMEVAL_ADD_DAYS()
+
+ Returns: nothing
+ Type: void
+
+ Parameter[1]: timestamp
+ Type[1]: struct timeval *
+
+ Parameter[2]: days
+ Type[2]: int
+
+ Parameter[3]: micro seconds
+ Type[3]: int
+
+ Explanation:
+
+  This function adds the days (Parameter[2]) and micro seconds
+ (Parameter[3]) onto the timestamp (Parameter[1]).
+
+ Note:
+
+  This function automatically normalises the timestamp (Parameter[1]) before
+ it returns.
+
+
+Section: Functions for comparing/diffing timestamps
+
+Function: TIMER_Q_TIMEVAL_CMP()
+
+ Returns: 0 on a match, < 0 if Paramteter[1] < Parameter[2], > 0 otherwise.
+ Type: int
+
+ Parameter[1]: timestamp
+ Type[1]: const struct timeval *
+
+ Parameter[2]: timestamp
+ Type[2]: const struct timeval *
+
+ Explanation:
+
+  This function is the equivilant of...
+
+   strcmp(Parameter[1], Parameter[2])
+
+ ...for timeval structures. It works like you would expect...
+
+   Parameter[1] - Parameter[2]
+
+ ...to work.
+
+ Note:
+
+  Both arguments are expected to be normalised. If this could be the case then
+ you need to call TIMER_Q_TIMEVAL_NORM().
+
+
+Function: timer_q_timeval_diff_usecs()
+
+ Returns: microseconds
+ Type: long 
+
+ Parameter[1]: timestamp
+ Type[1]: const struct timeval *
+
+ Parameter[2]: timestamp
+ Type[2]: const struct timeval *
+
+ Explanation:
+
+  This function returns the difference in microseconds between the 2
+ timestamps. The return value is how you would expect
+ Parameter[1] - Parameter[2] to work.
+
+ Note:
+
+  If the difference in time is >= LONG_MAX then LONG_MAX will be returned,
+ likewise for LONG_MIN.
+
+
+Function: timer_q_timeval_udiff_usecs()
+
+ Returns: microseconds
+ Type: unsigned long 
+
+ Parameter[1]: timestamp
+ Type[1]: const struct timeval *
+
+ Parameter[2]: timestamp
+ Type[2]: const struct timeval *
+
+ Explanation:
+
+  This function returns how much bigger the first timestamp (Parameter[1])
+ is over the second timestamp (Parameter[2]), in microseconds.
+
+ Note:
+
+  If the difference in time is negative then 0 is returned.
+
+
+Function: timer_q_timeval_diff_msecs()
+
+ Returns: milliseconds
+ Type: long 
+
+ Parameter[1]: timestamp
+ Type[1]: const struct timeval *
+
+ Parameter[2]: timestamp
+ Type[2]: const struct timeval *
+
+ Explanation:
+
+  This function returns the difference in milliseconds between the 2
+ timestamps. The return value is how you would expect
+ Parameter[1] - Parameter[2] to work.
+
+ Note:
+
+  If the difference in time is >= LONG_MAX then LONG_MAX will be returned,
+ likewise for LONG_MIN.
+
+
+Function: timer_q_timeval_udiff_msecs()
+
+ Returns: microseconds
+ Type: unsigned long 
+
+ Parameter[1]: timestamp
+ Type[1]: const struct timeval *
+
+ Parameter[2]: timestamp
+ Type[2]: const struct timeval *
+
+ Explanation:
+
+  This function returns how much bigger the first timestamp (Parameter[1])
+ is over the second timestamp (Parameter[2]), in milliseconds.
+
+ Note:
+
+  If the difference in time is negative then 0 is returned.
+
+
+Function: timer_q_timeval_diff_secs()
+
+ Returns: seconds
+ Type: long 
+
+ Parameter[1]: timestamp
+ Type[1]: const struct timeval *
+
+ Parameter[2]: timestamp
+ Type[2]: const struct timeval *
+
+ Explanation:
+
+  This function returns the difference in seconds between the 2
+ timestamps. The return value is how you would expect
+ Parameter[1] - Parameter[2] to work.
+
+ Note:
+
+  If the difference in time is >= LONG_MAX then LONG_MAX will be returned,
+ likewise for LONG_MIN.
+
+
+Function: timer_q_timeval_udiff_secs()
+
+ Returns: microseconds
+ Type: unsigned long 
+
+ Parameter[1]: timestamp
+ Type[1]: const struct timeval *
+
+ Parameter[2]: timestamp
+ Type[2]: const struct timeval *
+
+ Explanation:
+
+  This function returns how much bigger the first timestamp (Parameter[1])
+ is over the second timestamp (Parameter[2]), in seconds.
+
+ Note:
+
+  If the difference in time is negative then 0 is returned.
+
+
+Section: Functions for miscellaneous control of options
+
+Function: timer_q_cntl_opt()
+
+ Returns: TRUE on success and FALSE on failure
+ Type: int
+
+ Parameter[1]: option type
+ Type[1]: int
+
+ Parameter[ ... ]: options depending on value of Parameter[1]
+ Type[ ... ]: Default stdarg/vararg promotion
+
+ Explanation:
+
+  See the TIMER_Q_CNTL_OPT_ macros for options.
+
+ Note:
+
+  This function isn't needed for simple uses of timer_q.
+
+
+Function: timer_q_cntl_node()
+ Returns: TRUE on success and FALSE on failure
+ Type: int
+
+ Parameter[1]: node object
+ Type[1]: struct Timer_q_node *
+
+ Parameter[2]: option type
+ Type[2]: int
+
+ Parameter[ ... ]: options depending on value of Parameter[1]
+ Type[ ... ]: Default stdarg/vararg promotion
+
+ Explanation:
+
+  See the TIMER_Q_CNTL_NODE_ macros for options.
+
+ Note:
+
+  This function isn't needed for simple uses of timer_q.
+
+
+Function: timer_q_cntl_base()
+
+ Returns: TRUE on success and FALSE on failure
+ Type: int
+
+ Parameter[1]: base object
+ Type[1]: struct Timer_q_base *
+
+ Parameter[2]: option type
+ Type[2]: int
+
+ Parameter[ ... ]: options depending on value of Parameter[1]
+ Type[ ... ]: Default stdarg/vararg promotion
+
+ Explanation:
+
+  See the TIMER_Q_CNTL_BASE_ macros for options.
+
+ Note:
+
+  This function isn't needed for simple uses of timer_q.

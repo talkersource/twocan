@@ -1,0 +1,13 @@
+
+ Spec file for rpm.
+ Whatever the same thing is for deps ?
+
+ A couple more examples would be nice.
+
+ Split the timer_q.c file up a bit more ?
+
+ Sort out the /usr/include/../include/ mess 
+  (Ie. add a makefile in the include dir, but it isn't that easy because 
+       automake then decides to run autoheader for you -- gee thanks).
+
+ HTML documentation ?

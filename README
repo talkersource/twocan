@@ -1,0 +1,92 @@
+
+ You might want to have a look at EW_COMPAT, if you've run an EW talker before
+so you know whats been broken.
+
+
+ To get the code to compile you should just be able to go into the
+src/ dir and type ./unixmake, press return at the prompt and answer the 
+questions.
+
+ When you boot the program for the first time it's configured to come
+up on a "random" port which it will display on the screen, you can
+change this (as well as most other things) by using the "configure"
+command as an admin after you logon. To get a higher admin character you 
+need to logon as the name "root" then type "su" twice (once to resident 
+them and the second time to give them higher admin privs). The name "Root"
+is the value of player_name_admin in the configure command (you'll
+probably want to change it).
+ To create a system room you'll need to grant a character the system
+room priv and then run the commands "room system_create" and 
+"configure room_main" (the last to make the room the default main room 
+... although you'll also want to invite everyone into the room, or
+they won't be able to get in).
+
+ For more info look in the src/Documentation dir, or read the help files.
+
+
+
+ There are currently three warnings generated when you compile with my
+gcc flags...
+
+ "fix.c cast discards const from pointer", this is because the C language just
+can't cope with strchr type functions properly.
+ "function call has aggregate value", this is POSIX brokenness in specifying
+the return type for mallinfo().
+ "lists.c cast discards const from pointer", this is because I'm being
+"clever" and the compiler doesn't know.
+
+ On later egcs (or gcc) releases the "discards const from" reads "discards
+qualifiers from".
+
+ **** WARNING ****
+
+ There is a problem in _at least_ libncurses.so.3 (1.9.9e) where when
+you request the terminal "dterm" for the second time it SEGV's.
+
+ **** WARNING ****
+
+---------------------------------------------------------------------------
+
+ If you wish to add code that you aren't going to contribute back then 
+you'll want to try as much as possible to stick to files starting
+"src/local_talk*.c" "src/include/local_talk*.h"
+"src/extern/extern-local_talk*.h" and
+"src/files/help/local_talker*".
+ If you wish to _replace_ a command then read the comments in
+"src/local_talker.c" about how to do that.
+
+ If you wish to create aliases that you don't want to contribute back
+then you'll probably want to create some new alias libraries to put
+them in. You'll also want to do the same with tips. Although for
+obvious reasons you probably don't want to stick to the namespace
+local_talker at that point, but the base code is unlikely to add
+anymore alias libraries.
+
+ Doing the above will make upgrading to later releases _much_ easier
+for you.
+
+ ~James
+
+---------------------------------------------------------------------------
+
+ If you wish to contact people that think they know what's going on
+with the code then you want to subscribe to/send mail to the mailing
+list...
+
+ twocan-devel@lists.twocan.org
+
+ Also as said in the config.h file you probably want to subscribe
+to...
+
+ twocan-suggest@lists.twocan.org
+ twocan-bug@lists.twocan.org
+
+ as well, if you are running a talker (NOTE: that the list will just
+not reply to a mail if it doesn't look like a code question).
+
+ Note that even if you don't go on any of them you'll probably want to
+go onto ... 
+
+ twocan-announce@lists.twocan.org
+
+ as then you'll know when newer versions are released.

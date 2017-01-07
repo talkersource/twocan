@@ -1,0 +1,32 @@
+ Most of the code should be fairly portable, although there are
+some exceptions.
+
+1.
+
+ sizeof(int) >= 32
+
+ I'm not possitive about this, but I wouldnt' put money on it not being
+the case.
+
+2.
+
+ ASCII strings.
+
+ Some of the strings rely on ordering and hence rely on
+being ASCII atm. The biggest offender here is process_output.c
+
+3. 
+
+ POSIX
+
+ Some bits of the code rely on POSIX, so I'd imagine a lot would have to be
+changed to get around this "problem".
+
+4.
+
+ make
+
+ The makefiles require GNUmake, make is about the most unstandard command
+in the world. Live with it, go compile GNUmake and use that if you are on
+BSD. Or send me patches -- but I'll only accept them if it does the same
+thing as it does now _and_ works on GNUmake.
